@@ -1,17 +1,24 @@
 package dict
 
+import "fmt"
+
 type Entry struct {
 	Word       string
 	Definition string
 }
 
-type Dictionary struct {
-	Id    string
-	Entry Entry
+type Dict map[string]Entry
+
+func New() *Dict {
+	dict := Dict{}
+
+	return &dict
 }
 
-func New() Dictionary {
-	dd := Dictionary{Id: "test", Entry: Entry{Word: "hi", Definition: "hi"}}
+func (d Dict) Add(e Entry) {
+	d[e.Word] = e
+}
 
-	return dd
+func (d Dict) Print() {
+	fmt.Println(d)
 }

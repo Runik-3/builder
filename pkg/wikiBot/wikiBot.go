@@ -1,6 +1,7 @@
 package wikibot
 
 import (
+	"dictGen/pkg/dict"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -30,20 +31,27 @@ type Continue struct {
 	Continue   string `json:"continue"`
 }
 
-// all below funcs belong in here, but perhaps this method gets brought out into
-// it's own pkg?
-func GenerateDictionary() {
+// perhaps this function gets brought out into it's own pkg?
+// also this should take args so it can be used as a module
+// main can check if flags weren't passed and panic
+func GenerateWordList() {
 	wikiUrl := flag.String("u", "", "wikiUrl")
-	// low default limit of 5 for testing, should be 500 in prod
+	// low default limit of 5 for testing, should be 500
 	pageLimit := flag.Int("p", 5, "pageLimit")
 	flag.Parse()
 
 	w := CreateClient(*wikiUrl)
-	GetWikiPages(w, pageLimit, "")
+
+	// initial call has empty apfrom
+	res := GetWikiPages(w, pageLimit, "")
+	fmt.Println(res)
+
+	d := dict.New()
+	d.Add(dict.Entry{Word: "Test", Definition: "Sup"})
+	d.Print()
 }
 
 func CreateClient(url string) *mwclient.Client {
-	// format for fandom == <property_name>.fandom.com/api.php
 	w, err := mwclient.New(url, "myWikibot")
 	if err != nil {
 		panic(err)
@@ -52,7 +60,7 @@ func CreateClient(url string) *mwclient.Client {
 	return w
 }
 
-func GetWikiPages(w *mwclient.Client, pageLimit *int, apfrom string) Response {
+func GetWikiPages(w *mwclient.Client, pageLimit *int, apfrom string) *Response {
 	parameters := map[string]string{
 		"action":  "query",
 		"list":    "allpages",
@@ -69,6 +77,7 @@ func GetWikiPages(w *mwclient.Client, pageLimit *int, apfrom string) Response {
 	json.Unmarshal([]byte(resp), &data)
 
 	fmt.Printf("📖 Found %d entries \n", len(data.Query.Pages))
+	fmt.Println(data)
 
-	return data
+	return &data
 }
