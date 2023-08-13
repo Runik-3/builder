@@ -1,10 +1,10 @@
 package wikibot
 
 import (
-	"dictGen/pkg/dict"
 	"encoding/json"
 	"flag"
 	"fmt"
+	"github.com/runik-3/builder/pkg/dict"
 	"strconv"
 
 	"cgt.name/pkg/go-mwclient"

@@ -1,6 +1,6 @@
 package main
 
-import "dictGen/pkg/wikiBot"
+import "github.com/runik-3/builder/pkg/wikiBot"
 
 func main() {
 	wikibot.GenerateWordList()
