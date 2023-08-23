@@ -2,7 +2,6 @@ package wikibot
 
 import (
 	"encoding/json"
-	"flag"
 	"fmt"
 	"github.com/runik-3/builder/pkg/dict"
 	"strconv"
@@ -10,10 +9,15 @@ import (
 	"cgt.name/pkg/go-mwclient"
 )
 
-type Response struct {
+type AllPagesRes struct {
 	Batchcomplete bool     `json:"batchcomplete"`
 	Continue      Continue `json:"continue"`
 	Query         AllPages `json:"query"`
+}
+
+type Continue struct {
+	Apcontinue string `json:"apcontinue"`
+	Continue   string `json:"continue"`
 }
 
 type AllPages struct {
@@ -26,28 +30,31 @@ type Page struct {
 	Title  string `json:"title"`
 }
 
-type Continue struct {
-	Apcontinue string `json:"apcontinue"`
-	Continue   string `json:"continue"`
-}
-
 // perhaps this function gets brought out into it's own pkg?
 // also this should take args so it can be used as a module
 // main can check if flags weren't passed and panic
-func GenerateWordList() {
-	wikiUrl := flag.String("u", "", "wikiUrl")
-	// low default limit of 5 for testing, should be 500
-	pageLimit := flag.Int("p", 5, "pageLimit")
-	flag.Parse()
-
+func GenerateWordList(wikiUrl *string, pageLimit *int) {
 	w := CreateClient(*wikiUrl)
+
+	d := dict.New()
 
 	// initial call has empty apfrom
 	res := GetWikiPages(w, pageLimit, "")
-	fmt.Println(res)
 
-	d := dict.New()
-	d.Add(dict.Entry{Word: "Test", Definition: "Sup"})
+	// continue?
+	cont := true
+
+	for cont {
+		for _, p := range res.Query.Pages {
+			d.Add(dict.Entry{Word: p.Title, Definition: ""})
+		}
+
+		if res.Continue.Apcontinue != "" {
+			res = GetWikiPages(w, pageLimit, res.Continue.Apcontinue)
+		} else {
+			cont = false
+		}
+	}
 	d.Print()
 }
 
@@ -60,7 +67,7 @@ func CreateClient(url string) *mwclient.Client {
 	return w
 }
 
-func GetWikiPages(w *mwclient.Client, pageLimit *int, apfrom string) *Response {
+func GetWikiPages(w *mwclient.Client, pageLimit *int, apfrom string) *AllPagesRes {
 	parameters := map[string]string{
 		"action":  "query",
 		"list":    "allpages",
@@ -73,11 +80,10 @@ func GetWikiPages(w *mwclient.Client, pageLimit *int, apfrom string) *Response {
 		panic(err)
 	}
 
-	var data Response
+	var data AllPagesRes
 	json.Unmarshal([]byte(resp), &data)
 
-	fmt.Printf("📖 Found %d entries \n", len(data.Query.Pages))
-	fmt.Println(data)
+	fmt.Printf("📖 Found %d entries between %s and %s \n", len(data.Query.Pages), data.Query.Pages[0].Title, data.Query.Pages[len(data.Query.Pages)-1].Title)
 
 	return &data
 }
