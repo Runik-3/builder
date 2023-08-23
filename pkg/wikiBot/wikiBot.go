@@ -33,10 +33,8 @@ type Page struct {
 // perhaps this function gets brought out into it's own pkg?
 // also this should take args so it can be used as a module
 // main can check if flags weren't passed and panic
-func GenerateWordList(wikiUrl *string, pageLimit *int) {
+func GenerateWordList(d *dict.Dict, wikiUrl *string, pageLimit *int) {
 	w := CreateClient(*wikiUrl)
-
-	d := dict.New()
 
 	// initial call has empty apfrom
 	res := GetWikiPages(w, pageLimit, "")
@@ -55,7 +53,6 @@ func GenerateWordList(wikiUrl *string, pageLimit *int) {
 			cont = false
 		}
 	}
-	d.Print()
 }
 
 func CreateClient(url string) *mwclient.Client {

@@ -3,8 +3,13 @@ package builder
 import (
 	"flag"
 
-	wikibot "github.com/runik-3/builder/pkg/wikiBot"
+	"github.com/runik-3/builder/pkg/dict"
+	"github.com/runik-3/builder/pkg/wikiBot"
 )
+
+type Lexicon struct {
+	RawDict *dict.Dict
+}
 
 func BuildDictionary() {
 	wikiUrl := flag.String("u", "", "wikiUrl")
@@ -12,5 +17,11 @@ func BuildDictionary() {
 	pageLimit := flag.Int("p", 5, "pageLimit")
 	flag.Parse()
 
-	wikibot.GenerateWordList(wikiUrl, pageLimit)
+	lex := Lexicon{RawDict: dict.New()}
+	lex.words(wikiUrl, pageLimit)
+}
+
+func (d Lexicon) words(wikiUrl *string, pageLimit *int) Lexicon {
+	wikibot.GenerateWordList(d.RawDict, wikiUrl, pageLimit)
+	return d
 }
