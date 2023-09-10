@@ -1,15 +1,14 @@
 # Runik Builder
 
-This library generates e-reader compatible dictionaries from MediaWikis. 
+A library that generates e-reader compatible dictionaries from MediaWikis. 
 
 ## Quick Start
 
-The command line currently accepts two flags: 
-- `-u`: Is the wiki api url (eg. https://stardust.fandom.com/api.php).
-- `-p`: Is the page limit (defaults to 5 for development purposes). <-- currently this controls the size of mediawiki page queries, but this will get swapped for a total dictionary size limiter.
+CLI flags: 
+- `-w`: `[*required]` Must be a valid MediaWiki api url (eg. https://stardust.fandom.com/api.php). 
+- `-l`: `[default 100,000]` Sets a limit for 
 
-
-Example: 
+The following command will generate a dictionary from the Stardust Fandom Wiki containing the first 5 words and their definitions.
 ```
-`go run . -u https://stardust.fandom.com/api.php -p 5`
+`go run . -w https://stardust.fandom.com/api.php -l 5`
 ```

@@ -8,20 +8,20 @@ import (
 )
 
 type Lexicon struct {
-	RawDict *dict.Dict
+	Dict *dict.Dict
 }
 
 func BuildDictionary() {
-	wikiUrl := flag.String("u", "", "wikiUrl")
-	// low default limit of 5 for testing, should be 500
-	pageLimit := flag.Int("p", 5, "pageLimit")
+	wikiUrl := flag.String("w", "", "wikiUrl")
+	entryLimit := flag.Int("l", 100000, "limit")
 	flag.Parse()
 
-	lex := Lexicon{RawDict: dict.New()}
-	lex.words(wikiUrl, pageLimit)
+	lex := Lexicon{Dict: dict.New()}
+	lex.words(wikiUrl, entryLimit)
+	lex.Dict.Print()
 }
 
 func (d Lexicon) words(wikiUrl *string, pageLimit *int) Lexicon {
-	wikibot.GenerateWordList(d.RawDict, wikiUrl, pageLimit)
+	wikibot.GenerateWordList(d.Dict, wikiUrl, pageLimit)
 	return d
 }
