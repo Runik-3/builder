@@ -86,6 +86,5 @@ func GetWikiPages(w *mwclient.Client, apfrom string) *AllPagesRes {
 
 	fmt.Printf("📖 Found %d entries between %s and %s \n", len(data.Query.Pages), data.Query.Pages[0].Title, data.Query.Pages[len(data.Query.Pages)-1].Title)
 
-	fmt.Println(string(resp))
 	return &data
 }

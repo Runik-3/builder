@@ -17,11 +17,11 @@ func BuildDictionary() {
 	flag.Parse()
 
 	lex := Lexicon{Dict: dict.New()}
-	lex.words(wikiUrl, entryLimit)
+	lex.buildWords(wikiUrl, entryLimit)
 	lex.Dict.Print()
 }
 
-func (d Lexicon) words(wikiUrl *string, pageLimit *int) Lexicon {
+func (d Lexicon) buildWords(wikiUrl *string, pageLimit *int) Lexicon {
 	wikibot.GenerateWordList(d.Dict, wikiUrl, pageLimit)
 	return d
 }
