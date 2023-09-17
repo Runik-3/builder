@@ -29,45 +29,6 @@ type Page struct {
 	Title  string `json:"title"`
 }
 
-func GenerateWordList(d *dict.Dict, wikiUrl *string, entryLimit *int) {
-	w := CreateClient(*wikiUrl)
-	// Should notify the user when a limit is reached and there is more to the dict
-	entries := 0
-
-	// initial call has empty apfrom
-	res := GetWikiPages(w, "")
-
-	// continue?
-	cont := true
-
-	for cont {
-		for _, p := range res.Query.Pages {
-			if entries == *entryLimit {
-				return
-			}
-
-			d.Add(dict.Entry{Word: p.Title, Definition: ""})
-			entries++
-		}
-
-		if res.Continue.Apcontinue != "" {
-			// TODO - future optimization check entry limit to only fetch required data using aplimit
-			res = GetWikiPages(w, res.Continue.Apcontinue)
-		} else {
-			cont = false
-		}
-	}
-}
-
-func CreateClient(url string) *mwclient.Client {
-	w, err := mwclient.New(url, "myWikibot")
-	if err != nil {
-		panic(err)
-	}
-
-	return w
-}
-
 func GetWikiPages(w *mwclient.Client, apfrom string) *AllPagesRes {
 	parameters := map[string]string{
 		"action":  "query",
@@ -84,7 +45,44 @@ func GetWikiPages(w *mwclient.Client, apfrom string) *AllPagesRes {
 	var data AllPagesRes
 	json.Unmarshal([]byte(resp), &data)
 
-	fmt.Printf("📖 Found %d entries between %s and %s \n", len(data.Query.Pages), data.Query.Pages[0].Title, data.Query.Pages[len(data.Query.Pages)-1].Title)
-
 	return &data
+}
+
+func GenerateWordList(d *dict.Dict, wikiUrl *string, entryLimit *int) {
+	w := CreateClient(*wikiUrl)
+	// Should notify the user when a limit is reached and there is more to the dict
+	entries := 0
+
+	// initial call has empty apfrom
+	res := GetWikiPages(w, "")
+
+	// continue?
+	cont := true
+
+	for cont {
+		for _, p := range res.Query.Pages {
+			if entries == *entryLimit {
+				break
+			}
+
+			d.Add(dict.Entry{Word: p.Title, Definition: ""})
+			entries++
+		}
+
+		if res.Continue.Apcontinue == "" {
+			cont = false
+		}
+		// TODO - future optimization check entry limit to only fetch required data using aplimit
+		res = GetWikiPages(w, res.Continue.Apcontinue)
+	}
+	fmt.Printf("📖 Found %d entries \n", entries)
+}
+
+func CreateClient(url string) *mwclient.Client {
+	w, err := mwclient.New(url, "myWikibot")
+	if err != nil {
+		panic(err)
+	}
+
+	return w
 }
