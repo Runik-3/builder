@@ -12,9 +12,9 @@ func ParseFirstPara(doc string) (string, error) {
 	r := strings.NewReader(doc)
 	t := html.NewTokenizer(r)
 
-	var prevToken html.Token
-	str := ""
+	inP := false
 	firstP := false
+	content := ""
 
 	for {
 		tt := t.Next()
@@ -29,21 +29,24 @@ func ParseFirstPara(doc string) (string, error) {
 			}
 
 		case html.StartTagToken:
-			if tkn.Data == "b" && prevToken.Data == "p" {
-				firstP = true
+			if tkn.Data == "p" {
+				inP = true
 			}
-			prevToken = tkn
+			if tkn.Data == "b" && inP {
+				firstP = true
+			} else {
+				content = ""
+			}
 
 		case html.EndTagToken:
 			if firstP && tkn.Data == "p" {
-				return str, nil
+				return content, nil
 			}
 
 		case html.TextToken:
-			if firstP {
-				str += tkn.Data
+			if inP || firstP {
+				content += tkn.Data
 			}
-			prevToken = tkn
 		}
 	}
 }
