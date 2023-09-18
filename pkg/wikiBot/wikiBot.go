@@ -3,6 +3,8 @@ package wikibot
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
+
 	"github.com/runik-3/builder/pkg/dict"
 
 	"cgt.name/pkg/go-mwclient"
@@ -29,11 +31,11 @@ type Page struct {
 	Title  string `json:"title"`
 }
 
-func GetWikiPages(w *mwclient.Client, apfrom string) *AllPagesRes {
+func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesRes {
 	params := map[string]string{
 		"action":  "query",
 		"list":    "allpages",
-		"aplimit": "500",
+		"aplimit": strconv.Itoa(limit),
 		"apfrom":  apfrom,
 	}
 
@@ -44,7 +46,6 @@ func GetWikiPages(w *mwclient.Client, apfrom string) *AllPagesRes {
 
 	var data AllPagesRes
 	json.Unmarshal([]byte(resp), &data)
-	println(len(data.Query.Pages))
 
 	return &data
 }
@@ -62,27 +63,26 @@ func GenerateWordList(d *dict.Dict, wikiUrl *string, entryLimit *int) {
 	entries := 0
 
 	// initial call has empty apfrom
-	res := GetWikiPages(w, "")
+	res := GetWikiPages(w, "", *entryLimit)
 
 	// continue?
 	cont := true
 
 	for cont {
 		for _, p := range res.Query.Pages {
-			if entries == *entryLimit {
-				fmt.Printf("📖 Found %d entries \n", entries)
-				return
-			}
-
 			d.Add(dict.Entry{Word: p.Title, Definition: ""})
 			entries++
+		}
+
+		if entries == *entryLimit {
+			break
 		}
 
 		if res.Continue.Apcontinue == "" {
 			cont = false
 		}
 		// TODO - future optimization check entry limit to only fetch required data using aplimit
-		res = GetWikiPages(w, res.Continue.Apcontinue)
+		res = GetWikiPages(w, res.Continue.Apcontinue, *entryLimit-entries)
 	}
 	fmt.Printf("📖 Found %d entries \n", entries)
 }
