@@ -30,23 +30,31 @@ type Page struct {
 }
 
 func GetWikiPages(w *mwclient.Client, apfrom string) *AllPagesRes {
-	parameters := map[string]string{
+	params := map[string]string{
 		"action":  "query",
 		"list":    "allpages",
 		"aplimit": "500",
 		"apfrom":  apfrom,
 	}
 
-	resp, err := w.GetRaw(parameters)
+	resp, err := w.GetRaw(params)
 	if err != nil {
 		panic(err)
 	}
 
 	var data AllPagesRes
 	json.Unmarshal([]byte(resp), &data)
+	println(len(data.Query.Pages))
 
 	return &data
 }
+
+//func ParsePage(w *mwclient.Client, id string) {
+//	params := map[string]string{
+//		"action":  "query",
+//		"list":    "allpages",
+//	}
+//}
 
 func GenerateWordList(d *dict.Dict, wikiUrl *string, entryLimit *int) {
 	w := CreateClient(*wikiUrl)
@@ -62,7 +70,8 @@ func GenerateWordList(d *dict.Dict, wikiUrl *string, entryLimit *int) {
 	for cont {
 		for _, p := range res.Query.Pages {
 			if entries == *entryLimit {
-				break
+				fmt.Printf("📖 Found %d entries \n", entries)
+				return
 			}
 
 			d.Add(dict.Entry{Word: p.Title, Definition: ""})
