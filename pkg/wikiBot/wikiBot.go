@@ -23,7 +23,7 @@ type Continue struct {
 }
 
 type AllPages struct {
-	Pages []Page `json:"allpages"`
+	Pages []Page `json:"pages"`
 }
 
 type Page struct {
@@ -34,10 +34,12 @@ type Page struct {
 
 func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesResponse {
 	params := map[string]string{
-		"action":  "query",
-		"list":    "allpages",
-		"aplimit": strconv.Itoa(limit),
-		"apfrom":  apfrom,
+		"action":    "query",
+		"generator": "allpages",
+		"gaplimit":  strconv.Itoa(limit),
+		"gapfrom":   apfrom,
+		"prop":      "articlesnippet",
+		"artchars":  "1000",
 	}
 
 	resp, err := w.GetRaw(params)
@@ -47,6 +49,7 @@ func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesRespons
 
 	var data AllPagesResponse
 	json.Unmarshal([]byte(resp), &data)
+	println(string(resp))
 
 	return &data
 }
