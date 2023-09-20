@@ -10,7 +10,8 @@ import (
 	"cgt.name/pkg/go-mwclient"
 )
 
-type AllPagesRes struct {
+// All pages response
+type AllPagesResponse struct {
 	Batchcomplete bool     `json:"batchcomplete"`
 	Continue      Continue `json:"continue"`
 	Query         AllPages `json:"query"`
@@ -31,7 +32,7 @@ type Page struct {
 	Title  string `json:"title"`
 }
 
-func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesRes {
+func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesResponse {
 	params := map[string]string{
 		"action":  "query",
 		"list":    "allpages",
@@ -44,18 +45,11 @@ func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesRes {
 		panic(err)
 	}
 
-	var data AllPagesRes
+	var data AllPagesResponse
 	json.Unmarshal([]byte(resp), &data)
 
 	return &data
 }
-
-//func ParsePage(w *mwclient.Client, id string) {
-//	params := map[string]string{
-//		"action":  "query",
-//		"list":    "allpages",
-//	}
-//}
 
 func GenerateWordList(d *dict.Dict, wikiUrl *string, entryLimit *int) {
 	w := CreateClient(*wikiUrl)
@@ -81,7 +75,7 @@ func GenerateWordList(d *dict.Dict, wikiUrl *string, entryLimit *int) {
 		if res.Continue.Apcontinue == "" {
 			cont = false
 		}
-		// TODO - future optimization check entry limit to only fetch required data using aplimit
+
 		res = GetWikiPages(w, res.Continue.Apcontinue, *entryLimit-entries)
 	}
 	fmt.Printf("📖 Found %d entries \n", entries)

@@ -20,5 +20,9 @@ func (d Dict) Add(e Entry) {
 }
 
 func (d Dict) Print() {
-	fmt.Println(d)
+	fmt.Println("Dictionary (definition -- word)")
+	fmt.Println("-------------------------------")
+	for _, v := range d {
+		fmt.Println(v.Word, " -- ", v.Definition)
+	}
 }
