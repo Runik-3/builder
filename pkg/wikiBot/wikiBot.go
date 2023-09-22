@@ -27,9 +27,10 @@ type AllPages struct {
 }
 
 type Page struct {
-	Ns     int    `json:"ns"`
-	PageId int    `json:"pageid"`
-	Title  string `json:"title"`
+	Ns      int    `json:"ns"`
+	PageId  int    `json:"pageid"`
+	Title   string `json:"title"`
+	Extract string `json:"extract"`
 }
 
 func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesResponse {
@@ -39,7 +40,7 @@ func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesRespons
 		"gaplimit":  strconv.Itoa(limit),
 		"gapfrom":   apfrom,
 		"prop":      "articlesnippet",
-		"artchars":  "1000",
+		"artchars":  "500",
 	}
 
 	resp, err := w.GetRaw(params)
@@ -67,8 +68,14 @@ func GenerateWordList(d *dict.Dict, wikiUrl *string, entryLimit *int) {
 
 	for cont {
 		for _, p := range res.Query.Pages {
-			d.Add(dict.Entry{Word: p.Title, Definition: ""})
-			entries++
+			// skip over pages with no extract.
+			if p.Extract != "..." {
+
+				// clean extract
+
+				d.Add(dict.Entry{Word: p.Title, Definition: p.Extract})
+				entries++
+			}
 		}
 
 		if entries == *entryLimit {
