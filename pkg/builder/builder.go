@@ -13,7 +13,7 @@ type Lexicon struct {
 
 func BuildDictionary() {
 	wikiUrl := flag.String("w", "", "wikiUrl")
-	entryLimit := flag.Int("l", 100000, "limit")
+	entryLimit := flag.Int("l", 10000, "limit")
 	flag.Parse()
 
 	lex := Lexicon{Dict: dict.New()}
@@ -22,6 +22,6 @@ func BuildDictionary() {
 }
 
 func (d Lexicon) buildWords(wikiUrl *string, pageLimit *int) Lexicon {
-	wikibot.GenerateWordList(d.Dict, wikiUrl, pageLimit)
+	wikibot.GenerateDefinitionsFromWiki(d.Dict, wikiUrl, pageLimit)
 	return d
 }

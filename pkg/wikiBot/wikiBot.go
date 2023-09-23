@@ -17,7 +17,7 @@ type AllPagesResponse struct {
 }
 
 type Continue struct {
-	Apcontinue string `json:"apcontinue"`
+	Apcontinue string `json:"gapcontinue"`
 	Continue   string `json:"continue"`
 }
 
@@ -64,18 +64,20 @@ func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesRespons
 
 	var data AllPagesResponse
 	json.Unmarshal([]byte(resp), &data)
-	println(string(resp))
 
 	return &data
 }
 
-func GenerateWordList(d *dict.Dict, wikiUrl *string, entryLimit *int) {
+func GenerateDefinitionsFromWiki(d *dict.Dict, wikiUrl *string, entryLimit *int) {
+	// maximum page entries you can fetch and still get full revisions
+	const maxPages = 50
+
 	w := CreateClient(*wikiUrl)
 	// Should notify the user when a limit is reached and there is more to the dict
 	entries := 0
 
 	// initial call has empty apfrom
-	res := GetWikiPages(w, "", *entryLimit)
+	res := GetWikiPages(w, "", maxPages)
 
 	// continue?
 	cont := true
@@ -94,7 +96,11 @@ func GenerateWordList(d *dict.Dict, wikiUrl *string, entryLimit *int) {
 			cont = false
 		}
 
-		res = GetWikiPages(w, res.Continue.Apcontinue, *entryLimit-entries)
+		fetch := maxPages
+		if *entryLimit-entries < maxPages {
+			fetch = *entryLimit - entries
+		}
+		res = GetWikiPages(w, res.Continue.Apcontinue, fetch)
 	}
 	fmt.Printf("📖 Found %d entries \n", entries)
 }

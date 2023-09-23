@@ -1,6 +1,8 @@
 package dict
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Entry struct {
 	Word       string
@@ -22,7 +24,9 @@ func (d Dict) Add(e Entry) {
 func (d Dict) Print() {
 	fmt.Println("Dictionary (definition -- word)")
 	fmt.Println("-------------------------------")
+	i := 1
 	for _, v := range d {
-		fmt.Println(v.Word, " -- ", v.Definition)
+		fmt.Printf("%d. %s -- %s\n", i, v.Word, "")
+		i++
 	}
 }
