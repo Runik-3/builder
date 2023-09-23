@@ -2,31 +2,45 @@ package dict
 
 import (
 	"fmt"
+
+	l "github.com/runik-3/builder/pkg/lexicon"
+	"github.com/runik-3/builder/pkg/wikiBot"
 )
 
-type Entry struct {
-	Word       string
-	Definition string
+type Dict struct {
+	Name string
+	Lex  *l.Lexicon
 }
 
-type Dict map[string]Entry
+func (d Dict) GenerateDefinitionsFromWiki(wikiUrl *string, entryLimit *int) {
+	w := wikibot.CreateClient(*wikiUrl)
 
-func New() *Dict {
-	return &Dict{}
-}
+	entries := 0
 
-func (d Dict) Add(e Entry) {
-	d[e.Word] = e
-}
+	// initial call has empty apfrom
+	res := wikibot.GetWikiPages(w, "", *entryLimit)
 
-func (d Dict) Print() {
-	fmt.Println("Dictionary (definition -- word)")
-	fmt.Println("-------------------------------")
-	i := 1
-	for _, v := range d {
-		fmt.Printf("%d. %s -- %s\n", i, v.Word, "")
-		i++
+	// continue?
+	cont := true
+
+	for cont {
+		for _, p := range res.Query.Pages {
+			// parsing content happens here
+			d.Lex.Add(l.Entry{Word: p.Title, Definition: p.Revisions[0].Slots.Main.Content})
+			entries++
+		}
+
+		if entries == *entryLimit {
+			break
+		}
+
+		if res.Continue.Apcontinue == "" {
+			cont = false
+		}
+
+		// call this get batch or something?
+		res = wikibot.GetWikiPages(w, res.Continue.Apcontinue, *entryLimit-entries)
 	}
-}
 
-// func (d Dict) Sort
+	fmt.Printf("📖 Found %d entries \n", entries)
+}

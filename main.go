@@ -16,7 +16,7 @@ func main() {
 }
 
 func BuildDictionary(wikiUrl *string, entryLimit *int) {
-	lex := l.Lexicon{Dict: d.New()}
-	lex.GenerateDefinitionsFromWiki(wikiUrl, entryLimit)
-	lex.Dict.Print()
+	dict := d.Dict{Lex: l.New()}
+	dict.GenerateDefinitionsFromWiki(wikiUrl, entryLimit)
+	dict.Lex.Print()
 }

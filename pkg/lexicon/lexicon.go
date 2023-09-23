@@ -2,44 +2,31 @@ package lexicon
 
 import (
 	"fmt"
-
-	"github.com/runik-3/builder/pkg/dict"
-	"github.com/runik-3/builder/pkg/wikiBot"
 )
 
-type Lexicon struct {
-	Name string
-	Dict *dict.Dict
+type Entry struct {
+	Word       string
+	Definition string
 }
 
-func (l Lexicon) GenerateDefinitionsFromWiki(wikiUrl *string, entryLimit *int) {
-	w := wikibot.CreateClient(*wikiUrl)
+type Lexicon map[string]Entry
 
-	entries := 0
+func New() *Lexicon {
+	return &Lexicon{}
+}
 
-	// initial call has empty apfrom
-	res := wikibot.GetWikiPages(w, "", *entryLimit)
+func (l Lexicon) Add(e Entry) {
+	l[e.Word] = e
+}
 
-	// continue?
-	cont := true
-
-	for cont {
-		for _, p := range res.Query.Pages {
-			// parsing content happens here
-			l.Dict.Add(dict.Entry{Word: p.Title, Definition: p.Revisions[0].Slots.Main.Content})
-			entries++
-		}
-
-		if entries == *entryLimit {
-			break
-		}
-
-		if res.Continue.Apcontinue == "" {
-			cont = false
-		}
-
-		res = wikibot.GetWikiPages(w, res.Continue.Apcontinue, *entryLimit-entries)
+func (l Lexicon) Print() {
+	fmt.Println("Lexicon (definition -- word)")
+	fmt.Println("-------------------------------")
+	i := 1
+	for _, v := range l {
+		fmt.Printf("%d. %s -- %s\n", i, v.Word, "")
+		i++
 	}
-
-	fmt.Printf("📖 Found %d entries \n", entries)
 }
+
+// func (l Lexicon) Sort
