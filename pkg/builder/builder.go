@@ -1,7 +1,7 @@
 package builder
 
 import (
-	"flag"
+	"fmt"
 
 	"github.com/runik-3/builder/pkg/dict"
 	"github.com/runik-3/builder/pkg/wikiBot"
@@ -12,18 +12,33 @@ type Lexicon struct {
 	Dict *dict.Dict
 }
 
-func BuildDictionary() {
-	wikiUrl := flag.String("w", "", "wikiUrl")
-	entryLimit := flag.Int("l", 10000, "limit")
-	flag.Parse()
+func (l Lexicon) GenerateDefinitionsFromWiki(wikiUrl *string, entryLimit *int) {
+	w := wikibot.CreateClient(*wikiUrl)
 
-	lex := Lexicon{Dict: dict.New()}
-	lex.buildWords(wikiUrl, entryLimit)
-	lex.Dict.Print()
-	println(lex.Name)
-}
+	entries := 0
 
-func (d Lexicon) buildWords(wikiUrl *string, pageLimit *int) Lexicon {
-	wikibot.GenerateDefinitionsFromWiki(d.Dict, wikiUrl, pageLimit)
-	return d
+	// initial call has empty apfrom
+	res := wikibot.GetWikiPages(w, "", *entryLimit)
+
+	// continue?
+	cont := true
+
+	for cont {
+		for _, p := range res.Query.Pages {
+			l.Dict.Add(dict.Entry{Word: p.Title, Definition: p.Revisions[0].Slots.Main.Content})
+			entries++
+		}
+
+		if entries == *entryLimit {
+			break
+		}
+
+		if res.Continue.Apcontinue == "" {
+			cont = false
+		}
+
+		res = wikibot.GetWikiPages(w, res.Continue.Apcontinue, *entryLimit-entries)
+	}
+
+	fmt.Printf("📖 Found %d entries \n", entries)
 }

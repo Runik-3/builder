@@ -30,3 +30,5 @@ func (d Dict) Print() {
 		i++
 	}
 }
+
+// func (d Dict) Sort

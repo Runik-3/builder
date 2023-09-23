@@ -2,10 +2,7 @@ package wikibot
 
 import (
 	"encoding/json"
-	"fmt"
 	"strconv"
-
-	"github.com/runik-3/builder/pkg/dict"
 
 	"cgt.name/pkg/go-mwclient"
 )
@@ -47,10 +44,11 @@ type Main struct {
 }
 
 func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesResponse {
+	fetch := PagesToFetch(limit)
 	params := map[string]string{
 		"action":    "query",
 		"generator": "allpages",
-		"gaplimit":  strconv.Itoa(limit),
+		"gaplimit":  strconv.Itoa(fetch),
 		"gapfrom":   apfrom,
 		"prop":      "revisions",
 		"rvprop":    "content",
@@ -66,39 +64,6 @@ func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesRespons
 	json.Unmarshal([]byte(resp), &data)
 
 	return &data
-}
-
-func GenerateDefinitionsFromWiki(d *dict.Dict, wikiUrl *string, entryLimit *int) {
-	w := CreateClient(*wikiUrl)
-
-	entries := 0
-
-	fetch := PagesToFetch(*entryLimit)
-	// initial call has empty apfrom
-	res := GetWikiPages(w, "", fetch)
-
-	// continue?
-	cont := true
-
-	for cont {
-		for _, p := range res.Query.Pages {
-			d.Add(dict.Entry{Word: p.Title, Definition: p.Revisions[0].Slots.Main.Content})
-			entries++
-		}
-
-		if entries == *entryLimit {
-			break
-		}
-
-		if res.Continue.Apcontinue == "" {
-			cont = false
-		}
-
-		fetch := PagesToFetch(*entryLimit - entries)
-		res = GetWikiPages(w, res.Continue.Apcontinue, fetch)
-	}
-
-	fmt.Printf("📖 Found %d entries \n", entries)
 }
 
 func CreateClient(url string) *mwclient.Client {
