@@ -8,6 +8,7 @@ import (
 )
 
 type Lexicon struct {
+	Name string
 	Dict *dict.Dict
 }
 
@@ -19,6 +20,7 @@ func BuildDictionary() {
 	lex := Lexicon{Dict: dict.New()}
 	lex.buildWords(wikiUrl, entryLimit)
 	lex.Dict.Print()
+	println(lex.Name)
 }
 
 func (d Lexicon) buildWords(wikiUrl *string, pageLimit *int) Lexicon {

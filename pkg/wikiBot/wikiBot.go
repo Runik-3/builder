@@ -69,15 +69,13 @@ func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesRespons
 }
 
 func GenerateDefinitionsFromWiki(d *dict.Dict, wikiUrl *string, entryLimit *int) {
-	// maximum page entries you can fetch and still get full revisions
-	const maxPages = 50
-
 	w := CreateClient(*wikiUrl)
-	// Should notify the user when a limit is reached and there is more to the dict
+
 	entries := 0
 
+	fetch := PagesToFetch(*entryLimit)
 	// initial call has empty apfrom
-	res := GetWikiPages(w, "", maxPages)
+	res := GetWikiPages(w, "", fetch)
 
 	// continue?
 	cont := true
@@ -96,12 +94,10 @@ func GenerateDefinitionsFromWiki(d *dict.Dict, wikiUrl *string, entryLimit *int)
 			cont = false
 		}
 
-		fetch := maxPages
-		if *entryLimit-entries < maxPages {
-			fetch = *entryLimit - entries
-		}
+		fetch := PagesToFetch(*entryLimit - entries)
 		res = GetWikiPages(w, res.Continue.Apcontinue, fetch)
 	}
+
 	fmt.Printf("📖 Found %d entries \n", entries)
 }
 
@@ -112,4 +108,14 @@ func CreateClient(url string) *mwclient.Client {
 	}
 
 	return w
+}
+
+func PagesToFetch(left int) int {
+	// maximum page entries you can fetch and still get full revisions
+	const maxPages = 50
+
+	if left < maxPages {
+		return left
+	}
+	return maxPages
 }
