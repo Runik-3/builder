@@ -1,4 +1,4 @@
-package builder
+package lexicon
 
 import (
 	"fmt"
@@ -25,6 +25,7 @@ func (l Lexicon) GenerateDefinitionsFromWiki(wikiUrl *string, entryLimit *int) {
 
 	for cont {
 		for _, p := range res.Query.Pages {
+			// parsing content happens here
 			l.Dict.Add(dict.Entry{Word: p.Title, Definition: p.Revisions[0].Slots.Main.Content})
 			entries++
 		}

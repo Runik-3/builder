@@ -12,9 +12,7 @@ type Entry struct {
 type Dict map[string]Entry
 
 func New() *Dict {
-	dict := Dict{}
-
-	return &dict
+	return &Dict{}
 }
 
 func (d Dict) Add(e Entry) {
