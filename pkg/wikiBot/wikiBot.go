@@ -10,7 +10,6 @@ import (
 	"cgt.name/pkg/go-mwclient"
 )
 
-// All pages response
 type AllPagesResponse struct {
 	Batchcomplete bool     `json:"batchcomplete"`
 	Continue      Continue `json:"continue"`
@@ -27,10 +26,24 @@ type AllPages struct {
 }
 
 type Page struct {
-	Ns      int    `json:"ns"`
-	PageId  int    `json:"pageid"`
-	Title   string `json:"title"`
-	Extract string `json:"extract"`
+	Ns        int        `json:"ns"`
+	PageId    int        `json:"pageid"`
+	Title     string     `json:"title"`
+	Revisions []Revision `json:"revisions"`
+}
+
+type Revision struct {
+	Slots Slot `json:"slots"`
+}
+
+type Slot struct {
+	Main Main `json:"main"`
+}
+
+type Main struct {
+	Model   string `json:"contentmodel"`
+	Format  string `json:"contentformat"`
+	Content string `json:"content"`
 }
 
 func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesResponse {
@@ -39,8 +52,9 @@ func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesRespons
 		"generator": "allpages",
 		"gaplimit":  strconv.Itoa(limit),
 		"gapfrom":   apfrom,
-		"prop":      "articlesnippet",
-		"artchars":  "500",
+		"prop":      "revisions",
+		"rvprop":    "content",
+		"rvslots":   "main",
 	}
 
 	resp, err := w.GetRaw(params)
@@ -68,14 +82,8 @@ func GenerateWordList(d *dict.Dict, wikiUrl *string, entryLimit *int) {
 
 	for cont {
 		for _, p := range res.Query.Pages {
-			// skip over pages with no extract.
-			if p.Extract != "..." {
-
-				// clean extract
-
-				d.Add(dict.Entry{Word: p.Title, Definition: p.Extract})
-				entries++
-			}
+			d.Add(dict.Entry{Word: p.Title, Definition: p.Revisions[0].Slots.Main.Content})
+			entries++
 		}
 
 		if entries == *entryLimit {
