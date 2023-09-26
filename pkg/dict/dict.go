@@ -5,6 +5,7 @@ import (
 
 	l "github.com/runik-3/builder/pkg/lexicon"
 	"github.com/runik-3/builder/pkg/wikiBot"
+	"github.com/runik-3/builder/pkg/wikitext"
 )
 
 type Dict struct {
@@ -26,7 +27,9 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl *string, entryLimit *int) {
 	for cont {
 		for _, p := range res.Query.Pages {
 			// parsing content happens here
-			d.Lex.Add(l.Entry{Word: p.Title, Definition: p.Revisions[0].Slots.Main.Content})
+			fDef := wikitext.Parse(p.Revisions[0].Slots.Main.Content)
+
+			d.Lex.Add(l.Entry{Word: p.Title, Definition: fDef})
 			entries++
 		}
 
