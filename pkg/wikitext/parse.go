@@ -33,28 +33,22 @@ func tokenizer(raw string) []Token {
 		switch tt {
 		case text:
 			if state != "text_start" && len(tokens) != 0 {
-				currTkn := &tokens[len(tokens)-1]
-				currTkn.Value = append(currTkn.Value, t)
+				appendToToken(tokens, t)
 			} else {
 				state = "text"
-				newTkn := Token{Type: state, Value: []string{t}}
-				tokens = append(tokens, newTkn)
+				tokens = newToken(tokens, state, t)
 			}
 
 		case link_start:
 			state = "link"
-			newTkn := Token{Type: state, Value: []string{trimLinks(t)}}
-			tokens = append(tokens, newTkn)
+			tokens = newToken(tokens, state, trimLinks(t))
 
 		case link_end:
 			if state == "link" {
-				currTkn := &tokens[len(tokens)-1]
-				currTkn.Value = append(currTkn.Value, trimLinks(t))
-				state = "text_start"
+				appendToToken(tokens, trimLinks(t))
 			} else {
 				state = "link"
-				newTkn := Token{Type: state, Value: []string{trimLinks(t)}}
-				tokens = append(tokens, newTkn)
+				tokens = newToken(tokens, state, trimLinks(t))
 			}
 
 			state = "text_start"
@@ -62,6 +56,15 @@ func tokenizer(raw string) []Token {
 	}
 
 	return tokens
+}
+
+func newToken(tokens []Token, state string, content string) []Token {
+	newTkn := Token{Type: state, Value: []string{content}}
+	return append(tokens, newTkn)
+}
+func appendToToken(tokens []Token, content string) {
+	currTkn := &tokens[len(tokens)-1]
+	currTkn.Value = append(currTkn.Value, content)
 }
 
 func tokenType(t string) TokenType {
