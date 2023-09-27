@@ -4,6 +4,14 @@ import (
 	"strings"
 )
 
+type TokenType int
+
+const (
+	link_start TokenType = iota
+	link_end
+	text
+)
+
 type Token struct {
 	Type  string
 	Value []string
@@ -15,60 +23,58 @@ func Parse(raw string) []Token {
 	return ts
 }
 
+// consider a refactor where text is the first class type and everything else lives within text
+// no need to get fancy with links, we just need start and end and state?
 func tokenizer(raw string) []Token {
 	tokens := []Token{}
-	tkn := Token{} // no need for tkn here? can just append to last token in list?
-	// Constant write stream, change state based on start/end tokens?
+	state := "text_start"
 
 	for _, t := range strings.Split(raw, " ") {
-		tt, tag := tokenType(t)
+		tt := tokenType(t)
 
-		// consider a refactor where text is the first class type and everything else lives within text
-		// no need to get fancy with links, we just need start and end and state?
 		switch tt {
-		case "link":
-			if tag == "start" || tag == "" {
-				// add prev tkn and clear tkn value
-				tokens = append(tokens, tkn)
-				tkn.Value = []string{}
+		case text:
+			if state != "text_start" && len(tokens) != 0 {
+				currTkn := &tokens[len(tokens)-1]
+				currTkn.Value = append(currTkn.Value, t)
+			} else {
+				state = "text"
+				newTkn := Token{Type: state, Value: []string{t}}
+				tokens = append(tokens, newTkn)
 			}
 
-			tkn.Type = tt
-			tkn.Value = append(tkn.Value, trimLinks(t))
+		case link_start:
+			state = "link"
+			newTkn := Token{Type: state, Value: []string{trimLinks(t)}}
+			tokens = append(tokens, newTkn)
 
-			if tag == "end" || tag == "" {
-				tokens = append(tokens, tkn)
-				tkn.Value = []string{}
+		case link_end:
+			if state == "link" {
+				currTkn := &tokens[len(tokens)-1]
+				currTkn.Value = append(currTkn.Value, trimLinks(t))
+			} else {
+				state = "link"
+				newTkn := Token{Type: state, Value: []string{trimLinks(t)}}
+				tokens = append(tokens, newTkn)
 			}
 
-		case "text":
-			if tkn.Type != "text" {
-				tkn.Type = tt
-			}
-			tkn.Value = append(tkn.Value, t)
+			state = "text_start"
 		}
 	}
 
 	return tokens
 }
 
-func tokenType(t string) (string, string) {
-	tknType := "text" // text, link, table
-	tag := ""         // start, end, or empty to denote both
+func tokenType(t string) TokenType {
+	tknType := text
 
 	if strings.Contains(t, "[[") {
-		tknType = "link"
-		tag = "start"
+		tknType = link_start
 	}
 	if strings.Contains(t, "]]") {
-		tknType = "link"
-		if tag == "start" {
-			tag = ""
-		} else {
-			tag = "end"
-		}
+		tknType = link_end
 	}
-	return tknType, tag
+	return tknType
 }
 
 func trimTables(t string) string {

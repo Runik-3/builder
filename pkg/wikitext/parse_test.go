@@ -17,6 +17,7 @@ func TestParse(t *testing.T) {
 	}
 
 	for _, c := range cases {
+		fmt.Println(c[0])
 		fmt.Println(Parse(c[0]))
 	}
 }
