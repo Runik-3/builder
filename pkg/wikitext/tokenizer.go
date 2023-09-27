@@ -9,18 +9,16 @@ type TokenType int
 const (
 	link_start TokenType = iota
 	link_end
+	table_start
+	table_end
+	html_start
+	html_end
 	text
 )
 
 type Token struct {
 	Type  string
 	Value []string
-}
-
-func Parse(raw string) []Token {
-	ts := tokenizer(raw)
-
-	return ts
 }
 
 func tokenizer(raw string) []Token {
