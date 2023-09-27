@@ -23,13 +23,11 @@ func Parse(raw string) []Token {
 	return ts
 }
 
-// consider a refactor where text is the first class type and everything else lives within text
-// no need to get fancy with links, we just need start and end and state?
 func tokenizer(raw string) []Token {
 	tokens := []Token{}
 	state := "text_start"
 
-	for _, t := range strings.Split(raw, " ") {
+	for _, t := range strings.Fields(raw) {
 		tt := tokenType(t)
 
 		switch tt {
@@ -52,6 +50,7 @@ func tokenizer(raw string) []Token {
 			if state == "link" {
 				currTkn := &tokens[len(tokens)-1]
 				currTkn.Value = append(currTkn.Value, trimLinks(t))
+				state = "text_start"
 			} else {
 				state = "link"
 				newTkn := Token{Type: state, Value: []string{trimLinks(t)}}
