@@ -38,18 +38,47 @@ func tokenizer(raw string) []Token {
 			}
 
 		case link_start:
-			state = "link"
-			tokens = newToken(tokens, state, trimLinks(t))
+			if strings.Contains(state, "text") {
+				state = "link"
+				tokens = newToken(tokens, state, trimLinks(t))
+				// links in tables should be appended as-is
+			} else {
+				appendToToken(tokens, t)
+			}
 
 		case link_end:
 			if state == "link" {
 				appendToToken(tokens, trimLinks(t))
-			} else {
+				state = "text_start"
+				// handle if link is one token eg. [[hi]]
+			} else if strings.Contains(state, "text") {
 				state = "link"
 				tokens = newToken(tokens, state, trimLinks(t))
+				state = "text_start"
+			} else {
+				appendToToken(tokens, t)
 			}
 
-			state = "text_start"
+		case table_start:
+			if strings.Contains(state, "text") {
+				state = "table"
+				tokens = newToken(tokens, state, trimLinks(t))
+				// tables in links should be appended as-is
+			} else {
+				appendToToken(tokens, t)
+			}
+
+		case table_end:
+			if state == "table" {
+				appendToToken(tokens, trimLinks(t))
+				state = "text_start"
+			} else if strings.Contains(state, "text") {
+				state = "table"
+				tokens = newToken(tokens, state, trimLinks(t))
+				state = "text_start"
+			} else {
+				appendToToken(tokens, t)
+			}
 		}
 	}
 
@@ -73,6 +102,12 @@ func tokenType(t string) TokenType {
 	}
 	if strings.Contains(t, "]]") {
 		tknType = link_end
+	}
+	if strings.Contains(t, "{{") {
+		tknType = table_start
+	}
+	if strings.Contains(t, "}}") {
+		tknType = table_end
 	}
 	return tknType
 }
