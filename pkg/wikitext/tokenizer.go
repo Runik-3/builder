@@ -1,6 +1,7 @@
 package wikitext
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -11,30 +12,29 @@ const (
 	link_end
 	table_start
 	table_end
-	html_start
-	html_end
 	text
 )
 
 type Token struct {
 	Type  string
-	Value []string
+	Value string
 }
 
 func tokenizer(raw string) []Token {
+	cleaned := cleanText(raw)
 	tokens := []Token{}
 	state := "text_start"
 
-	for _, t := range strings.Fields(raw) {
+	for _, t := range strings.Fields(cleaned) {
 		tt := tokenType(t)
 
 		switch tt {
 		case text:
 			if state != "text_start" && len(tokens) != 0 {
-				appendToToken(tokens, t)
+				appendToToken(tokens, cleanHtml(t))
 			} else {
 				state = "text"
-				tokens = newToken(tokens, state, t)
+				tokens = newToken(tokens, state, cleanHtml(t))
 			}
 
 		case link_start:
@@ -63,7 +63,7 @@ func tokenizer(raw string) []Token {
 			if strings.Contains(state, "text") {
 				state = "table"
 				tokens = newToken(tokens, state, trimLinks(t))
-				// tables in links should be appended as-is
+				// tables inside tokens append as is.
 			} else {
 				appendToToken(tokens, t)
 			}
@@ -86,12 +86,12 @@ func tokenizer(raw string) []Token {
 }
 
 func newToken(tokens []Token, state string, content string) []Token {
-	newTkn := Token{Type: state, Value: []string{content}}
+	newTkn := Token{Type: state, Value: fmt.Sprintf("%s ", content)}
 	return append(tokens, newTkn)
 }
 func appendToToken(tokens []Token, content string) {
 	currTkn := &tokens[len(tokens)-1]
-	currTkn.Value = append(currTkn.Value, content)
+	currTkn.Value = currTkn.Value + fmt.Sprintf("%s ", content)
 }
 
 func tokenType(t string) TokenType {
@@ -124,10 +124,32 @@ func trimLinks(t string) string {
 	return s
 }
 
-func trimBold(line string) string {
-	return strings.ReplaceAll(line, "'''", "")
+func cleanText(t string) string {
+	s := cleanHtml(t)
+	// wikitext bold
+	s = strings.ReplaceAll(s, "'''", "")
+	// wikitext italics
+	return strings.ReplaceAll(s, "''", "")
 }
 
-func trimItalic(line string) string {
-	return strings.ReplaceAll(line, "''", "")
+func cleanHtml(t string) string {
+	isTag := false
+	parts := strings.Split(t, "")
+	cleaned := []string{}
+
+	for _, p := range parts {
+		if p == "<" {
+			isTag = true
+		}
+
+		if !isTag {
+			cleaned = append(cleaned, p)
+		}
+
+		if p == ">" {
+			isTag = false
+		}
+	}
+
+	return strings.Join(cleaned, "")
 }
