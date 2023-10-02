@@ -24,7 +24,7 @@ func (l Lexicon) Print() {
 	fmt.Println("-------------------------------")
 	i := 1
 	for _, v := range l {
-		fmt.Printf("%d. %s -- %s\n", i, v.Word, "")
+		fmt.Printf("%d. %s -- %s\n", i, v.Word, v.Definition)
 		i++
 	}
 }

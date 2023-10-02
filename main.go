@@ -5,6 +5,9 @@ import (
 
 	d "github.com/runik-3/builder/pkg/dict"
 	l "github.com/runik-3/builder/pkg/lexicon"
+	// output
+	// definition depth (how many lines)
+	// print
 )
 
 func main() {

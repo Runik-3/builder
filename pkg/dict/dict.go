@@ -26,8 +26,7 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl *string, entryLimit *int) {
 
 	for cont {
 		for _, p := range res.Query.Pages {
-			// parsing content happens here
-			fDef := wikitext.Parse(p.Revisions[0].Slots.Main.Content)
+			fDef := wikitext.ParseDefinition(p.Revisions[0].Slots.Main.Content)
 
 			d.Lex.Add(l.Entry{Word: p.Title, Definition: fDef})
 			entries++

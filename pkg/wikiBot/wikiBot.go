@@ -45,6 +45,7 @@ type Main struct {
 
 func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesResponse {
 	fetch := PagesToFetch(limit)
+
 	params := map[string]string{
 		"action":    "query",
 		"generator": "allpages",
