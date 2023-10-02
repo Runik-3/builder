@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 
 	l "github.com/runik-3/builder/pkg/lexicon"
 	"github.com/runik-3/builder/pkg/wikiBot"
@@ -16,13 +17,13 @@ type Dict struct {
 	Lex  *l.Lexicon
 }
 
-func (d Dict) GenerateDefinitionsFromWiki(wikiUrl *string, entryLimit *int) {
-	w := wikibot.CreateClient(*wikiUrl)
+func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, entryLimit int) {
+	w := wikibot.CreateClient(wikiUrl)
 
 	entries := 0
 
 	// initial call has empty apfrom
-	res := wikibot.GetWikiPages(w, "", *entryLimit)
+	res := wikibot.GetWikiPages(w, "", entryLimit)
 
 	// continue?
 	cont := true
@@ -36,7 +37,7 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl *string, entryLimit *int) {
 			}
 		}
 
-		if entries == *entryLimit {
+		if entries == entryLimit {
 			break
 		}
 
@@ -45,21 +46,20 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl *string, entryLimit *int) {
 		}
 
 		// call this get batch or something?
-		res = wikibot.GetWikiPages(w, res.Continue.Apcontinue, *entryLimit-entries)
+		res = wikibot.GetWikiPages(w, res.Continue.Apcontinue, entryLimit-entries)
 	}
 
 	fmt.Printf("📖 Found %d entries \n", entries)
 }
 
 // TODO - support for different formats
-func (d Dict) Write(path string) {
+func (d Dict) Write(path string) string {
 	p := path
 
-	if p == "" {
-		p = "dict.json"
-	}
+	fileName := fmt.Sprintf("%s.json", d.Name)
+	normalizedPath := filepath.FromSlash(p + fileName)
 
-	f, err := os.Create(p)
+	f, err := os.Create(normalizedPath)
 
 	if err != nil {
 		log.Fatal(err)
@@ -69,4 +69,6 @@ func (d Dict) Write(path string) {
 
 	json, err := json.Marshal(d.Lex)
 	f.WriteString(string(json))
+
+	return normalizedPath
 }
