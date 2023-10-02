@@ -126,12 +126,18 @@ func trimLinks(t string) string {
 
 func cleanText(t string) string {
 	s := cleanHtml(t)
+
+	// add spacing after tables and links to avoid tokenization errors
+	s = strings.ReplaceAll(s, "}}", "}} ")
+	s = strings.ReplaceAll(s, "]]", "]] ")
+
 	// wikitext bold
 	s = strings.ReplaceAll(s, "'''", "")
 	// wikitext italics
 	return strings.ReplaceAll(s, "''", "")
 }
 
+// removes html tags from text
 func cleanHtml(t string) string {
 	isTag := false
 	parts := strings.Split(t, "")
