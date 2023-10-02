@@ -20,6 +20,10 @@ func ParseDefinition(raw string) string {
 	// take first sentence as definition
 	definition = strings.SplitAfter(definition, ".")[0]
 
+	if strings.Contains(definition, "#REDIRECT") {
+		return ""
+	}
+
 	return definition
 }
 
