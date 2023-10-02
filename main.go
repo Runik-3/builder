@@ -22,4 +22,5 @@ func BuildDictionary(wikiUrl *string, entryLimit *int) {
 	dict := d.Dict{Lex: l.New()}
 	dict.GenerateDefinitionsFromWiki(wikiUrl, entryLimit)
 	dict.Lex.Print()
+	dict.Write("")
 }

@@ -10,5 +10,5 @@ CLI flags:
 
 The following command will generate a dictionary from the Stardust Fandom Wiki containing the first 5 words and their definitions.
 ```
-`go run . -w https://stardust.fandom.com/api.php -l 5`
+go run . -w https://stardust.fandom.com/api.php -l 5
 ```
