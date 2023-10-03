@@ -57,18 +57,26 @@ func (d Dict) Write(path string) string {
 	p := path
 
 	fileName := fmt.Sprintf("%s.json", d.Name)
-	normalizedPath := filepath.FromSlash(p + fileName)
+	normalizedPath := filepath.Join(filepath.FromSlash(p), fileName)
 
-	f, err := os.Create(normalizedPath)
-
-	if err != nil {
-		log.Fatal(err)
+	f, fileErr := os.Create(normalizedPath)
+	if fileErr != nil {
+		log.Fatal(fileErr)
 	}
 
 	defer f.Close()
 
-	json, err := json.Marshal(d.Lex)
-	f.WriteString(string(json))
+	json, marshalErr := json.Marshal(d.Lex)
+	if fileErr != nil {
+		log.Fatal(marshalErr)
+	}
+
+	_, writeErr := f.WriteString(string(json))
+	if fileErr != nil {
+		log.Fatal(writeErr)
+	}
+
+	fmt.Printf("Successfully built dictionary at %s\n", normalizedPath)
 
 	return normalizedPath
 }

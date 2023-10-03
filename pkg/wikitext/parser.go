@@ -20,8 +20,8 @@ func ParseDefinition(raw string) string {
 	// take first sentence as definition
 	definition = strings.SplitAfter(definition, ".")[0]
 
-	// remove redirects
-	if strings.Contains(definition, "#REDIRECT") {
+	// TODO - Handle redirects more gracefully instead of removing outright
+	if strings.Contains(definition, "#REDIRECT") || strings.Contains(definition, "#redirect") {
 		return ""
 	}
 

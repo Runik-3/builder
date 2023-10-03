@@ -1,6 +1,7 @@
 package wikitext
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 )
@@ -31,10 +32,10 @@ func tokenizer(raw string) []Token {
 		switch tt {
 		case text:
 			if state != "text_start" && len(tokens) != 0 {
-				appendToToken(tokens, cleanHtml(t))
+				appendToToken(tokens, trimText(t))
 			} else {
 				state = "text"
-				tokens = newToken(tokens, state, cleanHtml(t))
+				tokens = newToken(tokens, state, trimText(t))
 			}
 
 		case link_start:
@@ -82,6 +83,8 @@ func tokenizer(raw string) []Token {
 		}
 	}
 
+	json, _ := json.Marshal(tokens)
+	fmt.Println(string(json))
 	return tokens
 }
 
@@ -112,6 +115,16 @@ func tokenType(t string) TokenType {
 	return tknType
 }
 
+func trimText(t string) string {
+	s := t
+	// if text node is a link, do not append
+	// likely came from inside a <ref> tag that was removed by the cleanText function
+	if strings.Contains(s, "http://") || strings.Contains(s, "https://") {
+		s = ""
+	}
+	return s
+}
+
 func trimTables(t string) string {
 	s := strings.ReplaceAll(t, "{{", "")
 	s = strings.ReplaceAll(s, "}}", "")
@@ -124,6 +137,13 @@ func trimLinks(t string) string {
 	return s
 }
 
+func trimRef(t string) string {
+	s := strings.ReplaceAll(t, "<ref>", "")
+	s = strings.ReplaceAll(s, "</ref>", "")
+	return s
+}
+
+// Prepares text for tokenization.
 func cleanText(t string) string {
 	s := cleanHtml(t)
 
