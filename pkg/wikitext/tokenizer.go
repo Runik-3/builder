@@ -2,7 +2,7 @@ package wikitext
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"strings"
 )
 
@@ -16,14 +16,25 @@ const (
 	text
 )
 
+type TokenCollection []Token
+
 type Token struct {
 	Type  string
-	Value string
+	Value []string
 }
 
-func tokenizer(raw string) []Token {
-	cleaned := cleanText(raw)
-	tokens := []Token{}
+func (t TokenCollection) Stringify() string {
+	json, err := json.Marshal(t)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return string(json)
+}
+
+func tokenizer(raw string) TokenCollection {
+	cleaned := cleanDocument(raw)
+	tokens := TokenCollection{}
 	state := "text_start"
 
 	for _, t := range strings.Fields(cleaned) {
@@ -83,18 +94,16 @@ func tokenizer(raw string) []Token {
 		}
 	}
 
-	json, _ := json.Marshal(tokens)
-	fmt.Println(string(json))
 	return tokens
 }
 
-func newToken(tokens []Token, state string, content string) []Token {
-	newTkn := Token{Type: state, Value: fmt.Sprintf("%s ", content)}
+func newToken(tokens TokenCollection, state string, content string) []Token {
+	newTkn := Token{Type: state, Value: []string{content}}
 	return append(tokens, newTkn)
 }
-func appendToToken(tokens []Token, content string) {
+func appendToToken(tokens TokenCollection, content string) {
 	currTkn := &tokens[len(tokens)-1]
-	currTkn.Value = currTkn.Value + fmt.Sprintf("%s ", content)
+	currTkn.Value = append(currTkn.Value, content)
 }
 
 func tokenType(t string) TokenType {
@@ -143,8 +152,8 @@ func trimRef(t string) string {
 	return s
 }
 
-// Prepares text for tokenization.
-func cleanText(t string) string {
+// Prepares document for tokenization.
+func cleanDocument(t string) string {
 	s := cleanHtml(t)
 
 	// add spacing after tables and links to avoid tokenization errors

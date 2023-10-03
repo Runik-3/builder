@@ -10,10 +10,11 @@ func ParseDefinition(raw string) string {
 
 	for _, t := range tokens {
 		if t.Type == "text" {
-			definition += t.Value
+			definition += strings.Join(t.Value, " ")
 		}
 		if t.Type == "link" {
-			definition += resolveLink(t.Value)
+			s := strings.Join(t.Value, " ")
+			definition += resolveLink(s)
 		}
 	}
 
