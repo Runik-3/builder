@@ -14,13 +14,14 @@ const (
 	table_start
 	table_end
 	text
+	EOF // <- end of file token
 )
 
 type TokenCollection []Token
 
 type Token struct {
 	Type  string
-	Value []string
+	Value string
 }
 
 func (t TokenCollection) Stringify() string {
@@ -37,91 +38,75 @@ func tokenizer(raw string) TokenCollection {
 	tokens := TokenCollection{}
 	state := "text_start"
 
-	for _, t := range strings.Fields(cleaned) {
-		tt := tokenType(t)
+	characters := strings.Split(cleaned, "")
 
-		switch tt {
-		case text:
-			if state != "text_start" && len(tokens) != 0 {
-				appendToToken(tokens, trimText(t))
-			} else {
-				state = "text"
-				tokens = newToken(tokens, state, trimText(t))
-			}
+	i := 0
+	for i < len(characters) {
+		char := characters[i]
+		tt := tokenType(characters, &i)
 
-		case link_start:
-			if strings.Contains(state, "text") {
+		switch state {
+		case "text_start":
+			state = "text"
+			newToken(char, state, &tokens)
+
+		case "text":
+			if tt == link_start {
 				state = "link"
-				tokens = newToken(tokens, state, trimLinks(t))
-				// links in tables should be appended as-is
-			} else {
-				appendToToken(tokens, t)
+				newToken("", state, &tokens)
+				break
+			}
+			if tt == text {
+				appendToToken(char, state, tokens)
 			}
 
-		case link_end:
-			if state == "link" {
-				appendToToken(tokens, trimLinks(t))
+		case "link":
+			if tt == link_end {
 				state = "text_start"
-				// handle if link is one token eg. [[hi]]
-			} else if strings.Contains(state, "text") {
-				state = "link"
-				tokens = newToken(tokens, state, trimLinks(t))
-				state = "text_start"
-			} else {
-				appendToToken(tokens, t)
+				break
 			}
-
-		case table_start:
-			if strings.Contains(state, "text") {
-				state = "table"
-				tokens = newToken(tokens, state, trimLinks(t))
-				// tables inside tokens append as is.
-			} else {
-				appendToToken(tokens, t)
-			}
-
-		case table_end:
-			if state == "table" {
-				appendToToken(tokens, trimLinks(t))
-				state = "text_start"
-			} else if strings.Contains(state, "text") {
-				state = "table"
-				tokens = newToken(tokens, state, trimLinks(t))
-				state = "text_start"
-			} else {
-				appendToToken(tokens, t)
+			if tt == text {
+				appendToToken(char, state, tokens)
+				break
 			}
 		}
+
+		i++
 	}
 
 	return tokens
 }
 
-func newToken(tokens TokenCollection, state string, content string) []Token {
-	newTkn := Token{Type: state, Value: []string{content}}
-	return append(tokens, newTkn)
-}
-func appendToToken(tokens TokenCollection, content string) {
-	currTkn := &tokens[len(tokens)-1]
-	currTkn.Value = append(currTkn.Value, content)
-}
+func tokenType(chars []string, i *int) TokenType {
+	if len(chars) == *i+1 {
+		return EOF
+	}
 
-func tokenType(t string) TokenType {
 	tknType := text
+	currChar := chars[*i]
+	nextChar := chars[*i+1]
 
-	if strings.Contains(t, "[[") {
+	if currChar == "[" && nextChar == "[" {
+		*i++
 		tknType = link_start
 	}
-	if strings.Contains(t, "]]") {
+	if currChar == "]" && nextChar == "]" {
+		*i++
 		tknType = link_end
 	}
-	if strings.Contains(t, "{{") {
-		tknType = table_start
-	}
-	if strings.Contains(t, "}}") {
-		tknType = table_end
-	}
+
 	return tknType
+}
+
+func newToken(char string, state string, tokens *TokenCollection) {
+	newTkn := Token{Type: state, Value: char}
+	*tokens = append(*tokens, newTkn)
+}
+func appendToToken(char string, state string, tokens TokenCollection) {
+	if len(tokens) > 0 {
+		currTkn := &tokens[len(tokens)-1]
+		currTkn.Value += char
+	}
 }
 
 func trimText(t string) string {
@@ -155,10 +140,6 @@ func trimRef(t string) string {
 // Prepares document for tokenization.
 func cleanDocument(t string) string {
 	s := cleanHtml(t)
-
-	// add spacing after tables and links to avoid tokenization errors
-	s = strings.ReplaceAll(s, "}}", "}} ")
-	s = strings.ReplaceAll(s, "]]", "]] ")
 
 	// wikitext bold
 	s = strings.ReplaceAll(s, "'''", "")

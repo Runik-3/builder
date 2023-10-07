@@ -1,22 +1,25 @@
 package wikitext
 
 import (
+	"fmt"
 	"strings"
 )
 
 func ParseDefinition(raw string) string {
 	tokens := tokenizer(raw)
-	definition := ""
+	definitionParts := []string{}
 
 	for _, t := range tokens {
-		if t.Type == "text" {
-			definition += strings.Join(t.Value, " ")
-		}
-		if t.Type == "link" {
-			s := strings.Join(t.Value, " ")
-			definition += resolveLink(s)
+		fmt.Println(t)
+		switch t.Type {
+		case "text":
+
+		case "link":
+			break
 		}
 	}
+
+	definition := formatText(strings.Join(definitionParts, " "))
 
 	// take first sentence as definition
 	definition = strings.SplitAfter(definition, ".")[0]
@@ -30,22 +33,28 @@ func ParseDefinition(raw string) string {
 }
 
 // handles the different link types
-func resolveLink(l string) string {
+func resolveLink(linkParts []string) []string {
+	l := strings.Join(linkParts, " ")
+
+	// category, interwiki link, or file
+	if strings.Contains(l, ":") {
+		return []string{}
+	}
+
 	// link with display text [[name of page|display text]]
 	if strings.Contains(l, "|") {
 		parts := strings.Split(l, "|")
 		hasDisplay := len(parts) == 2
 
 		if hasDisplay {
-			return parts[1]
+			return parts[1:]
 		}
-		return ""
+		return []string{}
 	}
 
-	// category or interwiki link
-	if strings.Contains(l, ":") {
-		return ""
-	}
+	return strings.Split(l, " ")
+}
 
-	return l
+func formatText(def string) string {
+	return strings.ReplaceAll(def, "  ", " ")
 }
