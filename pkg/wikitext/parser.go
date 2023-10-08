@@ -1,28 +1,29 @@
 package wikitext
 
 import (
-	"fmt"
 	"strings"
 )
 
 func ParseDefinition(raw string) string {
 	tokens := tokenizer(raw)
-	definitionParts := []string{}
+	definition := ""
 
 	for _, t := range tokens {
-		fmt.Println(t)
 		switch t.Type {
 		case "text":
+			definition += t.Value
 
 		case "link":
-			break
+			definition += resolveLink(t.Value)
 		}
 	}
 
-	definition := formatText(strings.Join(definitionParts, " "))
-
 	// take first sentence as definition
 	definition = strings.SplitAfter(definition, ".")[0]
+	// remove doubled spaces
+	definition = strings.ReplaceAll(definition, "  ", " ")
+	// trim whitespace
+	definition = strings.TrimSpace(definition)
 
 	// TODO - Handle redirects more gracefully instead of removing outright
 	if strings.Contains(definition, "#REDIRECT") || strings.Contains(definition, "#redirect") {
@@ -33,28 +34,22 @@ func ParseDefinition(raw string) string {
 }
 
 // handles the different link types
-func resolveLink(linkParts []string) []string {
-	l := strings.Join(linkParts, " ")
-
+func resolveLink(link string) string {
 	// category, interwiki link, or file
-	if strings.Contains(l, ":") {
-		return []string{}
+	if strings.Contains(link, ":") {
+		return ""
 	}
 
 	// link with display text [[name of page|display text]]
-	if strings.Contains(l, "|") {
-		parts := strings.Split(l, "|")
+	if strings.Contains(link, "|") {
+		parts := strings.Split(link, "|")
 		hasDisplay := len(parts) == 2
 
 		if hasDisplay {
-			return parts[1:]
+			return strings.Join(parts[1:], "")
 		}
-		return []string{}
+		return ""
 	}
 
-	return strings.Split(l, " ")
-}
-
-func formatText(def string) string {
-	return strings.ReplaceAll(def, "  ", " ")
+	return link
 }
