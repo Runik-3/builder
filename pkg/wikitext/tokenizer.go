@@ -2,8 +2,8 @@ package wikitext
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
+	"regexp"
 	"strings"
 )
 
@@ -15,7 +15,6 @@ const (
 	table_start
 	table_end
 	text
-	EOF // <- end of file token
 )
 
 type TokenCollection []Token
@@ -48,7 +47,7 @@ func tokenizer(raw string) TokenCollection {
 
 		switch state {
 		case "text_start":
-			if tt == text || len(tokens) == 0 {
+			if tt == text {
 				state = "text"
 				newToken(char, state, &tokens)
 				break
@@ -92,16 +91,17 @@ func tokenizer(raw string) TokenCollection {
 
 		i++
 	}
-	fmt.Println(tokens)
 	return tokens
 }
 
 func tokenType(chars []string, i *int) TokenType {
+	tknType := text
+
+	// end of file
 	if len(chars) == *i+1 {
-		return EOF
+		return tknType
 	}
 
-	tknType := text
 	currChar := chars[*i]
 	nextChar := chars[*i+1]
 
@@ -136,37 +136,13 @@ func appendToToken(char string, state string, tokens TokenCollection) {
 	}
 }
 
-func trimText(t string) string {
-	s := t
-	// if text node is a link, do not append
-	// likely came from inside a <ref> tag that was removed by the cleanText function
-	if strings.Contains(s, "http://") || strings.Contains(s, "https://") {
-		s = ""
-	}
-	return s
-}
-
-func trimTables(t string) string {
-	s := strings.ReplaceAll(t, "{{", "")
-	s = strings.ReplaceAll(s, "}}", "")
-	return s
-}
-
-func trimLinks(t string) string {
-	s := strings.ReplaceAll(t, "[[", "")
-	s = strings.ReplaceAll(s, "]]", "")
-	return s
-}
-
-func trimRef(t string) string {
-	s := strings.ReplaceAll(t, "<ref>", "")
-	s = strings.ReplaceAll(s, "</ref>", "")
-	return s
-}
-
 // Prepares document for tokenization.
 func cleanDocument(t string) string {
 	s := cleanHtml(t)
+
+	// strip urls from text (likely came from <ref> tags that got cleaned above
+	reg := regexp.MustCompile(`(f|ht)(tp)(s?)(://)(\S*)[.|/](\S*)`)
+	s = reg.ReplaceAllString(s, "")
 
 	// wikitext bold
 	s = strings.ReplaceAll(s, "'''", "")
