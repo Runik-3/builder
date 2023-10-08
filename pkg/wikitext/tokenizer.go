@@ -2,6 +2,7 @@ package wikitext
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"strings"
 )
@@ -47,12 +48,20 @@ func tokenizer(raw string) TokenCollection {
 
 		switch state {
 		case "text_start":
-			state = "text"
-			newToken(char, state, &tokens)
-
+			if tt == text || len(tokens) == 0 {
+				state = "text"
+				newToken(char, state, &tokens)
+				break
+			}
+			fallthrough
 		case "text":
 			if tt == link_start {
 				state = "link"
+				newToken("", state, &tokens)
+				break
+			}
+			if tt == table_start {
+				state = "table"
 				newToken("", state, &tokens)
 				break
 			}
@@ -69,11 +78,21 @@ func tokenizer(raw string) TokenCollection {
 				appendToToken(char, state, tokens)
 				break
 			}
+
+		case "table":
+			if tt == table_end {
+				state = "text_start"
+				break
+			}
+			if tt == text {
+				appendToToken(char, state, tokens)
+				break
+			}
 		}
 
 		i++
 	}
-
+	fmt.Println(tokens)
 	return tokens
 }
 
@@ -93,6 +112,14 @@ func tokenType(chars []string, i *int) TokenType {
 	if currChar == "]" && nextChar == "]" {
 		*i++
 		tknType = link_end
+	}
+	if currChar == "{" && nextChar == "{" {
+		*i++
+		tknType = table_start
+	}
+	if currChar == "}" && nextChar == "}" {
+		*i++
+		tknType = table_end
 	}
 
 	return tknType
