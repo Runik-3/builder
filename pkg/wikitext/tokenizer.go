@@ -141,7 +141,7 @@ func cleanDocument(t string) string {
 	s := cleanHtml(t)
 
 	// strip urls from text (likely came from <ref> tags that got cleaned above
-	reg := regexp.MustCompile(`(f|ht)(tp)(s?)(://)(\S*)[.|/](\S*)`)
+	reg := regexp.MustCompile(`(f|ht)(tp)(s?)(://)(\S*)[.|/]([^\s\]\}]*)`)
 	s = reg.ReplaceAllString(s, "")
 
 	// wikitext bold
