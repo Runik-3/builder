@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 
 	l "github.com/runik-3/builder/pkg/lexicon"
-	"github.com/runik-3/builder/pkg/wikiBot"
+	wikibot "github.com/runik-3/builder/pkg/wikiBot"
 	"github.com/runik-3/builder/pkg/wikitext"
 )
 
@@ -23,7 +23,7 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, entryLimit int) {
 	entries := 0
 
 	// initial call has empty apfrom
-	res := wikibot.GetWikiPages(w, "", entryLimit)
+	res := wikibot.GetWikiPageBatch(w, "", entryLimit)
 
 	// continue?
 	cont := true
@@ -45,8 +45,7 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, entryLimit int) {
 			cont = false
 		}
 
-		// call this get batch or something?
-		res = wikibot.GetWikiPages(w, res.Continue.Apcontinue, entryLimit-entries)
+		res = wikibot.GetWikiPageBatch(w, res.Continue.Apcontinue, entryLimit-entries)
 	}
 
 	fmt.Printf("📖 Found %d entries \n", entries)

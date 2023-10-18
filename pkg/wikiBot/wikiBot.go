@@ -43,7 +43,7 @@ type Main struct {
 	Content string `json:"content"`
 }
 
-func GetWikiPages(w *mwclient.Client, apfrom string, limit int) *AllPagesResponse {
+func GetWikiPageBatch(w *mwclient.Client, apfrom string, limit int) *AllPagesResponse {
 	fetch := PagesToFetch(limit)
 
 	params := map[string]string{
