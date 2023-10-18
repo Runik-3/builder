@@ -11,6 +11,8 @@ func Format(format string, l lexicon.Lexicon) string {
 	switch format {
 	case "json":
 		return json(l)
+	case "df":
+		return df(l)
 	case "csv":
 		return csv(l)
 	case "xdxf":
@@ -28,6 +30,11 @@ func json(l lexicon.Lexicon) string {
 	}
 
 	return string(json)
+}
+
+func df(l lexicon.Lexicon) string {
+	// TODO implement https://pgaskin.net/dictutil/dictgen/
+	return ""
 }
 
 func csv(l lexicon.Lexicon) string {
