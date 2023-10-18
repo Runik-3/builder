@@ -1,12 +1,12 @@
 package dict
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 
+	f "github.com/runik-3/builder/pkg/formatter"
 	l "github.com/runik-3/builder/pkg/lexicon"
 	wikibot "github.com/runik-3/builder/pkg/wikiBot"
 	"github.com/runik-3/builder/pkg/wikitext"
@@ -52,25 +52,22 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, entryLimit int) {
 }
 
 // TODO - support for different formats
-func (d Dict) Write(path string) string {
+func (d Dict) Write(path string, format string) string {
 	p := path
 
-	fileName := fmt.Sprintf("%s.json", d.Name)
+	fileName := fmt.Sprintf("%s.%s", d.Name, format)
 	normalizedPath := filepath.Join(filepath.FromSlash(p), fileName)
 
-	f, fileErr := os.Create(normalizedPath)
+	file, fileErr := os.Create(normalizedPath)
 	if fileErr != nil {
 		log.Fatal(fileErr)
 	}
 
-	defer f.Close()
+	defer file.Close()
 
-	json, marshalErr := json.Marshal(d.Lex)
-	if fileErr != nil {
-		log.Fatal(marshalErr)
-	}
+	formatted := f.Format(format, *d.Lex)
 
-	_, writeErr := f.WriteString(string(json))
+	_, writeErr := file.WriteString(formatted)
 	if fileErr != nil {
 		log.Fatal(writeErr)
 	}
