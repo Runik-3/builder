@@ -53,10 +53,10 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, entryLimit int) {
 
 // TODO - support for different formats
 func (d Dict) Write(path string, format string) string {
-	p := path
+	formattedText := f.Format(format, *d.Lex)
 
 	fileName := fmt.Sprintf("%s.%s", d.Name, format)
-	normalizedPath := filepath.Join(filepath.FromSlash(p), fileName)
+	normalizedPath := filepath.Join(filepath.FromSlash(path), fileName)
 
 	file, fileErr := os.Create(normalizedPath)
 	if fileErr != nil {
@@ -65,9 +65,7 @@ func (d Dict) Write(path string, format string) string {
 
 	defer file.Close()
 
-	formatted := f.Format(format, *d.Lex)
-
-	_, writeErr := file.WriteString(formatted)
+	_, writeErr := file.WriteString(formattedText)
 	if fileErr != nil {
 		log.Fatal(writeErr)
 	}
