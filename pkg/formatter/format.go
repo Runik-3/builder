@@ -2,6 +2,7 @@ package formatter
 
 import (
 	j "encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/runik-3/builder/pkg/lexicon"
@@ -33,8 +34,13 @@ func json(l lexicon.Lexicon) string {
 }
 
 func df(l lexicon.Lexicon) string {
-	// TODO implement https://pgaskin.net/dictutil/dictgen/
-	return ""
+	dictFile := ""
+
+	for _, v := range l {
+		dictFile += fmt.Sprintf("@ %s\n%s\n", v.Word, v.Definition)
+	}
+
+	return dictFile
 }
 
 func csv(l lexicon.Lexicon) string {
