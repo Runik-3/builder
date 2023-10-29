@@ -12,7 +12,7 @@ The mediawiki URL used as a target to build the dictionary (eg. https://stardust
 
 #### `-n` Name
 
-The file [n]ame of the generated dictionary file (extension added automatically). If no name is passed in, the file name will default to the subdomain of the target wiki (eg. red-rising.fandom.com becomes red-rising.json).
+The file [n]ame of the generated dictionary file (extension added automatically). If no name is passed in, the file name will default to the subdomain of the target wiki (eg. `red-rising.fandom.com` becomes `red-rising.json`).
 
 #### `-o` Output directory
 
