@@ -28,6 +28,7 @@ func BuildDictionary(wikiUrl string, name string, output string, entryLimit int,
 
 	dict := d.Dict{Name: dictName, Lex: l.New()}
 	dict.GenerateDefinitionsFromWiki(utils.FormatUrl(wikiUrl), entryLimit)
+
 	if output != "" {
 		dict.Write(output, format)
 	}

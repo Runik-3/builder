@@ -2,13 +2,15 @@ package wikibot
 
 import (
 	"encoding/json"
+	"io"
+	"log"
+	"net/http"
+	"net/url"
 	"strconv"
-
-	"cgt.name/pkg/go-mwclient"
 )
 
 type AllPagesResponse struct {
-	Batchcomplete bool     `json:"batchcomplete"`
+	Batchcomplete string   `json:"batchcomplete"`
 	Continue      Continue `json:"continue"`
 	Query         AllPages `json:"query"`
 }
@@ -19,7 +21,7 @@ type Continue struct {
 }
 
 type AllPages struct {
-	Pages []Page `json:"pages"`
+	Pages map[string]Page `json:"pages"`
 }
 
 type Page struct {
@@ -29,6 +31,7 @@ type Page struct {
 	Revisions []Revision `json:"revisions"`
 }
 
+// -- todo make this interface compatible with the deprecated revisions structure
 type Revision struct {
 	Slots Slot `json:"slots"`
 }
@@ -40,40 +43,43 @@ type Slot struct {
 type Main struct {
 	Model   string `json:"contentmodel"`
 	Format  string `json:"contentformat"`
-	Content string `json:"content"`
+	Content string `json:"*"`
 }
 
-func GetWikiPageBatch(w *mwclient.Client, apfrom string, limit int) *AllPagesResponse {
-	fetch := PagesToFetch(limit)
-
-	params := map[string]string{
-		"action":    "query",
-		"generator": "allpages",
-		"gaplimit":  strconv.Itoa(fetch),
-		"gapfrom":   apfrom,
-		"prop":      "revisions",
-		"rvprop":    "content",
-		"rvslots":   "main",
+// fetches batch of entries and unmarshalls the result
+func GetWikiPageBatch(baseUrl string, apfrom string, limit int) *AllPagesResponse {
+	params := url.Values{
+		"action":    {"query"},
+		"generator": {"allpages"},
+		"gaplimit":  {strconv.Itoa(PagesToFetch(limit))},
+		"gapfrom":   {apfrom},
+		"prop":      {"revisions"},
+		"rvprop":    {"content"},
+		"rvslots":   {"main"},
+		"format":    {"json"},
 	}
 
-	resp, err := w.GetRaw(params)
+	queryUrl, err := url.Parse(baseUrl)
 	if err != nil {
-		panic(err)
+		log.Fatalf(err.Error())
 	}
+	queryUrl.RawQuery = params.Encode()
+
+	res, resErr := http.Get(queryUrl.String())
+	if resErr != nil {
+		log.Fatalf(resErr.Error())
+	}
+
+	defer res.Body.Close()
+	body, err := io.ReadAll(res.Body)
 
 	var data AllPagesResponse
-	json.Unmarshal([]byte(resp), &data)
-
-	return &data
-}
-
-func CreateClient(url string) *mwclient.Client {
-	w, err := mwclient.New(url, "myWikibot")
-	if err != nil {
-		panic(err)
+	e := json.Unmarshal(body, &data)
+	if e != nil {
+		log.Fatalf(e.Error())
 	}
 
-	return w
+	return &data
 }
 
 func PagesToFetch(left int) int {

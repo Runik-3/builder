@@ -18,12 +18,10 @@ type Dict struct {
 }
 
 func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, entryLimit int) {
-	w := wikibot.CreateClient(wikiUrl)
-
 	entries := 0
 
 	// initial call has empty apfrom
-	res := wikibot.GetWikiPageBatch(w, "", entryLimit)
+	res := wikibot.GetWikiPageBatch(wikiUrl, "", entryLimit)
 
 	// continue?
 	cont := true
@@ -45,13 +43,13 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, entryLimit int) {
 			cont = false
 		}
 
-		res = wikibot.GetWikiPageBatch(w, res.Continue.Apcontinue, entryLimit-entries)
+		res = wikibot.GetWikiPageBatch(wikiUrl, res.Continue.Apcontinue, entryLimit-entries)
 	}
 
 	fmt.Printf("📖 Found %d entries \n", entries)
 }
 
-// TODO - support for different formats
+// TODO - support for more formats: csv, xdxf, etc.
 func (d Dict) Write(path string, format string) string {
 	formattedText := f.Format(format, *d.Lex)
 
