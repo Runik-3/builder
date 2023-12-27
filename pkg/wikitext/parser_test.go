@@ -11,6 +11,7 @@ func TestParser(t *testing.T) {
 		{"{{Gold_Character\n|title1 =  [[File:Gold_Sigil.png|left|50px]] Ajax [[File:Gold_Sigil.png|right|50px]]\n|image1 =  Ajax.png \n|caption1 = \n|alias(es) = Storm Knight (as of 754 PCE)\n|gender = Male|age = ~23 (Dark Age)\n}}\n'''Ajax au Grimmus''' is the son of [[Aja au Grimmus]] and [[Atlas au Raa]].", "Ajax au Grimmus is the son of Aja au Grimmus and Atlas au Raa."},
 		{"[[File:Inn.jpg|thumb]][[Lamia]] created the '''Inn''' to trick [[Yvaine]] into believing that she was a simple Inn keeper's Wife.", "Lamia created the Inn to trick Yvaine into believing that she was a simple Inn keeper's Wife."},
 		{"{{quote|We found him wandering around, with a candle.|A scriv about [[Kvothe]]{{ref|TNOTW}}}}\n\n[[File:Kvothe by ladyroadx-d4hvaki.jpg|thumb|290px|Fan Art by\nhttp://ladyroadx.deviantart.com/]]\n\nA '''Scriv''' is a student who works under [[Master Lorren]], specifically in [[University|The University's]] [[The Archives|Archives]].", "A Scriv is a student who works under Master Lorren, specifically in The University's Archives."},
+		{"{{Infobox character\n|Appearances = {{TombsOfAtuan}}\n|Mentioned = \n}}\n'''Kossil''' is a Priestess", "Kossil is a Priestess"},
 	}
 
 	for _, c := range cases {

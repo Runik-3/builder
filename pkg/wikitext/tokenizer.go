@@ -17,6 +17,8 @@ const (
 	text
 )
 
+// Since we only care about text content, tokenized results are
+// represented as a flat collection.
 type TokenCollection []Token
 
 type Token struct {
@@ -24,7 +26,7 @@ type Token struct {
 	Value string
 }
 
-func (t TokenCollection) Stringify() string {
+func (t *TokenCollection) Stringify() string {
 	json, err := json.Marshal(t)
 	if err != nil {
 		log.Fatal(err)
@@ -33,10 +35,33 @@ func (t TokenCollection) Stringify() string {
 	return string(json)
 }
 
+type State []string
+
+func (s State) getState() string {
+	return s[len(s)-1]
+}
+
+func (s State) pop() State {
+	if len(s) > 0 {
+		return s[0 : len(s)-1]
+	}
+	return s
+}
+
+func (s State) set(state string) State {
+	return append(s.pop(), state)
+}
+
+func (s State) len() int {
+	return len(s)
+}
+
+// returns a flat collection of tokens, but respects nested
+// token types like tables.
 func tokenizer(raw string) TokenCollection {
 	cleaned := cleanDocument(raw)
 	tokens := TokenCollection{}
-	state := "text_start"
+	state := State{"text_start"}
 
 	characters := strings.Split(cleaned, "")
 
@@ -45,46 +70,56 @@ func tokenizer(raw string) TokenCollection {
 		char := characters[i]
 		tt := tokenType(characters, &i)
 
-		switch state {
+		switch state.getState() {
 		case "text_start":
 			if tt == text {
-				state = "text"
+				state = state.set("text")
 				newToken(char, state, &tokens)
 				break
 			}
 			fallthrough
 		case "text":
 			if tt == link_start {
-				state = "link"
+				state = state.set("link")
 				newToken("", state, &tokens)
 				break
 			}
 			if tt == table_start {
-				state = "table"
+				state = state.set("table")
 				newToken("", state, &tokens)
 				break
 			}
 			if tt == text {
-				appendToToken(char, state, tokens)
+				appendToToken(char, tokens)
 			}
 
 		case "link":
 			if tt == link_end {
-				state = "text_start"
+				state = state.set("text_start")
 				break
 			}
 			if tt == text {
-				appendToToken(char, state, tokens)
+				appendToToken(char, tokens)
 				break
 			}
 
 		case "table":
+			if tt == table_start {
+				state = append(state, "table")
+				break
+			}
 			if tt == table_end {
-				state = "text_start"
+				// check stack and assign appropriate state
+				if state.len() == 1 {
+					state = state.set("text_start")
+				} else {
+					appendToToken("", tokens) // close table
+					state = state.pop()
+				}
 				break
 			}
 			if tt == text {
-				appendToToken(char, state, tokens)
+				appendToToken(char, tokens)
 				break
 			}
 		}
@@ -125,11 +160,11 @@ func tokenType(chars []string, i *int) TokenType {
 	return tknType
 }
 
-func newToken(char string, state string, tokens *TokenCollection) {
-	newTkn := Token{Type: state, Value: char}
+func newToken(char string, state State, tokens *TokenCollection) {
+	newTkn := Token{Type: state.getState(), Value: char}
 	*tokens = append(*tokens, newTkn)
 }
-func appendToToken(char string, state string, tokens TokenCollection) {
+func appendToToken(char string, tokens TokenCollection) {
 	if len(tokens) > 0 {
 		currTkn := &tokens[len(tokens)-1]
 		currTkn.Value += char
