@@ -28,7 +28,7 @@ func ParseDefinition(raw string, depth int) string {
 	definition = strings.TrimSpace(definition)
 
 	// TODO - Handle redirects more gracefully instead of removing outright
-	if strings.Contains(definition, "#REDIRECT") || strings.Contains(definition, "#redirect") {
+	if strings.Contains(strings.ToLower(definition), "#redirect") {
 		return ""
 	}
 
