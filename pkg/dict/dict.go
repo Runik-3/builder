@@ -17,7 +17,7 @@ type Dict struct {
 	Lex  *l.Lexicon
 }
 
-func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, entryLimit int) {
+func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit int) {
 	entries := 0
 
 	// initial call has empty apfrom
@@ -28,7 +28,7 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, entryLimit int) {
 
 	for cont {
 		for _, p := range res.Query.Pages {
-			def := wikitext.ParseDefinition(p.Revisions[0].Slots.Main.Content)
+			def := wikitext.ParseDefinition(p.Revisions[0].Slots.Main.Content, depth)
 			if def != "" {
 				d.Lex.Add(l.Entry{Word: p.Title, Definition: def})
 				entries++

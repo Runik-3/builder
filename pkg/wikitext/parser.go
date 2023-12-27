@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-func ParseDefinition(raw string) string {
+func ParseDefinition(raw string, depth int) string {
 	tokens := tokenizer(raw)
 	definition := ""
 
@@ -18,8 +18,10 @@ func ParseDefinition(raw string) string {
 		}
 	}
 
-	// take first sentence as definition
-	definition = strings.SplitAfter(definition, ".")[0]
+	// resolve depth of definition
+	sentences := strings.SplitAfter(definition, ".")[0:depth]
+	definition = strings.Join(sentences, "")
+
 	// remove doubled spaces
 	definition = strings.ReplaceAll(definition, "  ", " ")
 	// trim whitespace
