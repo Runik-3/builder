@@ -1,6 +1,9 @@
 package wikitext
 
-import "testing"
+import (
+	"strconv"
+	"testing"
+)
 
 func TestParser(t *testing.T) {
 	cases := [][]string{
@@ -15,7 +18,24 @@ func TestParser(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		r := ParseDefinition(c[0])
+		r := ParseDefinition(c[0], 1)
+		if r != c[1] {
+			t.Fatalf("\nWant:\n%s\n\nRecieved:\n%s", c[1], r)
+		}
+	}
+}
+
+func TestParserDepth(t *testing.T) {
+
+	cases := [][]string{
+		{"'''Kossil''' is a Priestess at the Place of the Tombs of Atuan. She serves as the High Priestess of the Godking. She, along with [[Thar]] and [[Tenar]], are the high authorities there.", "Kossil is a Priestess at the Place of the Tombs of Atuan.", "1"},
+		{"'''Kossil''' is a Priestess at the Place of the Tombs of Atuan. She serves as the High Priestess of the Godking. She, along with [[Thar]] and [[Tenar]], are the high authorities there.", "Kossil is a Priestess at the Place of the Tombs of Atuan. She serves as the High Priestess of the Godking.", "2"},
+		{"'''Kossil''' is a Priestess at the Place of the Tombs of Atuan. She serves as the High Priestess of the Godking. She, along with [[Thar]] and [[Tenar]], are the high authorities there.", "Kossil is a Priestess at the Place of the Tombs of Atuan. She serves as the High Priestess of the Godking. She, along with Thar and Tenar, are the high authorities there.", "3"},
+	}
+
+	for _, c := range cases {
+		depth, _ := strconv.Atoi(c[2])
+		r := ParseDefinition(c[0], depth)
 		if r != c[1] {
 			t.Fatalf("\nWant:\n%s\n\nRecieved:\n%s", c[1], r)
 		}
