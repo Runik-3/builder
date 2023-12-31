@@ -5,7 +5,7 @@ import (
 	"github.com/runik-3/builder/pkg/utils"
 )
 
-func BuildDictionary(wikiUrl string, name string, output string, entryLimit int, depth int, format string) {
+func BuildDictionary(wikiUrl string, name string, output string, entryLimit int, depth int, format string) d.Dict {
 	dict := d.Dict{Lex: d.Lexicon{}}
 
 	dictName := name
@@ -19,4 +19,6 @@ func BuildDictionary(wikiUrl string, name string, output string, entryLimit int,
 	if output != "" {
 		dict.Write(output, format)
 	}
+
+	return dict
 }
