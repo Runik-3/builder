@@ -3,9 +3,7 @@ package main
 import (
 	"flag"
 
-	d "github.com/runik-3/builder/pkg/dict"
-	l "github.com/runik-3/builder/pkg/lexicon"
-	"github.com/runik-3/builder/pkg/utils"
+	"github.com/runik-3/builder/pkg/builder"
 )
 
 func main() {
@@ -18,21 +16,5 @@ func main() {
 
 	flag.Parse()
 
-	BuildDictionary(*wikiUrl, *name, *output, *entryLimit, *depth, *format)
-}
-
-func BuildDictionary(wikiUrl string, name string, output string, entryLimit int, depth int, format string) d.Dict {
-	dictName := name
-	if dictName == "" {
-		dictName = utils.NameFromWiki(wikiUrl)
-	}
-
-	dict := d.Dict{Name: dictName, Lex: l.New()}
-	dict.GenerateDefinitionsFromWiki(utils.FormatUrl(wikiUrl), depth, entryLimit)
-
-	if output != "" {
-		dict.Write(output, format)
-	}
-
-	return dict
+	builder.BuildDictionary(*wikiUrl, *name, *output, *entryLimit, *depth, *format)
 }

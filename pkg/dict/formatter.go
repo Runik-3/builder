@@ -1,14 +1,12 @@
-package formatter
+package dict
 
 import (
 	j "encoding/json"
 	"fmt"
 	"log"
-
-	"github.com/runik-3/builder/pkg/lexicon"
 )
 
-func Format(format string, l lexicon.Lexicon) string {
+func Format(format string, l Lexicon) string {
 	switch format {
 	case "json":
 		return json(l)
@@ -24,7 +22,7 @@ func Format(format string, l lexicon.Lexicon) string {
 	}
 }
 
-func json(l lexicon.Lexicon) string {
+func json(l Lexicon) string {
 	json, marshalErr := j.Marshal(l)
 	if marshalErr != nil {
 		log.Fatal(marshalErr)
@@ -33,7 +31,7 @@ func json(l lexicon.Lexicon) string {
 	return string(json)
 }
 
-func df(l lexicon.Lexicon) string {
+func df(l Lexicon) string {
 	dictFile := ""
 
 	for _, v := range l {
@@ -43,12 +41,12 @@ func df(l lexicon.Lexicon) string {
 	return dictFile
 }
 
-func csv(l lexicon.Lexicon) string {
+func csv(l Lexicon) string {
 	// TODO implement
 	return ""
 }
 
-func xdxf(l lexicon.Lexicon) string {
+func xdxf(l Lexicon) string {
 	// TODO implement
 	return ""
 }

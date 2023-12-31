@@ -6,15 +6,34 @@ import (
 	"os"
 	"path/filepath"
 
-	f "github.com/runik-3/builder/pkg/formatter"
-	l "github.com/runik-3/builder/pkg/lexicon"
 	wikibot "github.com/runik-3/builder/pkg/wikiBot"
 	"github.com/runik-3/builder/pkg/wikitext"
 )
 
+type Entry struct {
+	Word       string
+	Definition string
+}
+
+type Lexicon map[string]Entry
+
+func (l Lexicon) Add(e Entry) {
+	l[e.Word] = e
+}
+
+func (l Lexicon) Print() {
+	fmt.Println("Lexicon (definition -- word)")
+	fmt.Println("-------------------------------")
+	i := 1
+	for _, v := range l {
+		fmt.Printf("%d. %s -- %s\n", i, v.Word, v.Definition)
+		i++
+	}
+}
+
 type Dict struct {
 	Name string
-	Lex  *l.Lexicon
+	Lex  Lexicon
 }
 
 func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit int) {
@@ -30,7 +49,7 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit 
 		for _, p := range res.Query.Pages {
 			def := wikitext.ParseDefinition(p.Revisions[0].Slots.Main.Content, depth)
 			if def != "" {
-				d.Lex.Add(l.Entry{Word: p.Title, Definition: def})
+				d.Lex.Add(Entry{Word: p.Title, Definition: def})
 				entries++
 			}
 		}
@@ -51,7 +70,7 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit 
 
 // TODO - support for more formats: csv, xdxf, etc.
 func (d Dict) Write(path string, format string) string {
-	formattedText := f.Format(format, *d.Lex)
+	formattedText := Format(format, d.Lex)
 
 	fileName := fmt.Sprintf("%s.%s", d.Name, format)
 	normalizedPath := filepath.Join(filepath.FromSlash(path), fileName)
