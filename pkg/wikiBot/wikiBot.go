@@ -1,12 +1,10 @@
 package wikibot
 
 import (
-	"encoding/json"
-	"io"
-	"log"
-	"net/http"
 	"net/url"
 	"strconv"
+
+	"github.com/runik-3/builder/pkg/utils"
 )
 
 type AllPagesResponse struct {
@@ -47,7 +45,8 @@ type Main struct {
 }
 
 // fetches batch of entries and unmarshalls the result
-func GetWikiPageBatch(baseUrl string, apfrom string, limit int) *AllPagesResponse {
+func GetWikiPageBatch(baseUrl string, apfrom string, limit int) AllPagesResponse {
+	// build query params
 	params := url.Values{
 		"action":    {"query"},
 		"generator": {"allpages"},
@@ -59,35 +58,15 @@ func GetWikiPageBatch(baseUrl string, apfrom string, limit int) *AllPagesRespons
 		"format":    {"json"},
 	}
 
-	queryUrl, err := url.Parse(baseUrl)
-	if err != nil {
-		log.Fatalf(err.Error())
-	}
-	queryUrl.RawQuery = params.Encode()
-
-	res, resErr := http.Get(queryUrl.String())
-	if resErr != nil {
-		log.Fatalf(resErr.Error())
-	}
-
-	defer res.Body.Close()
-	body, err := io.ReadAll(res.Body)
-
-	var data AllPagesResponse
-	e := json.Unmarshal(body, &data)
-	if e != nil {
-		log.Fatalf(e.Error())
-	}
-
-	return &data
+	return utils.GetRequest[AllPagesResponse](baseUrl, params)
 }
 
 func PagesToFetch(left int) int {
 	// maximum page entries you can fetch and still get full revisions
-	const maxPages = 50
+	const MaxPages = 50
 
-	if left < maxPages {
+	if left < MaxPages {
 		return left
 	}
-	return maxPages
+	return MaxPages
 }
