@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	wikibot "github.com/runik-3/builder/pkg/wikiBot"
-	"github.com/runik-3/builder/pkg/wikitext"
+	"github.com/runik-3/builder/internal/wikitext"
+	wikibot "github.com/runik-3/builder/wikiBot"
 )
 
 type Entry struct {

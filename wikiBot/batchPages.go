@@ -4,7 +4,7 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/runik-3/builder/pkg/utils"
+	"github.com/runik-3/builder/internal/utils"
 )
 
 type AllPagesResponse struct {

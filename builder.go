@@ -1,8 +1,8 @@
-package builder
+package main
 
 import (
-	d "github.com/runik-3/builder/pkg/dict"
-	"github.com/runik-3/builder/pkg/utils"
+	d "github.com/runik-3/builder/dict"
+	"github.com/runik-3/builder/internal/utils"
 )
 
 func BuildDictionary(wikiUrl string, name string, output string, entryLimit int, depth int, format string) d.Dict {

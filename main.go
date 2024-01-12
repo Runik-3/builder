@@ -2,8 +2,6 @@ package main
 
 import (
 	"flag"
-
-	"github.com/runik-3/builder/pkg/builder"
 )
 
 func main() {
@@ -16,5 +14,5 @@ func main() {
 
 	flag.Parse()
 
-	builder.BuildDictionary(*wikiUrl, *name, *output, *entryLimit, *depth, *format)
+	BuildDictionary(*wikiUrl, *name, *output, *entryLimit, *depth, *format)
 }
