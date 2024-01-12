@@ -10,7 +10,7 @@ import (
 type AllPagesResponse struct {
 	Batchcomplete string   `json:"batchcomplete"`
 	Continue      Continue `json:"continue"`
-	Query         Pages    `json:"query"`
+	Query         Query    `json:"query"`
 }
 
 type Continue struct {
@@ -58,7 +58,7 @@ func GetWikiPageBatch(baseUrl string, apfrom string, limit int) AllPagesResponse
 	params.Add("action", "query")
 	params.Add("format", "json")
 	params.Add("generator", "allpages")
-	params.Add("gaplimit", strconv.Itoa(PagesToFetch(limit)))
+	params.Add("gaplimit", strconv.Itoa(pagesToFetch(limit)))
 	params.Add("gapfrom", apfrom)
 	params.Add("prop", "revisions")
 	params.Add("rvprop", "content")
@@ -67,7 +67,7 @@ func GetWikiPageBatch(baseUrl string, apfrom string, limit int) AllPagesResponse
 	return utils.GetRequest[AllPagesResponse](baseUrl, params)
 }
 
-func PagesToFetch(left int) int {
+func pagesToFetch(left int) int {
 	// maximum page entries you can fetch and still get full revisions
 	const MaxPages = 50
 

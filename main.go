@@ -2,10 +2,10 @@ package main
 
 import (
 	"flag"
+	"log"
 )
 
 func main() {
-	wikiUrl := flag.String("w", "", "The wiki api url (eg. https://examplewiki.org/api.php).")
 	entryLimit := flag.Int("l", 10000, "The maximum number of entries in the dictionary.")
 	depth := flag.Int("d", 1, "How many sentences make up each definition.")
 	name := flag.String("n", "", "The file name of the generated dictionary (extension added automatically).")
@@ -13,6 +13,20 @@ func main() {
 	format := flag.String("f", "json", "Format of the output file.")
 
 	flag.Parse()
+	args := flag.Args()
+	command := args[0]
+	wikiUrl := args[1]
 
-	BuildDictionary(*wikiUrl, *name, *output, *entryLimit, *depth, *format)
+	if len(args) < 2 {
+		log.Fatal("You must provide at least two arguments.")
+	}
+
+	switch command {
+	case "generate":
+		BuildDictionary(wikiUrl, *name, *output, *entryLimit, *depth, *format)
+	case "info":
+		printWikiDetails(wikiUrl)
+	default:
+		log.Fatalf("%s is not a valid command. See help for more options.", args[0])
+	}
 }
