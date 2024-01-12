@@ -10,7 +10,7 @@ import (
 type AllPagesResponse struct {
 	Batchcomplete string   `json:"batchcomplete"`
 	Continue      Continue `json:"continue"`
-	Query         AllPages `json:"query"`
+	Query         Pages    `json:"query"`
 }
 
 type Continue struct {
@@ -18,15 +18,22 @@ type Continue struct {
 	Continue   string `json:"continue"`
 }
 
-type AllPages struct {
+type Pages struct {
 	Pages map[string]Page `json:"pages"`
 }
 
 type Page struct {
-	Ns        int        `json:"ns"`
 	PageId    int        `json:"pageid"`
 	Title     string     `json:"title"`
 	Revisions []Revision `json:"revisions"`
+	LangLinks []Lang     `json:"langlinks"`
+}
+
+type Lang struct {
+	Lang     string `json:"lang"`
+	LangName string `json:"langname"`
+	Autonym  string `json:"autonym"`
+	Url      string `json:"url"`
 }
 
 // -- todo make this interface compatible with the deprecated revisions structure
@@ -46,17 +53,16 @@ type Main struct {
 
 // fetches batch of entries and unmarshalls the result
 func GetWikiPageBatch(baseUrl string, apfrom string, limit int) AllPagesResponse {
-	// build query params
-	params := url.Values{
-		"action":    {"query"},
-		"generator": {"allpages"},
-		"gaplimit":  {strconv.Itoa(PagesToFetch(limit))},
-		"gapfrom":   {apfrom},
-		"prop":      {"revisions"},
-		"rvprop":    {"content"},
-		"rvslots":   {"main"},
-		"format":    {"json"},
-	}
+	// define query params
+	params := url.Values{}
+	params.Add("action", "query")
+	params.Add("format", "json")
+	params.Add("generator", "allpages")
+	params.Add("gaplimit", strconv.Itoa(PagesToFetch(limit)))
+	params.Add("gapfrom", apfrom)
+	params.Add("prop", "revisions")
+	params.Add("rvprop", "content")
+	params.Add("rvslots", "main")
 
 	return utils.GetRequest[AllPagesResponse](baseUrl, params)
 }
