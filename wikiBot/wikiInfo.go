@@ -1,6 +1,7 @@
 package wikibot
 
 import (
+	"fmt"
 	"net/url"
 
 	"github.com/runik-3/builder/internal/utils"
@@ -77,4 +78,29 @@ func wikiLanguages(wikiUrl string, mainPage string) WikiDetailsResponse {
 	params.Add("titles", mainPage)
 
 	return utils.GetRequest[WikiDetailsResponse](wikiUrl, params)
+}
+
+func PrintWikiDetails(wikiUrl string) {
+	details := GetWikiDetails(wikiUrl)
+
+	fmt.Printf("Wiki title: %s\n", details.SiteName)
+	fmt.Printf("Language: %s\n", details.Lang)
+	fmt.Printf("Size: %d entries\n", details.Articles)
+
+	langs := []Lang{}
+	for _, lang := range details.Languages {
+		langs = append(langs, lang)
+	}
+
+	if len(langs) > 0 {
+		fmt.Print("Other supported languages: ")
+		// supported langs
+		for i, lang := range langs {
+			fmt.Printf("%s", lang.LangName)
+			if i < len(langs)-1 {
+				fmt.Print(", ")
+			}
+		}
+		fmt.Println()
+	}
 }

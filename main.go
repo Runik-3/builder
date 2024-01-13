@@ -3,6 +3,9 @@ package main
 import (
 	"flag"
 	"log"
+
+	"github.com/runik-3/builder/dict"
+	wikibot "github.com/runik-3/builder/wikiBot"
 )
 
 func main() {
@@ -23,9 +26,10 @@ func main() {
 
 	switch command {
 	case "generate":
-		BuildDictionary(wikiUrl, *name, *output, *entryLimit, *depth, *format)
+
+		dict.BuildDictionary(wikiUrl, *name, *output, *entryLimit, *depth, *format)
 	case "info":
-		printWikiDetails(wikiUrl)
+		wikibot.PrintWikiDetails(wikiUrl)
 	default:
 		log.Fatalf("%s is not a valid command. See help for more options.", args[0])
 	}
