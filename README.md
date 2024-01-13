@@ -1,6 +1,8 @@
 # Runik Builder
 
-A library that generates e-reader compatible dictionaries from MediaWikis.
+A library that generates e-reader compatible dictionaries for your favourite fictional works using MediaWikis.
+
+Using the content from MediaWiki sites, Builder parses each page as a dictionary entry -- the title of the page becomes the word, and the content becomes the definition. 
 
 ## CLI use
 
@@ -27,7 +29,7 @@ Other supported languages: Spanish, Hungarian, Turkish
 
 ### Generate Dictionary
 
-Generate dictionary based on the articles of a mediawiki-compatible wiki. The generate command requires a wiki url and takes a series of optional flags.
+Generates an e-reader dictionary based on the pages of a mediawiki-compatible wiki. The generate command requires a wiki url and takes a series of optional flags.
 
 A mediawiki URL used as the target to parse and build the dictionary (eg. https://stardust.fandom.com/api.php).
 
