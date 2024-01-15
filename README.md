@@ -103,7 +103,7 @@ type WikiDetails struct {
 	Languages []Lang
 }
 
-func GetWikiDetails(wikiUrl string) WikiDetails
+func GetWikiDetails(wikiUrl string) (WikiDetails, error)
 ```
 
 ### Generate Dictionary
@@ -130,5 +130,5 @@ func BuildDictionary(
   entryLimit int,
   depth int,
   format string
-) Dict
+) (Dict, error)
 ```
