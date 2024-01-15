@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/runik-3/builder/internal/wikitext"
-	wikibot "github.com/runik-3/builder/wikiBot"
+	wikibot "github.com/runik-3/builder/wikibot"
 )
 
 type Entry struct {
@@ -36,11 +36,14 @@ type Dict struct {
 	Lex  Lexicon
 }
 
-func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit int) {
+func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit int) error {
 	entries := 0
 
 	// initial call has empty apfrom
-	res := wikibot.GetWikiPageBatch(wikiUrl, "", entryLimit)
+	res, batchErr := wikibot.GetWikiPageBatch(wikiUrl, "", entryLimit) //**
+	if batchErr != nil {
+		return batchErr
+	}
 
 	// continue?
 	cont := true
@@ -62,16 +65,21 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit 
 			cont = false
 		}
 
-		res = wikibot.GetWikiPageBatch(wikiUrl, res.Continue.Apcontinue, entryLimit-entries)
+		res, batchErr = wikibot.GetWikiPageBatch(wikiUrl, res.Continue.Apcontinue, entryLimit-entries)
+		if batchErr != nil {
+			return batchErr
+		}
 	}
 
 	fmt.Printf("📖 Found %d entries \n", entries)
+	return nil
 }
 
 // TODO - support for more formats: csv, xdxf, etc.
 func (d Dict) Write(path string, format string) string {
 	formattedText := Format(format, d.Lex)
 
+	fmt.Println(d.Name, path)
 	fileName := fmt.Sprintf("%s.%s", d.Name, format)
 	normalizedPath := filepath.Join(filepath.FromSlash(path), fileName)
 

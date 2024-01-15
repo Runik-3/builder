@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"github.com/runik-3/builder/dict"
-	wikibot "github.com/runik-3/builder/wikiBot"
+	wikibot "github.com/runik-3/builder/wikibot"
 )
 
 func main() {
@@ -26,8 +26,10 @@ func main() {
 
 	switch command {
 	case "generate":
-
-		dict.BuildDictionary(wikiUrl, *name, *output, *entryLimit, *depth, *format)
+		_, dictErr := dict.BuildDictionary(wikiUrl, *name, *output, *entryLimit, *depth, *format)
+		if dictErr != nil {
+			log.Fatalf("There was an error building the dictionary:\n%e", dictErr)
+		}
 	case "info":
 		wikibot.PrintWikiDetails(wikiUrl)
 	default:

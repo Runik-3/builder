@@ -43,33 +43,39 @@ type WikiDetails struct {
 // fetches details about the requested wiki including,
 // name, size, and supported languages.
 // returns err if wiki url is invalid.
-func GetWikiDetails(wikiUrl string) WikiDetails { // do some parsing and return a better shape
+func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing and return a better shape
 	params := url.Values{}
 	params.Add("action", "query")
 	params.Add("format", "json")
 	params.Add("meta", "siteinfo")
 	params.Add("siprop", "statistics|general")
 
-	details := utils.GetRequest[WikiDetailsResponse](wikiUrl, params)
-	langsDetails := wikiLanguages(wikiUrl, details.Query.General.MainPage)
+	wikiDetailsRes, detailsErr := utils.GetRequest[WikiDetailsResponse](wikiUrl, params)
+	if detailsErr != nil {
+		return WikiDetails{}, detailsErr
+	}
+	wikiLangsRes, langErr := wikiLanguages(wikiUrl, wikiDetailsRes.Query.General.MainPage)
+	if langErr != nil {
+		return WikiDetails{}, langErr
+	}
 
 	langs := []Lang{}
-	for _, p := range langsDetails.Query.Pages {
+	for _, p := range wikiLangsRes.Query.Pages {
 		langs = append(langs, p.LangLinks...)
 	}
 
 	return WikiDetails{
-		SiteName:  details.Query.General.SiteName,
-		MainPage:  details.Query.General.MainPage,
-		Lang:      details.Query.General.Lang,
-		Logo:      details.Query.General.Logo,
-		Pages:     details.Query.Statistics.Pages,
-		Articles:  details.Query.Statistics.Articles,
+		SiteName:  wikiDetailsRes.Query.General.SiteName,
+		MainPage:  wikiDetailsRes.Query.General.MainPage,
+		Lang:      wikiDetailsRes.Query.General.Lang,
+		Logo:      wikiDetailsRes.Query.General.Logo,
+		Pages:     wikiDetailsRes.Query.Statistics.Pages,
+		Articles:  wikiDetailsRes.Query.Statistics.Articles,
 		Languages: langs,
-	}
+	}, nil
 }
 
-func wikiLanguages(wikiUrl string, mainPage string) WikiDetailsResponse {
+func wikiLanguages(wikiUrl string, mainPage string) (WikiDetailsResponse, error) {
 	params := url.Values{}
 	params.Add("action", "query")
 	params.Add("format", "json")
@@ -77,11 +83,18 @@ func wikiLanguages(wikiUrl string, mainPage string) WikiDetailsResponse {
 	params.Add("llprop", "url|langname|autonym")
 	params.Add("titles", mainPage)
 
-	return utils.GetRequest[WikiDetailsResponse](wikiUrl, params)
+	langRes, err := utils.GetRequest[WikiDetailsResponse](wikiUrl, params)
+	if err != nil {
+		return WikiDetailsResponse{}, err
+	}
+	return langRes, nil
 }
 
-func PrintWikiDetails(wikiUrl string) {
-	details := GetWikiDetails(wikiUrl)
+func PrintWikiDetails(wikiUrl string) error {
+	details, err := GetWikiDetails(wikiUrl)
+	if err != nil {
+		return err
+	}
 
 	fmt.Printf("Wiki title: %s\n", details.SiteName)
 	fmt.Printf("Language: %s\n", details.Lang)
@@ -103,4 +116,5 @@ func PrintWikiDetails(wikiUrl string) {
 		}
 		fmt.Println()
 	}
+	return nil
 }

@@ -52,7 +52,7 @@ type Main struct {
 }
 
 // fetches batch of entries and unmarshalls the result
-func GetWikiPageBatch(baseUrl string, apfrom string, limit int) AllPagesResponse {
+func GetWikiPageBatch(baseUrl string, apfrom string, limit int) (AllPagesResponse, error) {
 	// define query params
 	params := url.Values{}
 	params.Add("action", "query")
@@ -64,7 +64,11 @@ func GetWikiPageBatch(baseUrl string, apfrom string, limit int) AllPagesResponse
 	params.Add("rvprop", "content")
 	params.Add("rvslots", "main")
 
-	return utils.GetRequest[AllPagesResponse](baseUrl, params)
+	res, err := utils.GetRequest[AllPagesResponse](baseUrl, params)
+	if err != nil {
+		return AllPagesResponse{}, err
+	}
+	return res, nil
 }
 
 func pagesToFetch(left int) int {

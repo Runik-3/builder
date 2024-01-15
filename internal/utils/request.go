@@ -8,10 +8,10 @@ import (
 	"net/url"
 )
 
-func GetRequest[T any](baseUrl string, queryParams url.Values) T {
+func GetRequest[T any](baseUrl string, queryParams url.Values) (T, error) {
 	queryUrl, err := url.Parse(baseUrl)
 	if err != nil {
-		log.Fatalf(err.Error())
+		return *new(T), err
 	}
 	queryUrl.RawQuery = queryParams.Encode()
 
@@ -30,5 +30,5 @@ func GetRequest[T any](baseUrl string, queryParams url.Values) T {
 		log.Fatalf(e.Error())
 	}
 
-	return data
+	return data, nil
 }
