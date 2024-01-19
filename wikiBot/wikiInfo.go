@@ -106,15 +106,11 @@ func PrintWikiDetails(wikiUrl string) error {
 	}
 
 	if len(langs) > 0 {
-		fmt.Print("Other supported languages: ")
+		fmt.Println("Other supported languages: ")
 		// supported langs
-		for i, lang := range langs {
-			fmt.Printf("%s", lang.LangName)
-			if i < len(langs)-1 {
-				fmt.Print(", ")
-			}
+		for _, lang := range langs {
+			fmt.Printf("  - %s: %s\n", lang.LangName, lang.Url)
 		}
-		fmt.Println()
 	}
 	return nil
 }

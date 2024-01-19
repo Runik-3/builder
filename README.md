@@ -23,8 +23,11 @@ The following will print to the standard output:
 ```
 Wiki title: Red Rising Wiki
 Language: en
-Size: 750 entries
-Other supported languages: Spanish, Hungarian, Turkish
+Size: 753 entries
+Other supported languages:   
+  - Spanish: https://amanecer-rojo.fandom.com/es/wiki/
+  - Hungarian: https://voros-lazadas.fandom.com/hu/wiki/
+  - Turkish: http://kizil-yukselis.fandom.com/tr/wiki/
 ```
 
 ### Generate Dictionary
