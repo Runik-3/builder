@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"github.com/runik-3/builder/dict"
-	wikibot "github.com/runik-3/builder/wikibot"
+	wikibot "github.com/runik-3/builder/wikiBot"
 )
 
 func main() {

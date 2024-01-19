@@ -1,4 +1,4 @@
-package wikibot
+package wikiBot
 
 import (
 	"fmt"
