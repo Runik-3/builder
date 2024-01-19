@@ -2,7 +2,7 @@
 
 A library that generates e-reader compatible dictionaries for your favourite fictional works using MediaWikis.
 
-Using the content from MediaWiki sites, Builder parses each page as a dictionary entry -- the title of the page becomes the word, and the content becomes the definition. 
+Using the content from MediaWiki sites, Builder parses each page as a dictionary entry -- the title of the page becomes the word, and the content becomes the definition.
 
 ## CLI use
 
@@ -24,7 +24,7 @@ The following will print to the standard output:
 Wiki title: Red Rising Wiki
 Language: en
 Size: 753 entries
-Other supported languages:   
+Other supported languages:
   - Spanish: https://amanecer-rojo.fandom.com/es/wiki/
   - Hungarian: https://voros-lazadas.fandom.com/hu/wiki/
   - Turkish: http://kizil-yukselis.fandom.com/tr/wiki/
@@ -93,7 +93,7 @@ go get github.com/runik-3/builder
 
 ### Get Wiki Info
 
-The `GetWikiDetails` function is exported from `/wikibot`. It can act as a tool to validate wiki urls or simply fetch useful metadata about a wiki before it's generated.
+The `GetWikiDetails` function is exported from `/wikiBot`. It can act as a tool to validate wiki urls or simply fetch useful metadata about a wiki before it's generated.
 
 ```go
 type WikiDetails struct {
