@@ -17,7 +17,8 @@ func BuildDictionary(wikiUrl string, name string, output string, entryLimit int,
 	}
 	dict.Name = dictName
 
-	genErr := dict.GenerateDefinitionsFromWiki(utils.FormatUrl(wikiUrl), depth, entryLimit)
+	u, _ := utils.FormatUrl(wikiUrl)
+	genErr := dict.GenerateDefinitionsFromWiki(u, depth, entryLimit)
 	if genErr != nil {
 		return Dict{}, genErr
 	}

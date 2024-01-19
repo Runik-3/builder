@@ -2,7 +2,6 @@ package wikitext
 
 import (
 	"encoding/json"
-	"log"
 	"regexp"
 	"strings"
 )
@@ -26,13 +25,13 @@ type Token struct {
 	Value string
 }
 
-func (t *TokenCollection) Stringify() string {
+func (t *TokenCollection) Stringify() (string, error) {
 	json, err := json.Marshal(t)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
-	return string(json)
+	return string(json), nil
 }
 
 type State []string

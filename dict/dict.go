@@ -2,7 +2,6 @@ package dict
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 
@@ -76,8 +75,11 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit 
 }
 
 // TODO - support for more formats: csv, xdxf, etc.
-func (d Dict) Write(path string, format string) string {
-	formattedText := Format(format, d.Lex)
+func (d Dict) Write(path string, format string) (string, error) {
+	fmtText, err := Format(format, d.Lex)
+	if err != nil {
+		return "", err
+	}
 
 	fmt.Println(d.Name, path)
 	fileName := fmt.Sprintf("%s.%s", d.Name, format)
@@ -85,17 +87,17 @@ func (d Dict) Write(path string, format string) string {
 
 	file, fileErr := os.Create(normalizedPath)
 	if fileErr != nil {
-		log.Fatal(fileErr)
+		return "", fileErr
 	}
 
 	defer file.Close()
 
-	_, writeErr := file.WriteString(formattedText)
+	_, writeErr := file.WriteString(fmtText)
 	if fileErr != nil {
-		log.Fatal(writeErr)
+		return "", writeErr
 	}
 
 	fmt.Printf("Successfully built dictionary at %s\n", normalizedPath)
 
-	return normalizedPath
+	return normalizedPath, nil
 }

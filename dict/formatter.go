@@ -2,33 +2,37 @@ package dict
 
 import (
 	j "encoding/json"
+	"errors"
 	"fmt"
-	"log"
 )
 
-func Format(format string, l Lexicon) string {
+func Format(format string, l Lexicon) (string, error) {
 	switch format {
 	case "json":
-		return json(l)
+		j, fmtErr := json(l)
+		if fmtErr != nil {
+			return "", fmtErr
+		}
+		return j, nil
+
 	case "df":
-		return df(l)
+		return df(l), nil
 	case "csv":
-		return csv(l)
+		return csv(l), nil
 	case "xdxf":
-		return xdxf(l)
+		return xdxf(l), nil
 	default:
-		log.Fatalf("Unsupported file format detected: %s \n", format)
-		return ""
+		return "", errors.New(fmt.Sprintf("Unsupported file format detected: %s \n", format))
 	}
 }
 
-func json(l Lexicon) string {
+func json(l Lexicon) (string, error) {
 	json, marshalErr := j.Marshal(l)
 	if marshalErr != nil {
-		log.Fatal(marshalErr)
+		return "", marshalErr
 	}
 
-	return string(json)
+	return string(json), nil
 }
 
 func df(l Lexicon) string {

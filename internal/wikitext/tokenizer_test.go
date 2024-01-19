@@ -18,10 +18,10 @@ func TestTokenizer(t *testing.T) {
 	for _, c := range cases {
 		r := tokenizer(c[0])
 
-		tokensAsJson := r.Stringify()
+		tokensAsJson, _ := r.Stringify()
 
 		if tokensAsJson != c[1] {
-			t.Fatalf("\nWant:\n%s\n\nRecieved:\n%s", c[1], r.Stringify())
+			t.Fatalf("\nWant:\n%s\n\nRecieved:\n%s", c[1], tokensAsJson)
 		}
 	}
 }

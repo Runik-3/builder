@@ -3,7 +3,6 @@ package utils
 import (
 	"encoding/json"
 	"io"
-	"log"
 	"net/http"
 	"net/url"
 )
@@ -15,9 +14,9 @@ func GetRequest[T any](baseUrl string, queryParams url.Values) (T, error) {
 	}
 	queryUrl.RawQuery = queryParams.Encode()
 
-	res, resErr := http.Get(queryUrl.String())
-	if resErr != nil {
-		log.Fatalf(resErr.Error())
+	res, err := http.Get(queryUrl.String())
+	if err != nil {
+		return *new(T), err
 	}
 
 	defer res.Body.Close()
@@ -27,7 +26,7 @@ func GetRequest[T any](baseUrl string, queryParams url.Values) (T, error) {
 
 	e := json.Unmarshal(body, &data)
 	if e != nil {
-		log.Fatalf(e.Error())
+		return *new(T), err
 	}
 
 	return data, nil

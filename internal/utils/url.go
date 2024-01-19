@@ -1,20 +1,20 @@
 package utils
 
 import (
-	"log"
+	"errors"
 	"net/url"
 	"strings"
 )
 
 // ensures the url points to the wiki's api endpoint
-func FormatUrl(u string) (validUrl string) {
-	parsedUrl, e := url.Parse(u)
-	if e != nil {
-		log.Fatalf("Invalid url, please try again with a valid url (eg. https://malazan.fandom.com/api.php)")
+func FormatUrl(u string) (string, error) {
+	parsedUrl, err := url.Parse(u)
+	if err != nil {
+		return "", errors.New("Invalid url, please try again with a valid url (eg. https://malazan.fandom.com/api.php)")
 	}
 
 	if parsedUrl.Host == "" || parsedUrl.Scheme == "" {
-		log.Fatalf("Invalid url, please try again with a valid url (eg. https://malazan.fandom.com/api.php)")
+		return "", errors.New("Invalid url, please try again with a valid url (eg. https://malazan.fandom.com/api.php)")
 	}
 
 	endpointUrl := url.URL{}
@@ -23,8 +23,8 @@ func FormatUrl(u string) (validUrl string) {
 		endpointUrl.Scheme = parsedUrl.Scheme
 		endpointUrl.Host = parsedUrl.Host
 		endpointUrl.Path = "/api.php"
-		return endpointUrl.String()
+		return endpointUrl.String(), nil
 	}
 
-	return u
+	return u, nil
 }
