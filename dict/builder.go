@@ -9,18 +9,22 @@ func BuildDictionary(wikiUrl string, name string, output string, entryLimit int,
 
 	dictName := name
 	if dictName == "" {
-		nameFromWiki, nameErr := utils.NameFromWiki(wikiUrl)
-		if nameErr != nil {
-			return Dict{}, nameErr
+		nameFromWiki, err := utils.NameFromWiki(wikiUrl)
+		if err != nil {
+			return Dict{}, err
 		}
 		dictName = nameFromWiki
 	}
 	dict.Name = dictName
 
-	u, _ := utils.FormatUrl(wikiUrl)
-	genErr := dict.GenerateDefinitionsFromWiki(u, depth, entryLimit)
-	if genErr != nil {
-		return Dict{}, genErr
+	u, err := utils.FormatUrl(wikiUrl)
+	if err != nil {
+		return Dict{}, err
+	}
+
+	err = dict.GenerateDefinitionsFromWiki(u, depth, entryLimit)
+	if err != nil {
+		return Dict{}, err
 	}
 
 	if output != "" {

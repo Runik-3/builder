@@ -44,13 +44,18 @@ type WikiDetails struct {
 // name, size, and supported languages.
 // returns err if wiki url is invalid.
 func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing and return a better shape
+	fmtUrl, err := utils.FormatUrl(wikiUrl)
+	if err != nil {
+		return WikiDetails{}, err
+	}
+
 	params := url.Values{}
 	params.Add("action", "query")
 	params.Add("format", "json")
 	params.Add("meta", "siteinfo")
 	params.Add("siprop", "statistics|general")
 
-	wikiDetailsRes, detailsErr := utils.GetRequest[WikiDetailsResponse](wikiUrl, params)
+	wikiDetailsRes, detailsErr := utils.GetRequest[WikiDetailsResponse](fmtUrl, params)
 	if detailsErr != nil {
 		return WikiDetails{}, detailsErr
 	}
@@ -76,6 +81,11 @@ func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing an
 }
 
 func wikiLanguages(wikiUrl string, mainPage string) (WikiDetailsResponse, error) {
+	fmtUrl, err := utils.FormatUrl(wikiUrl)
+	if err != nil {
+		return WikiDetailsResponse{}, err
+	}
+
 	params := url.Values{}
 	params.Add("action", "query")
 	params.Add("format", "json")
@@ -83,7 +93,7 @@ func wikiLanguages(wikiUrl string, mainPage string) (WikiDetailsResponse, error)
 	params.Add("llprop", "url|langname|autonym")
 	params.Add("titles", mainPage)
 
-	langRes, err := utils.GetRequest[WikiDetailsResponse](wikiUrl, params)
+	langRes, err := utils.GetRequest[WikiDetailsResponse](fmtUrl, params)
 	if err != nil {
 		return WikiDetailsResponse{}, err
 	}
