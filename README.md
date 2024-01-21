@@ -121,8 +121,8 @@ Import the `/dict` package to get access to the `BuildDictionary` function, take
 
 ```go
 type Dict struct {
-	Name     string
-	Lexicon  Lexicon
+	Name    string
+	Lexicon Lexicon
 }
 
 type Lexicon map[string]Entry
