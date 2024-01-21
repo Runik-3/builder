@@ -14,17 +14,17 @@ type Entry struct {
 	Definition string
 }
 
-type Lexicon map[string]Entry
+type Lexicon []Entry
 
-func (l Lexicon) Add(e Entry) {
-	l[e.Word] = e
+func (l *Lexicon) Add(e Entry) {
+	*l = append(*l, e)
 }
 
-func (l Lexicon) Print() {
+func (l *Lexicon) Print() {
 	fmt.Println("Lexicon (definition -- word)")
 	fmt.Println("-------------------------------")
 	i := 1
-	for _, v := range l {
+	for _, v := range *l {
 		fmt.Printf("%d. %s -- %s\n", i, v.Word, v.Definition)
 		i++
 	}
@@ -35,7 +35,7 @@ type Dict struct {
 	Lexicon Lexicon
 }
 
-func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit int) error {
+func (d *Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit int) error {
 	entries := 0
 
 	// initial call has empty apfrom
