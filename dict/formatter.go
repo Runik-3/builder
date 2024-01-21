@@ -6,28 +6,32 @@ import (
 	"fmt"
 )
 
-func Format(format string, l Lexicon) (string, error) {
+func Format(format string, d Dict) (string, error) {
+	lex := d.Lexicon
+
 	switch format {
 	case "json":
-		j, fmtErr := json(l)
+		j, fmtErr := json(d)
 		if fmtErr != nil {
 			return "", fmtErr
 		}
 		return j, nil
 
 	case "df":
-		return df(l), nil
+		return df(lex), nil
 	case "csv":
-		return csv(l), nil
+		return csv(lex), nil
 	case "xdxf":
-		return xdxf(l), nil
+		return xdxf(lex), nil
 	default:
 		return "", errors.New(fmt.Sprintf("Unsupported file format detected: %s \n", format))
 	}
 }
 
-func json(l Lexicon) (string, error) {
-	json, marshalErr := j.Marshal(l)
+// Default format for storing Runik dictionaries. Includes metadata as well as
+// definitions.
+func json(d Dict) (string, error) {
+	json, marshalErr := j.Marshal(d)
 	if marshalErr != nil {
 		return "", marshalErr
 	}

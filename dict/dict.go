@@ -31,8 +31,8 @@ func (l Lexicon) Print() {
 }
 
 type Dict struct {
-	Name string
-	Lex  Lexicon
+	Name    string
+	Lexicon Lexicon
 }
 
 func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit int) error {
@@ -51,7 +51,7 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit 
 		for _, p := range res.Query.Pages {
 			def := wikitext.ParseDefinition(p.Revisions[0].Slots.Main.Content, depth)
 			if def != "" {
-				d.Lex.Add(Entry{Word: p.Title, Definition: def})
+				d.Lexicon.Add(Entry{Word: p.Title, Definition: def})
 				entries++
 			}
 		}
@@ -76,7 +76,7 @@ func (d Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit 
 
 // TODO - support for more formats: csv, xdxf, etc.
 func (d Dict) Write(path string, format string) (string, error) {
-	fmtText, err := Format(format, d.Lex)
+	fmtText, err := Format(format, d)
 	if err != nil {
 		return "", err
 	}

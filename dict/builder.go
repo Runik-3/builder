@@ -5,7 +5,7 @@ import (
 )
 
 func BuildDictionary(wikiUrl string, name string, output string, entryLimit int, depth int, format string) (Dict, error) {
-	dict := Dict{Lex: Lexicon{}}
+	dict := Dict{Lexicon: Lexicon{}}
 
 	dictName := name
 	if dictName == "" {
