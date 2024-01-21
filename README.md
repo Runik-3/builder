@@ -1,8 +1,14 @@
 # Runik Builder
 
-A library that generates e-reader compatible dictionaries for your favourite fictional works using MediaWikis.
+A Go library that generates e-reader compatible dictionaries for your favourite fictional worlds.
 
-Using the content from MediaWiki sites, Builder parses each page as a dictionary entry -- the title of the page becomes the word, and the content becomes the definition.
+Builder is the underlying technology at the heart of Runik, containing the tooling required to parse wikis and generate dictionaries. Using the content from MediaWiki sites, Builder parses each page as a distinct dictionary entry.
+
+## Motivation
+
+Existing e-reader dictionary support doesn't extend past the languages we use in the "real" world. Sure we have definitions for "thaumaturgy" or "ascendancy", but what about words specific to the world of your book? What about the definitions of places, characters, or magical swords? 
+
+Runik builder uses the crowd-sourced info of fan wikis to generate dictionaries with custom definitions for your favourite fictional worlds. Builder uses non-proprietary formats to store definitions like `json` and `dictfile`, making interop between other tools easy. 
 
 ## CLI use
 
@@ -58,7 +64,7 @@ The file format the dictionary is written in. Builder currently supports writing
 
 `-d` Depth
 
-The number of sentences that make up each definition. Be wary that a greater depth has a higher probability of including spoilers. The default is 1.
+The number of sentences that make up each definition. Builder starts parsing the definition at the first setence of the article's main content, ignoring tables and other formatting. As such, be wary that a greater depth has a higher probability of including spoilers. Values between 1 and 5 are suggested, the default is 1.
 
 `-l` Limit
 
