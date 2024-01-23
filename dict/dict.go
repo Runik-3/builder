@@ -2,9 +2,9 @@ package dict
 
 import (
 	"fmt"
-	"os"
 	"path/filepath"
 
+	"github.com/runik-3/builder/internal/utils"
 	"github.com/runik-3/builder/internal/wikitext"
 	wikibot "github.com/runik-3/builder/wikiBot"
 )
@@ -81,20 +81,12 @@ func (d Dict) Write(path string, format string) (string, error) {
 		return "", err
 	}
 
-	fmt.Println(d.Name, path)
 	fileName := fmt.Sprintf("%s.%s", d.Name, format)
 	normalizedPath := filepath.Join(filepath.FromSlash(path), fileName)
 
-	file, fileErr := os.Create(normalizedPath)
-	if fileErr != nil {
-		return "", fileErr
-	}
-
-	defer file.Close()
-
-	_, writeErr := file.WriteString(fmtText)
-	if fileErr != nil {
-		return "", writeErr
+	err = utils.WriteToFile(fmtText, normalizedPath)
+	if err != nil {
+		return "", err
 	}
 
 	fmt.Printf("Successfully built dictionary at %s\n", normalizedPath)

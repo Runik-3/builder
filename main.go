@@ -17,21 +17,37 @@ func main() {
 
 	flag.Parse()
 	args := flag.Args()
-	command := args[0]
-	wikiUrl := args[1]
 
 	if len(args) < 2 {
-		log.Fatal("You must provide at least two arguments.")
+		log.Fatal("You must provide at least one argument.")
 	}
+	command := args[0]
 
 	switch command {
 	case "generate":
-		_, dictErr := dict.BuildDictionary(wikiUrl, *name, *output, *entryLimit, *depth, *format)
-		if dictErr != nil {
-			log.Fatalf("There was an error building the dictionary:\n%e", dictErr)
+		wikiUrl := args[1]
+		_, err := dict.BuildDictionary(wikiUrl, *name, *output, *entryLimit, *depth, *format)
+		if err != nil {
+			log.Fatalf("There was an error building the dictionary:\n%s", err.Error())
 		}
 	case "info":
-		wikibot.PrintWikiDetails(wikiUrl)
+		wikiUrl := args[1]
+		err := wikibot.PrintWikiDetails(wikiUrl)
+		if err != nil {
+			log.Fatalf("There was an error retrieving wiki info:\n%s", err.Error())
+		}
+	case "convert":
+		if len(args) < 3 {
+			log.Fatal("You must provide at least three arguments to the convert command.")
+		}
+		target := args[1]
+		inpath := args[2]
+		outpath := args[3]
+		_, err := dict.ConvertForReader(target, inpath, outpath)
+		if err != nil {
+			log.Fatalf("There was an error converting your file:\n%s", err.Error())
+		}
+
 	default:
 		log.Fatalf("%s is not a valid command. See help for more options.", args[0])
 	}

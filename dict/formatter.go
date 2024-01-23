@@ -6,6 +6,7 @@ import (
 	"fmt"
 )
 
+// Formats dictionaries into raw text
 func Format(format string, d Dict) (string, error) {
 	lex := d.Lexicon
 
