@@ -36,18 +36,6 @@ func main() {
 		if err != nil {
 			log.Fatalf("There was an error retrieving wiki info:\n%s", err.Error())
 		}
-	case "convert":
-		if len(args) < 3 {
-			log.Fatal("You must provide at least three arguments to the convert command.")
-		}
-		target := args[1]
-		inpath := args[2]
-		outpath := args[3]
-		_, err := dict.ConvertForReader(target, inpath, outpath)
-		if err != nil {
-			log.Fatalf("There was an error converting your file:\n%s", err.Error())
-		}
-
 	default:
 		log.Fatalf("%s is not a valid command. See help for more options.", args[0])
 	}
