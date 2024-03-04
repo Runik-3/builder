@@ -54,6 +54,7 @@ func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing an
 	params.Add("format", "json")
 	params.Add("meta", "siteinfo")
 	params.Add("siprop", "statistics|general")
+	params.Add("origin", "*")
 
 	wikiDetailsRes, detailsErr := utils.GetRequest[WikiDetailsResponse](fmtUrl, params)
 	if detailsErr != nil {

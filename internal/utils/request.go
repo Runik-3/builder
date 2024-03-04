@@ -2,6 +2,8 @@ package utils
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -17,6 +19,11 @@ func GetRequest[T any](baseUrl string, queryParams url.Values) (T, error) {
 	res, err := http.Get(queryUrl.String())
 	if err != nil {
 		return *new(T), err
+	}
+
+	statusOk := res.StatusCode >= 200 && res.StatusCode < 300
+	if !statusOk {
+		return *new(T), errors.New(fmt.Sprintf("Request failed with %s", res.Status))
 	}
 
 	defer res.Body.Close()
