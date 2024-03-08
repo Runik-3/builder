@@ -26,7 +26,15 @@ func main() {
 	switch command {
 	case "generate":
 		wikiUrl := args[1]
-		_, err := dict.BuildDictionary(wikiUrl, *name, *output, *entryLimit, *depth, *format)
+		generatorOptions := dict.GeneratorOptions{
+			Name:       *name,
+			Output:     *output,
+			EntryLimit: *entryLimit,
+			Depth:      *depth,
+			Format:     *format,
+		}
+
+		_, err := dict.BuildDictionary(wikiUrl, generatorOptions)
 		if err != nil {
 			log.Fatalf("There was an error building the dictionary:\n%s", err.Error())
 		}
