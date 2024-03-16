@@ -2,7 +2,6 @@ package utils
 
 import (
 	"errors"
-	"fmt"
 	"net/url"
 	"strings"
 )
@@ -14,7 +13,6 @@ func NameFromWiki(wikiUrl string) (string, error) {
 	if err != nil {
 		return "", errors.New("please enter a valid wiki url")
 	}
-	fmt.Println(wikiUrl, u.Hostname())
 
 	return strings.Split(u.Hostname(), ".")[0], nil
 }
