@@ -39,7 +39,7 @@ func (d *Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit
 	entries := 0
 
 	// initial call has empty apfrom
-	res, batchErr := wikibot.GetWikiPageBatch(wikiUrl, "", entryLimit) //**
+	res, batchErr := wikibot.GetWikiPageBatch(wikiUrl, "", entryLimit)
 	if batchErr != nil {
 		return batchErr
 	}
