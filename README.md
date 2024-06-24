@@ -1,14 +1,24 @@
 # Runik Builder
 
-A Go library that generates e-reader compatible dictionaries for your favourite fictional worlds.
+Generate e-reader compatible dictionaries for your favourite fictional worlds.
 
-Builder is the underlying technology at the heart of Runik, containing the tooling required to parse wikis and generate dictionaries. Using the content from MediaWiki sites, Builder parses each page as a distinct dictionary entry.
+Builder is the underlying technology at the heart of Runik, containing the tooling required to parse wikis and generate dictionaries.
 
 ## Motivation
 
-Existing e-reader dictionary support doesn't extend past the languages we use in the "real" world. Sure we have definitions for "thaumaturgy" or "ascendancy", but what about words specific to the world of your book? What about the definitions of places, characters, or magical swords? 
+Runik builder uses the crowd-sourced info of fan wikis to generate dictionaries with custom definitions for fictional names, places, and items. Builder uses non-proprietary formats to store definitions like `json` and `dictfile`, allowing for interop between other tools.
 
-Runik builder uses the crowd-sourced info of fan wikis to generate dictionaries with custom definitions for your favourite fictional worlds. Builder uses non-proprietary formats to store definitions like `json` and `dictfile`, making interop between other tools easy. 
+Builder can be used on its own as a CLI tool or as a module import.
+
+## Quick start
+
+```bash
+git clone git@github.com:Runik-3/builder.git
+cd builder
+go mod tidy
+
+go run . info [wiki_url]
+```
 
 ## CLI use
 
@@ -48,27 +58,15 @@ A mediawiki URL used as the target to parse and build the dictionary (eg. https:
 builder generate https://stardust.fandom.com/api.php
 ```
 
-#### Flags
+#### Options
 
-`-n` Name
-
-The file name of the generated dictionary file (extension added automatically). If no name is passed in, the file name will default to the subdomain of the target wiki (eg. `red-rising.fandom.com` becomes `red-rising.json`).
-
-`-o` Output directory
-
-The directory where the generated dictionary will be written. If no directory is specified, a file is not written to disk.
-
-`-f` Format
-
-The file format the dictionary is written in. Builder currently supports writing to json and dictfile (`'df'`). When no format is specified, json is the default.
-
-`-d` Depth
-
-The number of sentences that make up each definition. Builder starts parsing the definition at the first setence of the article's main content, ignoring tables and other formatting. As such, be wary that a greater depth has a higher probability of including spoilers. Values between 1 and 5 are suggested, the default is 1.
-
-`-l` Limit
-
-The maximum number of word entries written to a dictionary. Useful for testing. If no limit is specified, the default is 10,000.
+| Flag | Name          | Description                                                                                                                                                                                                                                                                                                                         |
+| ---- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-n` | name          | The file name of the generated dictionary file (extension added automatically). If no name is passed in, the file name will default to the subdomain of the target wiki (eg. `red-rising.fandom.com` becomes `red-rising.json`).                                                                                                    |
+| `-o` | Out directory | The directory where the generated dictionary will be written. If no directory is specified, a file is not written to disk.                                                                                                                                                                                                          |
+| `-f` | Format        | The file format the dictionary is written in. Builder currently supports writing to json and dictfile (`'df'`). When no format is specified, json is the default.                                                                                                                                                                   |
+| `-d` | Depth         | The number of sentences that make up each definition. Builder starts parsing the definition at the first setence of the article's main content, ignoring tables and other formatting. As such, be wary that a greater depth has a higher probability of including spoilers. Values between 1 and 5 are suggested, the default is 1. |
+| `-l` | Limit         | The maximum number of word entries written to a dictionary. Useful for testing. If no limit is specified, the default is 10,000.                                                                                                                                                                                                    |
 
 #### Example
 
@@ -125,7 +123,7 @@ type Dict struct {
 	Lexicon Lexicon
 }
 
-type Lexicon map[string]Entry
+type Lexicon []Entry
 
 type Entry struct {
 	Word       string
