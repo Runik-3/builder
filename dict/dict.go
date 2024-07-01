@@ -1,8 +1,11 @@
 package dict
 
 import (
+	"errors"
 	"fmt"
+	"net/url"
 	"path/filepath"
+	"strings"
 
 	"github.com/runik-3/builder/internal/utils"
 	"github.com/runik-3/builder/internal/wikitext"
@@ -72,6 +75,20 @@ func (d *Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit
 
 	fmt.Printf("📖 Found %d entries \n", entries)
 	return nil
+}
+
+// pulls name from wiki subdomain
+// https://red-rising.fandom.com/api.php ==> red-rising
+func (d *Dict) NameFromWiki(wikiUrl string) (*Dict, error) {
+	u, err := url.Parse(wikiUrl)
+	if err != nil {
+		return d, errors.New("Must be a valid wiki url")
+	}
+
+	dictName := strings.Split(u.Hostname(), ".")[0]
+	d.Name = dictName
+
+	return d, nil
 }
 
 // TODO - support for more formats: csv, xdxf, etc.

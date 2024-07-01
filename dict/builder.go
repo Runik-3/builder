@@ -7,17 +7,16 @@ import (
 func BuildDictionary(wikiUrl string, name string, output string, entryLimit int, depth int, format string) (Dict, error) {
 	dict := Dict{Lexicon: Lexicon{}}
 
-	dictName := name
-	if dictName == "" {
-		nameFromWiki, err := utils.NameFromWiki(wikiUrl)
+	if name != "" {
+		dict.Name = name
+	} else {
+		_, err := dict.NameFromWiki(wikiUrl)
 		if err != nil {
 			return Dict{}, err
 		}
-		dictName = nameFromWiki
 	}
-	dict.Name = dictName
 
-	u, err := utils.FormatUrl(wikiUrl)
+	u, err := utils.NormalizeUrl(wikiUrl)
 	if err != nil {
 		return Dict{}, err
 	}

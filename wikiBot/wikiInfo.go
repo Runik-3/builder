@@ -44,7 +44,7 @@ type WikiDetails struct {
 // name, size, and supported languages.
 // returns err if wiki url is invalid.
 func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing and return a better shape
-	fmtUrl, err := utils.FormatUrl(wikiUrl)
+	fmtUrl, err := utils.NormalizeUrl(wikiUrl)
 	if err != nil {
 		return WikiDetails{}, err
 	}
@@ -82,7 +82,7 @@ func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing an
 }
 
 func wikiLanguages(wikiUrl string, mainPage string) (WikiDetailsResponse, error) {
-	fmtUrl, err := utils.FormatUrl(wikiUrl)
+	fmtUrl, err := utils.NormalizeUrl(wikiUrl)
 	if err != nil {
 		return WikiDetailsResponse{}, err
 	}

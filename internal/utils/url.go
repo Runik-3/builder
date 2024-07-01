@@ -7,7 +7,7 @@ import (
 )
 
 // ensures the url points to the wiki's api endpoint
-func FormatUrl(u string) (string, error) {
+func NormalizeUrl(u string) (string, error) {
 	parsedUrl, err := url.Parse(u)
 
 	invalidErr := errors.New("Invalid url, please try again with a valid url (eg. https://malazan.fandom.com/api.php)")
