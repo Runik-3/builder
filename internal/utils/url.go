@@ -39,7 +39,7 @@ func buildWikiPath(path string) string {
 	pathParts := strings.Split(path, "/")
 	builtPath := ""
 
-	if len(pathParts) < 1 {
+	if len(pathParts) <= 1 {
 		return WIKI_API_SUFFIX
 	}
 
