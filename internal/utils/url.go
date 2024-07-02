@@ -2,6 +2,7 @@ package utils
 
 import (
 	"errors"
+	"fmt"
 	"net/url"
 	"strings"
 )
@@ -20,6 +21,7 @@ func NormalizeUrl(u string) (string, error) {
 	}
 
 	endpointUrl := url.URL{}
+	fmt.Println("HI", parsedUrl)
 
 	if !strings.Contains(parsedUrl.Path, "api.php") {
 		endpointUrl.Scheme = parsedUrl.Scheme
@@ -34,19 +36,25 @@ func NormalizeUrl(u string) (string, error) {
 // builds a wiki url path, retaining a language code if the wiki is not
 // english language
 func buildWikiPath(path string) string {
-	pathParts := strings.Split(path, "/")
+	const WIKI_API_SUFFIX = "/api.php"
 
-	prePath := ""
+	pathParts := strings.Split(path, "/")
+	builtPath := ""
+
+	if len(pathParts) < 1 {
+		return WIKI_API_SUFFIX
+	}
+
 	startOfUrlPath := pathParts[1]
 
 	// check if the start of the url path is a valid iso language code
 	for _, langCode := range languageCodes {
 		if len(pathParts) > 1 && langCode == startOfUrlPath {
-			prePath = "/" + langCode
+			builtPath = "/" + langCode
 		}
 	}
 
-	return prePath + "/api.php"
+	return builtPath + WIKI_API_SUFFIX
 }
 
 var languageCodes = []string{
