@@ -38,11 +38,11 @@ type Dict struct {
 	Lexicon Lexicon
 }
 
-func (d *Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit int) error {
+func (d *Dict) GenerateDefinitionsFromWiki(wikiUrl string, options GeneratorOptions) error {
 	entries := 0
 
 	// initial call has empty apfrom
-	res, batchErr := wikibot.GetWikiPageBatch(wikiUrl, "", entryLimit)
+	res, batchErr := wikibot.GetWikiPageBatch(wikiUrl, "", options.EntryLimit)
 	if batchErr != nil {
 		return batchErr
 	}
@@ -52,14 +52,14 @@ func (d *Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit
 
 	for cont {
 		for _, p := range res.Query.Pages {
-			def := wikitext.ParseDefinition(p.Revisions[0].Slots.Main.Content, depth)
+			def := wikitext.ParseDefinition(p.Revisions[0].Slots.Main.Content, options.Depth)
 			if def != "" {
 				d.Lexicon.Add(Entry{Word: p.Title, Definition: def})
 				entries++
 			}
 		}
 
-		if entries == entryLimit {
+		if entries == options.EntryLimit {
 			break
 		}
 
@@ -67,7 +67,7 @@ func (d *Dict) GenerateDefinitionsFromWiki(wikiUrl string, depth int, entryLimit
 			cont = false
 		}
 
-		res, batchErr = wikibot.GetWikiPageBatch(wikiUrl, res.Continue.Apcontinue, entryLimit-entries)
+		res, batchErr = wikibot.GetWikiPageBatch(wikiUrl, res.Continue.Apcontinue, options.EntryLimit-entries)
 		if batchErr != nil {
 			return batchErr
 		}

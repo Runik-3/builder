@@ -4,11 +4,19 @@ import (
 	"github.com/runik-3/builder/internal/utils"
 )
 
-func BuildDictionary(wikiUrl string, name string, output string, entryLimit int, depth int, format string) (Dict, error) {
+type GeneratorOptions struct {
+	Name       string
+	Output     string
+	Depth      int
+	Format     string
+	EntryLimit int
+}
+
+func BuildDictionary(wikiUrl string, options GeneratorOptions) (Dict, error) {
 	dict := Dict{Lexicon: Lexicon{}}
 
-	if name != "" {
-		dict.Name = name
+	if options.Name != "" {
+		dict.Name = options.Name
 	} else {
 		_, err := dict.NameFromWiki(wikiUrl)
 		if err != nil {
@@ -21,13 +29,13 @@ func BuildDictionary(wikiUrl string, name string, output string, entryLimit int,
 		return Dict{}, err
 	}
 
-	err = dict.GenerateDefinitionsFromWiki(u, depth, entryLimit)
+	err = dict.GenerateDefinitionsFromWiki(u, options)
 	if err != nil {
 		return Dict{}, err
 	}
 
-	if output != "" {
-		dict.Write(output, format)
+	if options.Output != "" {
+		dict.Write(options.Output, options.Format)
 	}
 
 	return dict, nil

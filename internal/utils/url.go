@@ -2,7 +2,6 @@ package utils
 
 import (
 	"errors"
-	"fmt"
 	"net/url"
 	"strings"
 )
@@ -21,7 +20,6 @@ func NormalizeUrl(u string) (string, error) {
 	}
 
 	endpointUrl := url.URL{}
-	fmt.Println("HI", parsedUrl)
 
 	if !strings.Contains(parsedUrl.Path, "api.php") {
 		endpointUrl.Scheme = parsedUrl.Scheme
