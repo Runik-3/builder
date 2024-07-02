@@ -38,11 +38,13 @@ type Dict struct {
 	Lexicon Lexicon
 }
 
-func (d *Dict) GenerateDefinitionsFromWiki(wikiUrl string, options GeneratorOptions) error {
+type BatchFunction func(src string, startFrom string, limit int) (wikibot.AllPagesResponse, error)
+
+func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wikiUrl string, options GeneratorOptions) error {
 	entries := 0
 
 	// initial call has empty apfrom
-	res, batchErr := wikibot.GetWikiPageBatch(wikiUrl, "", options.EntryLimit)
+	res, batchErr := getBatch(wikiUrl, "", options.EntryLimit)
 	if batchErr != nil {
 		return batchErr
 	}
@@ -67,7 +69,7 @@ func (d *Dict) GenerateDefinitionsFromWiki(wikiUrl string, options GeneratorOpti
 			cont = false
 		}
 
-		res, batchErr = wikibot.GetWikiPageBatch(wikiUrl, res.Continue.Apcontinue, options.EntryLimit-entries)
+		res, batchErr = getBatch(wikiUrl, res.Continue.Apcontinue, options.EntryLimit-entries)
 		if batchErr != nil {
 			return batchErr
 		}

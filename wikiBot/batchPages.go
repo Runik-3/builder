@@ -36,7 +36,7 @@ type Lang struct {
 	Url      string `json:"url"`
 }
 
-// -- todo make this interface compatible with the deprecated revisions structure
+// TODO make this interface compatible with the deprecated revisions structure
 type Revision struct {
 	Slots Slot `json:"slots"`
 }
@@ -52,14 +52,14 @@ type Main struct {
 }
 
 // fetches batch of entries and unmarshalls the result
-func GetWikiPageBatch(baseUrl string, apfrom string, limit int) (AllPagesResponse, error) {
+func GetWikiPageBatch(baseUrl string, startFrom string, limit int) (AllPagesResponse, error) {
 	// define query params
 	params := url.Values{}
 	params.Add("action", "query")
 	params.Add("format", "json")
 	params.Add("generator", "allpages")
 	params.Add("gaplimit", strconv.Itoa(pagesToFetch(limit)))
-	params.Add("gapfrom", apfrom)
+	params.Add("gapfrom", startFrom)
 	params.Add("prop", "revisions")
 	params.Add("rvprop", "content")
 	params.Add("rvslots", "main")
