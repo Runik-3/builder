@@ -1,0 +1,27 @@
+{
+    "batchcomplete": "",
+    "continue": {
+        "gapcontinue": "(Song_of)_Old_Friend",
+        "continue": "gapcontinue||"
+    },
+    "query": {
+        "pages": {
+          "4184": {
+            "pageid": 4184,
+                "ns": 0,
+                "title": "10th Legion",
+                "revisions": [
+                    {
+                        "slots": {
+                            "main": {
+                                "contentmodel": "wikitext",
+                                "contentformat": "text/x-wiki",
+                                "*": "The '''10th Legion''' was one of the three legions in the [[Malaz 14th Army]], which also included the [[8th Legion|8th]] and [[9th Legion]]s.  It was commanded by Fist [[Tene Baralta]] and fielded four thousand recruits.<ref>[[House of Chains]], [[HC/5|Chapter 5]], US SFBC p.237</ref>\n\n==Notes and references==\n{{Reflist}}\n\n[[de:10. Legion]]\n[[pl:Dziesiąty Legion]]\n[[it:Decima Legione]]\n[[Category:Malazan military units]]"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
