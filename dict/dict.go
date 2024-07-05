@@ -42,17 +42,16 @@ type BatchFunction func(src string, startFrom string, limit int) (wikibot.AllPag
 
 func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wikiUrl string, options GeneratorOptions) error {
 	entries := 0
+	// initial call starts from the first page
+	startFrom := ""
 
-	// initial call has empty apfrom
-	res, batchErr := getBatch(wikiUrl, "", options.EntryLimit)
-	if batchErr != nil {
-		return batchErr
-	}
-
-	// continue?
 	cont := true
-
 	for cont {
+		res, err := getBatch(wikiUrl, startFrom, options.EntryLimit-entries)
+		if err != nil {
+			return err
+		}
+
 		for _, p := range res.Query.Pages {
 			def := wikitext.ParseDefinition(p.Revisions[0].Slots.Main.Content, options.Depth)
 			if def != "" {
@@ -68,13 +67,11 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wikiUrl strin
 		if res.Continue.Apcontinue == "" {
 			cont = false
 		}
-
-		res, batchErr = getBatch(wikiUrl, res.Continue.Apcontinue, options.EntryLimit-entries)
-		if batchErr != nil {
-			return batchErr
-		}
+		// the next batch call start on the page where we left off
+		startFrom = res.Continue.Apcontinue
 	}
 
+	// TODO only print in CLI mode
 	fmt.Printf("📖 Found %d entries \n", entries)
 	return nil
 }

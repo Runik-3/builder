@@ -2,7 +2,6 @@ package dict
 
 import (
 	j "encoding/json"
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -21,12 +20,10 @@ func TestGenerateDefinitionsFromWiki(t *testing.T) {
 		if dict.Lexicon[0].Word != "10th Legion" {
 			t.Fatal("Did not properly parse dictionary word")
 		}
-		fmt.Println(dict.Lexicon[0].Definition)
 		if !strings.Contains(dict.Lexicon[0].Definition, "The 10th Legion was one of the three legions in the Malaz") {
 			t.Fatal("Did not properly parse dictionary definition")
 		}
-		// TODO mockBatchCalled should only get called once when fetching a single batch
-		if mockBatchCalled > 2 {
+		if mockBatchCalled > 1 {
 			t.Fatalf("Batch function called %d times", mockBatchCalled)
 		}
 	})
