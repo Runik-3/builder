@@ -24,9 +24,9 @@ go run . info [wiki_url]
 
 The quickest and easiest way to get started using Runik Builder is via the command line.
 
-### Get Wiki Info
+### `info`
 
-Validate a wiki url and retrieve some metadata about the contents of the wiki.
+Validate a wiki url and retrieve metadata describing the wiki. Takes a wiki url as its argument.
 
 #### Example
 
@@ -46,7 +46,7 @@ Other supported languages:
   - Turkish: http://kizil-yukselis.fandom.com/tr/wiki/
 ```
 
-### Generate Dictionary
+### `generate`
 
 Generates an e-reader dictionary based on the pages of a mediawiki-compatible wiki. The generate command requires a wiki url and takes a series of optional flags.
 
@@ -95,11 +95,14 @@ Builder can be imported as a module to use in your own projects. Run the followi
 go get github.com/runik-3/builder
 ```
 
-### Get Wiki Info
+### Get Wiki Details
 
 The `GetWikiDetails` function is exported from `/wikiBot`. It can act as a tool to validate wiki urls or simply fetch useful metadata about a wiki before it's generated.
 
 ```go
+func GetWikiDetails(wikiUrl string) (WikiDetails, error)
+
+// returns WikiDetails
 type WikiDetails struct {
 	SiteName  string
 	MainPage  string
@@ -109,8 +112,6 @@ type WikiDetails struct {
 	Articles  int
 	Languages []Lang
 }
-
-func GetWikiDetails(wikiUrl string) (WikiDetails, error)
 ```
 
 ### Generate Dictionary
@@ -118,6 +119,18 @@ func GetWikiDetails(wikiUrl string) (WikiDetails, error)
 Import the `/dict` package to get access to the `BuildDictionary` function, takes a wikiurl and some other options and builds a dictionary based on its entries.
 
 ```go
+func BuildDictionary(wikiUrl string, options GeneratorOptions) (Dict, error)
+
+// takes GeneratorOptions
+type GeneratorOptions struct {
+	Name       string
+	Output     string
+	Depth      int
+	Format     string
+	EntryLimit int
+}
+
+// returns Dict
 type Dict struct {
 	Name    string
 	Lexicon Lexicon
@@ -129,13 +142,4 @@ type Entry struct {
 	Word       string
 	Definition string
 }
-
-func BuildDictionary(
-  wikiUrl string,
-  name string,
-  output string,
-  entryLimit int,
-  depth int,
-  format string
-) (Dict, error)
 ```
