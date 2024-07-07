@@ -2,6 +2,7 @@ package dict
 
 import (
 	"github.com/runik-3/builder/internal/utils"
+	wikibot "github.com/runik-3/builder/wikiBot"
 )
 
 type GeneratorOptions struct {
@@ -29,7 +30,7 @@ func BuildDictionary(wikiUrl string, options GeneratorOptions) (Dict, error) {
 		return Dict{}, err
 	}
 
-	err = dict.GenerateDefinitionsFromWiki(u, options)
+	err = dict.GenerateDefinitionsFromWiki(wikibot.GetWikiPageBatch, u, options)
 	if err != nil {
 		return Dict{}, err
 	}
