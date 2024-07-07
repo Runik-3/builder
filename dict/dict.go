@@ -26,10 +26,8 @@ func (l *Lexicon) Add(e Entry) {
 func (l *Lexicon) Print() {
 	fmt.Println("Lexicon (definition -- word)")
 	fmt.Println("-------------------------------")
-	i := 1
-	for _, v := range *l {
-		fmt.Printf("%d. %s -- %s\n", i, v.Word, v.Definition)
-		i++
+	for i, v := range *l {
+		fmt.Printf("%d. %s - %s\n", i+1, v.Word, v.Definition)
 	}
 }
 
@@ -67,7 +65,7 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wikiUrl strin
 		if res.Continue.Apcontinue == "" {
 			cont = false
 		}
-		// the next batch call start on the page where we left off
+		// the next batch call starts on the page where we left off
 		startFrom = res.Continue.Apcontinue
 	}
 

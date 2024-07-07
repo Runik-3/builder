@@ -17,37 +17,33 @@ func TestGenerateDefinitionsFromWiki(t *testing.T) {
 		dict := Dict{}
 		dict.GenerateDefinitionsFromWiki(MockWikiBatchFunction, "", GeneratorOptions{Depth: 2, EntryLimit: 1})
 
-		if dict.Lexicon[0].Word != "batch1_page1" {
-			t.Fatal("Did not properly parse dictionary word")
-		}
-		if !strings.Contains(dict.Lexicon[0].Definition, "This is the first page of the first batch.") {
-			t.Fatal("Did not properly parse dictionary definition")
-		}
-		if mockBatchCalled != 1 {
-			t.Fatalf("Batch function called %d times", mockBatchCalled)
-		}
-		if len(dict.Lexicon) != 1 {
-			t.Fatalf("Dict contains %d entries", mockBatchCalled)
-		}
+		isEqual(t, dict.Lexicon[0].Word, "batch1_page1", "")
+		contains(t, dict.Lexicon[0].Definition, "This is the first page of the first batch.")
+		isEqual(t, mockBatchCalled, 1, "")
+		isEqual(t, len(dict.Lexicon), 1, "")
+
 		mockBatchCalled = 0
 	})
 
-	t.Run("fetches definitions for all pages of a wiki", func(t *testing.T) {
+	t.Run("fetches definitions in batches from all wiki pages", func(t *testing.T) {
 		dict := Dict{}
 		dict.GenerateDefinitionsFromWiki(MockWikiBatchFunction, "", GeneratorOptions{Depth: 2})
 
-		if dict.Lexicon[0].Word != "batch1_page1" {
-			t.Fatal("Did not properly parse dictionary word")
-		}
-		if !strings.Contains(dict.Lexicon[0].Definition, "This is the first page of the first batch.") {
-			t.Fatal("Did not properly parse dictionary definition")
-		}
-		if mockBatchCalled != 3 {
-			t.Fatalf("Batch function called %d times", mockBatchCalled)
-		}
-		if len(dict.Lexicon) != 4 {
-			t.Fatalf("Dict contains %d entries", mockBatchCalled)
-		}
+		isEqual(t, dict.Lexicon[0].Word, "batch1_page1", "")
+		contains(t, dict.Lexicon[0].Definition, "This is the first page of the first batch.")
+
+		isEqual(t, dict.Lexicon[1].Word, "batch2_page1", "")
+		contains(t, dict.Lexicon[1].Definition, "This is the first page of the second batch.")
+
+		isEqual(t, dict.Lexicon[2].Word, "batch2_page2", "")
+		contains(t, dict.Lexicon[2].Definition, "This is the second page of the second batch.")
+
+		isEqual(t, dict.Lexicon[3].Word, "batch3_page1", "")
+		contains(t, dict.Lexicon[3].Definition, "This is the first page of the third batch.")
+
+		isEqual(t, mockBatchCalled, 3, "")
+		isEqual(t, len(dict.Lexicon), 4, "")
+
 		mockBatchCalled = 0
 	})
 }
@@ -73,4 +69,20 @@ func getFixtureData(fixture string) map[string]wikiBot.AllPagesResponse {
 	j.Unmarshal(responseJson, &response)
 
 	return response
+}
+
+func isEqual(t *testing.T, val1 any, val2 any, message string) {
+	if val1 != val2 {
+		if message != "" {
+			t.Fatal(message)
+		} else {
+			t.Fatalf("%v not equal to %v", val1, val2)
+		}
+	}
+}
+
+func contains(t *testing.T, str string, subStr string) {
+	if !strings.Contains(str, subStr) {
+		t.Fatalf("%v does not contain %v", str, subStr)
+	}
 }
