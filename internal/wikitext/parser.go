@@ -1,6 +1,7 @@
 package wikitext
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -19,7 +20,8 @@ func ParseDefinition(raw string, depth int) string {
 	}
 
 	// resolve depth of definition
-	sentences := strings.SplitAfter(definition, ".")
+	sentences := strings.SplitAfter(definition, ". ")
+	sentences = NormalizeSentences(sentences)
 	if depth <= len(sentences) {
 		sentences = sentences[0:depth]
 	}
@@ -57,4 +59,26 @@ func resolveLink(link string) string {
 	}
 
 	return link
+}
+
+// Enforces rules around what constitutes a sentence.
+//   - A sentence ends on a `. `
+//   - A sentence must contain at least 2 words (eliminates acronyms from
+//     counting as a sentence, eg. a.k.a. should not be a sentence simply because
+//     it includes a `. `)
+func NormalizeSentences(sentences []string) []string {
+	for i, sentence := range sentences {
+		fmt.Println(sentence)
+		words := strings.Split(sentence, " ")
+		if len(words) <= 1 && i+1 < len(sentences) {
+			sentences[i] = sentence + sentences[i+1]
+			i++
+			// remove next entry
+			if i+2 < len(sentences) {
+				sentences = append(sentences[:i+1], sentences[i+2:]...)
+			}
+		}
+	}
+
+	return sentences
 }
