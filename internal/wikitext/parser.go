@@ -19,7 +19,7 @@ func ParseDefinition(raw string, depth int) string {
 	}
 
 	// resolve depth of definition
-	sentences := strings.SplitAfter(definition, ".")
+	sentences := strings.SplitAfter(definition, ". ")
 	if depth <= len(sentences) {
 		sentences = sentences[0:depth]
 	}
