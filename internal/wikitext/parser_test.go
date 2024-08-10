@@ -16,6 +16,7 @@ func TestParser(t *testing.T) {
 		{"{{quote|We found him wandering around, with a candle.|A scriv about [[Kvothe]]{{ref|TNOTW}}}}\n\n[[File:Kvothe by ladyroadx-d4hvaki.jpg|thumb|290px|Fan Art by\nhttp://ladyroadx.deviantart.com/]]\n\nA '''Scriv''' is a student who works under [[Master Lorren]], specifically in [[University|The University's]] [[The Archives|Archives]].", "A Scriv is a student who works under Master Lorren, specifically in The University's Archives."},
 		{"{{Infobox character\n|Appearances = {{TombsOfAtuan}}\n|Mentioned = \n}}\n'''Kossil''' is a Priestess", "Kossil is a Priestess"},
 		{"A.203 is a robot from the achovy system", "A.203 is a robot from the achovy system"},
+		{"==Heading==A.203 is a robot from the achovy system", "A.203 is a robot from the achovy system"},
 	}
 
 	for _, c := range cases {

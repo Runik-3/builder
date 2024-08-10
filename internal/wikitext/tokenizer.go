@@ -13,6 +13,7 @@ const (
 	link_end
 	table_start
 	table_end
+	heading
 	text
 )
 
@@ -88,12 +89,27 @@ func tokenizer(raw string) TokenCollection {
 				newToken("", state, &tokens)
 				break
 			}
+			if tt == heading {
+				state = state.set("heading")
+				newToken("", state, &tokens)
+				break
+			}
 			if tt == text {
 				appendToToken(char, tokens)
 			}
 
 		case "link":
 			if tt == link_end {
+				state = state.set("text_start")
+				break
+			}
+			if tt == text {
+				appendToToken(char, tokens)
+				break
+			}
+
+		case "heading":
+			if tt == heading {
 				state = state.set("text_start")
 				break
 			}
@@ -129,14 +145,18 @@ func tokenizer(raw string) TokenCollection {
 }
 
 func tokenType(chars []string, i *int) TokenType {
+	// TODO: the tokenizer is in need of a cleanup, this can be improved.
 	tknType := text
 
+	currChar := chars[*i]
 	// end of file
 	if len(chars) == *i+1 {
+		if currChar == "=" {
+			tknType = heading
+		}
 		return tknType
 	}
 
-	currChar := chars[*i]
 	nextChar := chars[*i+1]
 
 	if currChar == "[" && nextChar == "[" {
@@ -154,6 +174,16 @@ func tokenType(chars []string, i *int) TokenType {
 	if currChar == "}" && nextChar == "}" {
 		*i++
 		tknType = table_end
+	}
+	if currChar == "=" {
+		for range chars[*i:] {
+			if len(chars) > *i+1 && chars[*i+1] == "=" {
+				*i++
+				continue
+			}
+			tknType = heading
+			break
+		}
 	}
 
 	return tknType
