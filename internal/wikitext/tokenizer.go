@@ -2,6 +2,7 @@ package wikitext
 
 import (
 	"encoding/json"
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -202,7 +203,8 @@ func appendToToken(char string, tokens TokenCollection) {
 
 // Prepares document for tokenization.
 func cleanDocument(t string) string {
-	s := cleanHtmlTags(t)
+	s := cleanHtmlContent(t)
+	s = cleanHtmlTags(s)
 
 	// strip urls from text (likely came from <ref> tags that got cleaned above
 	reg := regexp.MustCompile(`(f|ht)(tp)(s?)(://)(\S*)[.|/]([^\s\]\}]*)`)
@@ -216,10 +218,22 @@ func cleanDocument(t string) string {
 	return s
 }
 
+// removes html tags whose inner text we don't want to preserve
+func cleanHtmlContent(s string) string {
+	tags := []string{"ref"}
+
+	for _, t := range tags {
+		reg := regexp.MustCompile(fmt.Sprintf("<%s.*>.*<\\/%s>", t, t))
+		s = reg.ReplaceAllString(s, "")
+	}
+
+	return s
+}
+
 // removes html tags from text, but preserves inner text
-func cleanHtmlTags(t string) string {
+func cleanHtmlTags(s string) string {
 	reg := regexp.MustCompile("<[^<>]*>")
-	s := reg.ReplaceAllString(t, "")
+	s = reg.ReplaceAllString(s, "")
 
 	return s
 }

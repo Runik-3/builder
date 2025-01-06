@@ -43,6 +43,8 @@ func TestCleanDocument(t *testing.T) {
 		{"'''''Welcome''''' hi", "Welcome hi"},
 		{"welcome this is a link https://link.com", "welcome this is a link "},
 		{"welcome this is a linkhttps://link.com", "welcome this is a link"},
+		{`<ref>should be cleaned</ref>`, ""},
+		{`<ref name="test">should be cleaned</ref>Hi`, "Hi"},
 	}
 
 	for _, c := range cases {
