@@ -17,6 +17,7 @@ func TestParser(t *testing.T) {
 		{"{{Infobox character\n|Appearances = {{TombsOfAtuan}}\n|Mentioned = \n}}\n'''Kossil''' is a Priestess", "Kossil is a Priestess"},
 		{"A.203 is a robot from the achovy system", "A.203 is a robot from the achovy system"},
 		{"==Heading==A.203 is a robot from the achovy system", "A.203 is a robot from the achovy system"},
+		{"handwritten in [[wikipedia:Octavo|octavo-sized pages]]", "handwritten in octavo-sized pages"},
 	}
 
 	for _, c := range cases {

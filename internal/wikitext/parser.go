@@ -40,9 +40,14 @@ func ParseDefinition(raw string, depth int) string {
 
 // handles the different link types
 func resolveLink(link string) string {
-	// category, interwiki link, or file
-	if strings.Contains(link, ":") {
-		return ""
+	// Since we're only parsing text from wikis, we don't want to handle link
+	// types that don't include display text (ie. files, media, categories)
+	unsupported := []string{"file:", "media:", "categrory:"}
+
+	for _, u := range unsupported {
+		if strings.Contains(strings.ToLower(link), u) {
+			return ""
+		}
 	}
 
 	// link with display text [[name of page|display text]]
