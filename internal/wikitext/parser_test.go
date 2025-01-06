@@ -1,6 +1,7 @@
 package wikitext
 
 import (
+	_ "embed"
 	"strconv"
 	"testing"
 )
@@ -42,5 +43,14 @@ func TestParserDepth(t *testing.T) {
 		if r != c[1] {
 			t.Fatalf("\nWant:\n%s\n\nRecieved:\n%s", c[1], r)
 		}
+	}
+}
+
+//go:embed test_wikitext.txt
+var sample_text string
+
+func BenchmarkParsing(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		ParseDefinition(sample_text, 1)
 	}
 }

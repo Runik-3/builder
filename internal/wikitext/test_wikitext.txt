@@ -1,0 +1,295 @@
+This test content comes from https://kingkiller.fandom.com/wiki/Kvothe
+
+= ...... =
+
+{{quote|I have stolen princesses back from sleeping barrow kings. I burned down the town of Trebon. I have spent the night with Felurian and left with both my sanity and my life. I was expelled from the University at a younger age than most people are allowed in. I tread paths by moonlight that others fear to speak of during day. I have talked to Gods, loved women, and written songs that make the minstrels weep. You may have heard of me.|Kote{{ref|TNOTW}}}}
+{{Character
+|image = The kingkiller chronicle kvothe by shilesque-d8m6yzz.jpg
+|fullname = Kvothe, Son of Arliden
+|alias = Kote<br>Reshi<br>Maedre<br>Red<br>Dulator<br>Shadicar<br>Lightfinger<br>Six-String<br>Kvothe the Bloodless<br>Kvothe the Arcane<br>Kvothe Kingkiller
+|family = *[[Arliden]] (father) †
+*[[Laurian]] (mother) †
+|fate = Alive
+|gender = Male
+|skin = Pale
+|age = Around 15-16 (In the past)
+Mid 20s (In the present)
+|hair = Red
+|eye = Green
+|ethnicity = [[Edema Ruh]]
+|occupation = *University student (former)
+*Musician (former)
+*Innkeeper
+|field = Artificing, Medica, Naming, Sympathy, Arithmetic (skipped later) and learning [[Siaru]] language
+|rank = Re'lar
+|instrument = Lute
+|residence = * [[Tarbean]] (past)
+* [[The University]] (past)
+** [[Mews]] (past)
+** [[Horse and Four]] (past)
+** [[Anker's]] (past)
+* [[Waystone Inn]], [[Newarre]]}}
+
+'''Kvothe''' {{pron|PR|/kvoʊθ/|/kvəʊθ/}}<ref>https://youtu.be/MPEB6NAGoYk?t=78</ref> is the main character in the [[The Kingkiller Chronicle|Kingkiller Chronicle]]. His name is described as much like the word ''quoth (kw'''əʊθ''')'' but beginning the same as the Yiddish term ''kvetch ('''kv'''ɛtʃ)''. <ref>Patrick Rothfuss Blog. [http://blog.patrickrothfuss.com/2008/02/ask-author-4-how-do-i-pronounce-kvothes Ask the Author #4: How Do I Pronounce Kvothe’s name?] (February 19, 2008)</ref>
+
+== Description ==
+Kvothe has pale skin and green eyes, though the intensity of this color is often noted as changing depending on his mood throughout the series. His eyes are similar to the description of his mother's eyes. He has extremely red hair often compared to a flame.
+
+He is exceptionally intelligent, quick-witted, sharp-tongued and clever, as well as a talented musician. He is also very curious, a quality that often gets him into trouble. He has a quick temper, is reckless, and often thoughtless.
+
+In the books, some evidence (mostly cover illustrations) suggest that he is left-handed.
+
+== In The Chronicle ==
+=== Early life ===
+Kvothe was born to [[Arliden]] and [[Laurian]], leaders of an [[Edema Ruh]] troupe under the patronage of [[Baron Greyfallow]]. His early education is spotty and eclectic, his teachers being troupers and travelers. This changes when his troupe picks up an [[arcanist]] named [[Abenthy]].
+
+Meeting Abenthy was a pivotal moment in Kvothe's life. During his first encounter with the arcanist, he witnesses him call the name of the wind. This ability sparks his interest and ultimately leads him to the [[the University|University]]. Abenthy instructs Kvothe in [[Sympathy]], Chemistry, Rhetoric, and Arithmetic, in preparation for his admittance to the University. Abenthy eventually leaves the troupe, much to Kvothe's dismay.
+
+After Abenthy's departure, Kvothe's education with the troupe is stepped up to keep him busy. Not long later his troupe is brutally murdered by the [[The Chandrian|Chandrian]], and Kvothe survives as he was playing in the forest away from the road. When he returns, he has a brief encounter with the Chandrian until they suddenly leave, seeming to flee discovery from some unseen presence.
+
+After the horrific discovery of his slaughtered family, and subsequent encounter with [[Cinder]] and [[Haliax]], the traumatized Kvothe flees into the nearby woods with nothing but his father's lute. He then spends nearly half a year recovering, completely alone. It is during this time he learns to play the lute so well, he can conjure up specific feelings and images with the notes. When one and eventually even two of the strings break, he has become skilled enough to play without them. However, Kvothe is eventually forced to leave the forest when the third string breaks, which turns out to be one too many missing strings to play. After days of walking, and a little help from a humble farmer named [[Seth (farmer)|Seth]], he reaches [[Tarbean]].
+
+=== Tarbean ===
+On Kvothe's first day in Tarbean, a group of street urchins led by a boy named [[Pike]] rob and beat him, destroying his father's lute in the process. After this incident, he decides to go home with Seth, but in his effort to find the farmer he becomes lost in the city, missing his chance. Over the next three years, he is forced to beg and steal simply to survive. He eventually finds a well-hidden shelter where three roofs meet above Tarbean's candle works, which provides Kvothe some warmth and a place to store his meager possessions during his stay in the city.
+
+Here Kvothe develops an identity as a street urchin, learning most of his lessons the hard way. Once while begging in [[Hillside]], a relatively upscale neighborhood, he is caught by a guardsman and beaten within an inch of his life. He is saved from hypothermia by a man, [[Gerrek]], acting the part of [[Encanis]] in the Midwinter Pageant. Shortly thereafter, Kvothe becomes terribly ill and seeks the help of [[Trapis]], a man who cares for the discarded and otherwise helpless children of Tarbean. At the request of one of the children, Trapis tells the story of [[Tehlu]] and Encanis, the first of many tales that will guide Kvothe on the Chandrian's trail. After he is well again, Kvothe becomes very fond of Trapis, often visiting to assist him and work for food.
+
+A year before his departure from Tarbean, Kvothe locates Pike, the boy who destroyed his father's lute and stalks him back to where he has made his home in an alley. Kvothe observes the young man and finds that he has a stash of sentimental personal belongings. Later, when the boy leaves his shelter, Kvothe steals down into it and destroys everything. He relishes so long in the destruction that Pike catches him, but he manages to escape. He subsequently avoids Dockside where Pike and his friends roam, until he hears of a storyteller.
+
+Shortly before his departure from Tarbean, he hears of [[Skarpi]], a storyteller who can be found at [[The Half Mast]], a bar in Dockside. It is rumored that Skarpi has an open wager to any person who can request a story he does not know. Wishing to hear the story of [[Lanre]], Kvothe decides to pay a visit to the bar. After Skarpi tells the story, Kvothe has a short meeting with the man where he agrees to return the following night. However, Kvothe arrives late and comes in during the story of [[Myr Tariniel]]. Shortly thereafter Skarpi is arrested for blasphemy by a Telhu Justice named Erlus, whom Skarpi seems to know, and another priest. After Skarpi mocks Erlus, he is assaulted and tells Kvothe to run, which he does. After this occurrence, Kvothe decides to leave Tarbean and seek admittance to the University. He proceeds to pawn what little he has, including his book ''Rhetoric and Logic'', a gift from Abenthy. He retains a receipt for the book so he might purchase it back someday. He then bids farewell to Trapis and secures a place on a caravan led by [[Roent]]. While traveling in the caravan, he meets [[Denna]] for the first time.
+
+=== The University ===
+Kvothe is accepted into [[the University]], and manages to enter the [[The Arcanum|Arcanum]] within three days. He is reunited with Denna, visits [[Trebon]] in search of the Chandrian, is raised to [[Re'lar]], and is brought up against the iron law.
+
+==== ''First Term (Spring)'' ====
+Kvothe gains admission to the University under virtually unheard-of circumstances, gaining a tuition of ''minus'' three talents (he negotiates being ''given'' money to attend) at the young age of fifteen. He is among the youngest students to have ever attended the institution. He meets [[Simmon]], [[Wilem]], [[Manet]], and [[Sovoy]] shortly after admissions, becoming fast friends with the group. In his first class, Principles of [[Sympathy]], he finds the course far below his ability level. At the end of the class, he attempts to explain this to [[Master Jasom Hemme|Master Hemme]] but is summarily dismissed. The following day, Hemme attempts to embarrass Kvothe by insisting that he teach the class. Kvothe quickly turns the tables by displaying his prowess as an arcanist, burning Hemme's foot in the process. This leads to Kvothe's first run-in with the University's disciplinary procedure when he is charged with unauthorized use of sympathy and [[malfeasance]]. When the circumstances of his actions are uncovered, however, he is spared expulsion and instead receives three lashes as punishment. Surprisingly, he is also granted access to the Arcanum, as he has proven his skill in sympathy by performing a double binding. He is sponsored to [[E'lir]] by [[Master Kilvin]] and, in exchange, Kvothe begins his study in [[artificing]]. Kvothe is publicly whipped, gaining notoriety by neither screaming nor even bleeding—which he accomplishes through the use of [[nahlrout]]. He then goes to the [[Medica]] for treatment, where he meets [[Master Arwyl]], who invites him to study there. Artificing and medicine become Kvothe's focus for the remainder of the term.
+
+Kvothe is immediately drawn to the University's [[The Archives|Archives]], where he asks the scrivs at [[the Tomes]] for texts on the [[The Chandrian|Chandrian]] and the [[Amyr]]－despite [[Master Lorren|Master Lorren's]] discouragement against this line of inquiry. When he gains promotion to the Arcanum and can finally research the subject on his own, his quest is again cut short by [[Ambrose Jakis]], who tricks him into entering the stacks with an open flame. The resulting banishment lasts several terms, though Kvothe manages to regain access much earlier when [[Auri]] helps him discover a secret entrance through [[the Underthing]].
+
+Fascinated by his abilities as [[Master Namer]] and curious of his unconventional nature, Kvothe seeks the company and advice of [[Elodin|Master Elodin.]] Elodin then takes him to [[The Crockery|Haven]] to show him the potential hazards of studying [[Naming]]. Here Elodin instructs Kvothe to jump off the roof, which he does, thinking Elodin will break his fall by calling the wind. Elodin does not, and instead tells Kvothe that he is too impulsive to study under him. Crestfallen and bruised, Kvothe decides to focus on his [[Sygaldry|Artificing]] for the time being.
+
+==== ''Second Term (Summer)'' ====
+In order to pay tuition for his second term, Kvothe seeks out a [[gaelet]] and finds [[Devi]], who gives him the first of several loans he will eventually take from her. She uses her clients' blood as collateral if they have nothing of value. Kvothe resists at first but eventually agrees to it out of desperation. With money to his own name for the first time, he pays his admission and purchases his first lute since his father's was broken in Tarbean.
+
+Kvothe studies sygaldry under Kilvin's giller, [[Cammar]], impressing him by learning the basics in just seven days, rather than the whole term that most students require. He achieves this largely by setting all one hundred ninety-seven runes to music that he can mentally reference with ease. He is then apprenticed to [[Manet]].
+
+His other studies include medicine, mathematics, and advanced sympathy with [[Elxa Dal]]. His schedule eventually begins to wear on him, and around the fifth [[span]] he begins to burn out. He remains undefeated in sympathetic dueling, but Wilem and Simmon speak to Kilvin and have him banned from working extra hours in the shop to save him from total exhaustion.
+
+With a spot of extra time in his schedule, Kvothe decides to look into playing at the [[The Eolian|Eolian]]. While practicing in a quiet, secluded courtyard, he gradually befriends a timid young girl who lives beneath the University in a network of tunnels and caverns she calls [[the Underthing]]. Kvothe names her [[Auri]] and generally keeps their relationship and meetings secret. Wilem and Simmon accompany Kvothe to the Eolian when he decides to try for his [[talent pipes]]. He plays "[[The Lay of Sir Savien Traliard]]", a very difficult song that requires a female accompaniment. He hopes that among the talented performers in the Eolian, one will step up and sing the harmony when the time comes. After a tense moment of hesitation, a voice rises out of the crowd, and the song goes wonderfully, despite (or partly because of) the fact that a string breaks on his lute during the performance. He wins his talent pipes, figures out that Ambrose used sympathy to break his lute string (giving himself binder's chills in the process and leaving as soon as the performance was over), and discovers after much searching that Denna was the woman to step in and sing the Aloine harmony in the song. She is at the Eolian with Sovoy, going by the name of Dianne.
+
+During admissions week, he makes an arrangement to be a house musician at the [[Horse and Four]]. Here, Kvothe and [[Count Dennais Threpe|Count Threpe]] write "Jackass, Jackass", a jeering play on Ambrose's last name, and perform it at the Eolian. With the proceeds, Kvothe buys back his copy of ''Rhetoric and Logic'' from Master Lorren, and tries unsuccessfully to get his ban from the Archives rescinded. Ambrose charges Kvothe with Conduct Unbecoming a Member of the Arcanum over the song, but the Masters replace the charge with Undignified Mischief. Three days later, the Horse and Four is sold to a new owner who tells Kvothe that he is no longer needed. It seems that Ambrose has arranged the sale and threatened other nearby inns against hiring Kvothe. [[Anker]], partly because he needs a musician and partly just to thumb his nose at Ambrose, takes Kvothe in, giving him a small room and access to meals in exchange for playing four nights a span.
+
+Kvothe finishes the term "not quite sixteen" years old.
+
+==== ''Third Term (Fall)'' ====
+To allow time for his music, Kvothe limits himself to three fields of study: Advanced Sympathy, a shift in the Medica, and his artificing apprenticeship.
+
+Denna returns to town and finds Kvothe at [[Anker]]'s. They go for a six-hour walk, and the next day she vanishes again, leaving her bill unpaid at the Oaken Oar, where she had been using the name Dinnah.
+
+<p style="font-weight:normal;">Manet accidentally reveals that there is a secret way to the Archives, but will reveal no more to his young apprentice. Kvothe rises to journeyman by making a bulls-eye [[sympathy lamp]], which Master Kilvin admonishes as a thieves' lamp. It was skillfully made, however, and Kvothe is allowed to keep it as long as he swears that it never falls into another's possession. </p>
+
+Denna returns and meets Simmon and Wilem at the Eolian. They spend the evening in one another's company and make plans to meet the following day.
+
+The next morning, Kvothe saves Fela from a bone-tar fire in the Fishery and misses his appointment with Denna. He is so poor he cannot afford to replace the clothes damaged in the fire until some of his work at the Fishery sells, and then he can only buy some used boots. He sees Fela at the Eolian and she gives him a fine new cloak in thanks for saving her from the fire, declaring herself indebted to him. He briefly spots Denna leaving, and worries that she will think he spurned her for Fela, but he does not pursue her.
+
+Two thugs armed with a "finder"<span style="font-weight:normal;">—</span>a sympathetic compass that uses a hair to point toward its owner<span style="font-weight:normal;">—</span>hunt Kvothe down in an alley in [[Imre]] and attempt to kill him. He manages to use sympathy to blind and stun them long enough to escape, adding to his reputation, as they believe he called down fire and lightning on them. Later, crawling into his room through the window, he finds a note Denna left for him wedged into the window frame several days prior. In it, she hints at having met someone interesting about whom she wishes to speak to Kvothe. He takes steps to confound the "finder" in case someone else comes after him, and takes a room in an inn near the docks.
+
+The following day, he hears about a wedding near [[Trebon]], where it seems the Chandrian appeared and killed everyone. He borrows more money from Devi, buys a horse, and rides sixty miles in half a day to reach the town. On the way, he comes across a [[tinker]] to whom he trades away the horse for a loden-stone and sundry other items. At the local inn, he inquires about the wedding, hoping to glean information about the Chandrian, and discovers that there was one survivor, slightly injured, who turns out to be Denna.
+
+The two of them leave the inn and head toward the Mauthen Farm to see if Denna can find any of her things from before she was knocked unconscious. She tells him about her eccentric potential [[Master Ash|patron]], and Kvothe nicknames him [[Master Ash]]. They look around the farm, and Denna tells Kvothe that she saw blue flame during the chaos. What wood remains is rotted, and the iron pump-handle is rusted through<span style="font-weight:normal;">—signs that the Chandrian were indeed involved</span>.
+
+Denna wants to go looking for Master Ash, so they head into the woods to explore. Eventually, they run across [[Skoivan Schiemmelpfenneg]] ("Schiem"), a swineherd with whom they share dinner and a local legend around blue flame in the bluffs to the north. They head in that direction and camp at the top of a hill with a good view of the bluffs, littered with a handful of greystones. Kvothe theorizes that [[Mauthen Farm|Mauthen]] dug up a Chandrian artifact of some kind when building his house, and that is what attracted them. They see the blue flame to the north before bedding down for the night.
+
+A [[draccus]] wakes them in the middle of the night, as it comes to the hilltop lured by their fire. It destroys the fire and eventually leaves in the early morning. Kvothe and Denna make it to where they saw a small plume of smoke rising, and find a small, curious encampment. The draccus appears, and they flee into a cave, where Kvothe realizes that it is a grove of denner trees being cultivated to make [[Denner resin|ophalum]]<span style="font-weight:normal;">—</span>but not before Denna chews a large amount of it, thinking it to be maple candy. Kvothe tries to help treat her for the drug's effects but hasn't much to work with. They collect all the ophalum they can find, hoping to sell it back in Imre or the University. In the meantime, he realizes that the draccus is addicted to the resin of the Denner trees and has become dangerous. They decide to try to overdose it with some of the resin. They ball up two-thirds of the resin they found and bait the draccus with a fire, then hide to wait for it to arrive. It does so, takes the bait, and starts to fall asleep. Then, fires from Trebon's harvest festival attract its attention and it races maniacally toward the town. Kvothe must leave Denna, who has passed out from the ophalum, to race after the draccus, following it into Trebon. With the last of the ophalum as bait, he manages to save part of the town from the fire with some sygaldry and sympathy, killing it with a massive iron wheel and knocking himself out in the process. 
+
+When Kvothe awakens, the townsfolk are in awe, unable to understand what happened. They tell him that they have "disposed of the demon" in the proper manner, and Kvothe plays on their bemusement to gather further information about the events of the wedding. [[Nina]] tells him that she saw the artifact the Mauthens dug up and that it was a vase or urn with drawings on it. When she describes what she remembered, Kvothe knows the drawings were of the Chandrian. She is terrified, and Kvothe gives her an amulet that he claims he has charmed to protect her. He then leaves Trebon, unable to find Denna since the night of the draccus.
+
+Back at the University, Ambrose steals Kvothe's lute from its case. While toying with it to tease Kvothe, he carelessly breaks it. Enraged, Kvothe involuntarily calls the name of the wind and buffets Ambrose, breaking his arm. Kvothe then falls into a trancelike state. Elodin finds him and whispers something that begins to mend him psychologically.
+
+Ambrose and Kvothe are brought before the horns (the disciplinary council). Ambrose is found guilty of stealing and destroying Kvothe's lute and required to pay for its replacement. Kvothe is found guilty of malfeasance and sentenced to six lashes and expulsion, but his expulsion is immediately repealed at Elodin's behest. Kvothe is then raised to Re'lar with Elodin as his sponsor, the second time his status is elevated after punishment.
+
+Kvothe's lashing proceeds in much the same way as his first, and he purchases a new lute and other small things with Ambrose's money.
+
+<span style="font-weight:normal;">It's during this time that Auri begins to show Kvothe around the Underthing. </span>Auri eventually leads Kvothe to a passage that he discovers leads to the Archives, a system of tunnels that provide ventilation for the myriad books.
+
+==== ''Fourth Term (Fall)'' ====
+During this term, Kvothe is poisoned with a plum bob, breaks into Ambrose's rooms, builds a Gram, creates his first original work in the Fishery and pines for Denna.
+
+=== Vintas ===
+To help the University save face with an already apprehensive outside world, and to avoid <span style="font-weight:normal;">astronomically high tuition</span>, Kvothe takes his friends' advice that he skip the next term. Fortuitously, [[Count Threpe]] finds that the [[Maer Alveron]], a powerful noble in [[Vintas]], seeks a discreet musician to help him with an unnamed task. Kvothe goes to Vintas readily and presents himself to the Maer Alveron, after troublesome travels.
+
+The Maer puts Kvothe in private rooms in his estate to keep him close and judge his character. Kvothe meets [[Bredon]], the only noble at court who seems to recognize the extreme pretension of the place. Bredon teaches Kvothe to play [[tak]] and instructs him on the finer points of Vintas etiquette. Finally meeting with the Maer, Kvothe finds him to be very ill and is tasked with fetching his medicine from the court arcanist, [[Caudicus]]. Unaware that Kvothe is from the University, the arcanist prepares the medicine in front of him, and Kvothe deduces that Caudicus is poisoning the Maer with lead. Kvothe informs the Maer and helps him recover, but Caudicus escapes.
+
+Kvothe finds that [[Denna]] is in [[Severen]] with her patron, [[Master Ash]]. They spend extended periods of time together for the first time. The Maer reveals to Kvothe why he asked for help: he needs a wife, and the only suitable one is [[Meluan Lackless]], a beautiful noblewoman of a very old Vintish family. Drawing upon his time with Denna, Kvothe writes songs and letters to Meluan for the Maer, with much success.
+
+Denna presents a song she has been writing with Master Ash to Kvothe. The song is very much like the one [[Arliden]] wrote about [[Lanre]], but it shows him in a positive light, rather than as the unspeakable [[Haliax]] who leads the Chandrian. Because this was the subject of the song that likely got his family killed, Kvothe is uncharacteristically short and stern in his rebuke of Denna's song. They fight and part ways in anger.
+
+The Maer sends for Kvothe and asks him to lead a small band of mercenaries to hunt a group of bandits <span style="font-weight:normal;">who had been robbing tax collectors in</span> the [[Eld]], an old forest east of Vintas. Kvothe later suspects that the Maer's true reason for sending him away was to prevent him from getting too close to Meluan, now that the courtship was underway.
+
+Along the way, Kvothe befriends [[Tempi]], an [[Adem]] mercenary, and begins to learn the [[Ademic]] language, their customs and [[Lethani|philosophy]]. Though they could barely communicate verbally, Tempi tries to explain the [[Lethani]], the core tenet of Ademic tradition, and the [[Ketan]], its respective martial art. 
+
+After many days of scouring the wood for tracks, Kvothe and his team discover the enemy encampment during a fierce thunderstorm. Outnumbered by more than two dozen men, [[Marten]], Tempi, and Kvothe elect for a retreat when [[Dedan]] accidentally alerts the enemy camp to their presence. During the ensuing fight, Kvothe uses [[sympathy]] on a dead bandit's body to link to and kill several bandits—blood magic. When their [[Cinder|leader]], an armored man, appears immune to Marten's arrows, Kvothe uses one of Marten's arrows to establish a link with a tree in the center of the enemy camp. Using it as a conductor, Kvothe calls the name of the wind for the second time, to call down a bolt of lightning. With most of the bandits killed and the leader nowhere to be found, Kvothe and his team find the stolen money and begin the trek back to Severen.
+
+===The Faen Realm===
+On the journey back, the group stumbles upon [[Felurian]], a fatally seductive fae creature. Her song entrances [[Dedan]], but [[Hespe]] stops him in his tracks. Kvothe willingly follows her all the way into [[The Fae|Fae]], leaving his companions behind. There, Kvothe has his first sexual experience, and his second, and third, and fourth... Afterwards, he struggles into a moment of clarity and realizes the grave danger he is in. Felurian senses his desire to flee and attempts to ensnare him in a magical embrace. His sleeping mind awakened, Kvothe sings her name in four perfect notes, and calls the name of the wind, briefly holding her in his power. Startled and impressed, Felurian withdraws, and they do not speak of this conflict again.
+
+Kvothe devises a plan to escape the Fae. Playing on his naïveté, he begins an improvised song that expounds upon Felurian's beauty and sexual prowess. She lovingly accepts this praise, until he springs the trap: Kvothe begins describing her as merely adequate, that her "skills suffice". Felurian is predictably enraged, and Kvothe defends himself by saying he has nothing to compare her to, as he was a virgin before her. In order to write and propagate a song that will last the ages, Kvothe argues that he must be set free to gain more experience. Felurian reluctantly agrees, but only on the condition that he swears by his name that he will return and be hers until he dies.
+
+Felurian teaches Kvothe of [[the Creation War]] and the moon and the [[Iax|shaper who stole it]]. She spends much time sewing Kvothe a [[shaed]] to better protect him in the mortal realm. She allows him to follow her out of the glade to collect shadows and moonlight for the cloak, but when she begins sewing them together, she sends Kvothe away. During this time, he explores the forest surrounding Felurian's twilight glade. There he encounters the [[The Cthaeh|Cthaeh]], who seems to know everything about him. Kvothe learns that the leader of the bandits he recently fought was actually the Chandrian, [[Cinder]]. Clearly aware of what topics are closest to Kvothe's heart, the Cthaeh tells him that Cinder was the one who raped his mother and that Denna's patron beats her. Overwhelmed by emotion, Kvothe runs away before the Cthaeh can say much more. 
+
+Somehow he returns to the glade, and Felurian nurses him back to health as his mind reels, having encountered what [[Bast]] later describes as the most dangerous creature in the world. Once recovered, Kvothe spends his days swimming and cavorting with Felurian. Eventually, he leaves the Fae and meets up again with his party, who says he has been missing for three days. To Kvothe, it seemed like at least a year.
+
+=== Ademre ===
+On their return to Severen, <span style="font-weight:normal;">Adem merceneries confront </span>Tempi with potential disciplinary measures for teaching a barbarian (Kvothe) of the [[Ketan]] and [[Lethani]].
+
+Kvothe elects to journey with Tempi to [[Haert]] to help plead his case, leaving the rest of the group to report to the Maer, though he retains the box of stolen money for safekeeping. In Haert, Tempi's teacher and head of the school, [[Shehyn]], approaches Kvothe to test whether he is "of the [[Lethani]]" and thus worthy of training. She tentatively approves, and assigns Kvothe to [[Vashet]], an experienced Adem warrior, also known as "The Hammer". Kvothe learns that if he fails the test after his training, he faces mutilation of his hands or even death, to ensure the secrecy of the [[Ketan]]. Kvothe trains under Vashet for a few months and receives his test. He is to pass under the canopy of the sword tree, past its many falling, razor-sharp leaves, to retrieve one of the various items placed around its trunk. He enters a meditative state in which he can discern the wind's movement of the leaves, and passes through unharmed. His concentration is broken when he sees his lute against the trunk, but he regains his composure and follows the Lethani. Calling the name of the wind to calm the blades, he returns without any of the items. Locking eyes with Shehyn, he calmly slices his palm against a sword leaf, holds it up to her gaze and says, "willing". Shehyn and the rest of the onlookers are impressed by his performance, and he passes the test.
+
+He is given the name Maedre and the ancient sword, [[Saicere]], which Kvothe calls [[Caesura]], a fitting name as the sword is also known as "the poet killer". Kvothe gradually gains acceptance at the school and is thus free to study or to leave. With Tempi's standing reestablished and having unfinished business with both the [[Maer Alveron|Maer]] and [[Denna]], he decides to leave Haert.
+
+=== Return to the University ===
+====''Fifth Term (Winter)''====
+It has been nearly a year since Kvothe was last at the University, and he now bears the letter of credit from Alveron, which he proudly presents to the bursar, and makes a deal to split tuition fees exceeding 10 talents. He finds that his "arrowcatch" (dubbed the "[[Bloodless Device|Bloodless]]" by [[Master Elodin]]) has become a hot commodity, and he is entitled to ten percent of the profits. Kvothe collects the accumulated sum and finds financial stability for the first time in his life.
+
+====''Sixth Term (Spring)''====
+Kvothe earns a tuition of eighteen talents and five.
+
+====''Seventh Term (Summer)''====
+Kvothe earns a tuition of fifty talents for insulting Master [[Master Jasom Hemme|Hemme]].
+
+=== The present ===
+In the frame story, Kvothe goes by the name [[Kote]]. He lives in the town of [[Newarre]], hiding his true identity by living as the innkeeper of the [[Waystone Inn]] with his companion, [[Bast]]. It seems that Kvothe took on this identity after a mishap that led to becoming a wanted man, presumably the death of the eponymous King. Kote appears either unable or unwilling to use things such as [[Sympathy]], [[Naming]], and even the [[Ketan]], though he retains some of Kvothe's martial skill, as demonstrated when he fights the [[scrael]] at the beginning of [[The Name of the Wind]].
+
+Kote's companion and student, [[Bast]], is one of the only characters in the frame story who knows Kote's true identity, he often refers to Kote as Reshi. Bast secretly seeks to restore Kote to his former self, though if he is motivated beyond friendship and learning, those reasons are unknown.
+
+Bast spreads a rumor that Kote is Kvothe and ultimately draws the attention of [[Devan Lochees|Chronicler]], who begins writing his life story, for which he is allowed three days. As of ''[[The Wise Man's Fear]]'', Kote is currently on the second day of this chronicle.
+
+Though jovial and every bit the amicable barkeep when patrons are about, Kote is a quiet, pensive character, and he has expressed to Chronicler that the current civil unrest is his fault. He has at least once attempted to write his autobiography, but quickly became frustrated and abandoned the project, though crumpled pages of the work are still strewn about his desk. Kote keeps a mysterious thrice-locked chest at the foot of his bed, the contents of which are the topic of much speculation by fans of the series.
+
+==Other Names==
+Listed in the order of their appearance:
+*Kote
+*Reshi
+*Maedre
+*Dulator
+*Shadicar
+*Lightfinger
+*Six-String
+*Kvothe the Bloodless
+*Kvothe the Arcane
+*Kvothe Kingkiller
+
+=== Kote ===
+Kote {{pron|PR|/koʊt/}}<ref>https://youtu.be/MPEB6NAGoYk?t=364</ref> is described as having bright red hair and dark, distant eyes. In his bearing and speech, he seems much older than he really is, and appears to enjoy his daily ritual of cleaning the floors and bar, and especially polishing his bottles.
+
+Even though Kote is only a disguise for Kvothe, it seems he is getting lost in the character. This is likely exemplified by his apparent loss of skill in sympathy and the Ketan.
+
+In Siaru, Kote means "Disaster".
+
+In Haitian, Kote means "Where".
+
+In Albanian, Kote means "Pointless".
+
+=== Reshi ===
+The name "Reshi" was given to Kvothe by Bast. It means "teacher" or "sage" in Sanskrit. Also in Hebrew "Reshef" means "Flame, Torch, her Heart".
+
+=== Maedre ===
+Maedre {{pron|PR|/'meɪdɹɛ/ or /'meɪdɹɛ/}}<ref>https://youtu.be/MPEB6NAGoYk?t=428</ref> ([[Ademic]] for "flame, and thunder, and broken tree") is the name given to Kvothe upon admission to the [[Latantha]] school in the settlement of [[Haert]]. Unlike most of the other names attributed to Kvothe, which were more like nicknames that described his deeds (Kvothe the Bloodless'', ''Kingkiller, etc.), this name was officially bestowed upon him as a "deeper name", in [[Elodin|Elodin's]] words.
+
+After Kvothe had passed his test to join the Adem school and was deemed worthy, he was brought before [[Magwyn]], the Adem "namer" and keeper of the histories of the swords of the Adem. After Kvothe looked Magwyn in the eye he realized she had the same ability as [[Elodin]] in "true-naming".
+
+"Maedre" is an anagram for "Ademre".
+
+=== Dulator ===
+Meaning currently unknown. Said to have been given to him by "his first real lover", because "she liked the sound of it".
+
+=== Shadicar ===
+Meaning unknown.
+
+=== Lightfinger ===
+Meaning unknown. Possibly applies to his skills as musician or thief, or both.
+
+=== Six-String ===
+Related to his unique skill of being able to magnificently play the lute with six strings, instead of the usual seven. Gained while winning his talent pipes at The Eolian in Imre.
+
+=== Kvothe the Bloodless ===
+Related his first whipping at the University, when Kvothe did not bleed, because of the vasoconstriction caused by his use of the anesthetic Nahlruta. This name may relate to his [[Edema Ruh]] heritage, which is as low-born as one can be, and thus make his blood worthless.
+
+=== Kvothe the Arcane ===
+Related to his admission into the [[Arcanum]] and his skill in sympathy.
+
+=== Kvothe Kingkiller ===
+Given to him for killing a king. The identity of this king is widely speculated.
+
+== Speculation ==
+=== Naming ===
+Magwyn names Kvothe Maedre, which may be an anagram for Ademre and have a larger significance than originally thought. This would explain the shock of Vashet during the naming. This may also simply be a change Kvothe made as a placeholder for the name given him. Just as he avoids the names of the Chandrian in his storytelling, he may also be giving an obvious anagram as this placeholder.
+
+It is unknown why Kvothe chose the name Kote for himself. However, it is suggested and widely agreed upon by fans of the series that "Kote" translates to "disaster" in [[Siaru]]. It is also speculated that by changing his name to Kote, Kvothe actually begins to become this character, as he assumes not only the alias but also the true name Kote, and that is why he loses his abilities. This is supported by Bast's explanation to the Chronicler.
+
+In ''[[The Slow Regard of Silent Things]]'', [[Auri]], with her ability at naming and shaping, determines to think of a new name for Kvothe, suggesting she will have it ready for him when needed. This is another possible origin for "Kote". However, another possibility is that due to him changing his name to "Kote" Auri will need to give him a new name before he can start to regain his abilities.
+
+=== Identity ===
+It is possible that Kvothe is the nephew of Meluan Lackless. Meluan has an intense hatred toward the [[Edema Ruh]] because her sister (Netalia) ran off with one. In ''[[The Name of the Wind]],'' we learn that Kvothe's mother was a noble who ran away with his father. Also, Kvothe is struck by Meluan's resemblance, though he cannot place who she reminds him of.
+
+Also, during a story that Kvothe tells to Wilem and Simmon, we discover that his father was once made to sleep under the wagon for singing a song that ends "Not tally a lot less", which is a near-rhyme for "Netalia Lackless". He also mentions that he calls her Tally because she was good with numbers - but Tally is also a plausible reduction of the name Netalia. She also got upset when Kvothe sung a bawdy song about Lady Lackless, telling him it's not right to make fun of real people.
+
+Finally, the Cthaeh, who never lies, says 'Laurian always was a trouper'. Some have taken this to mean that 'Laurian' was the name she took when she became a trouper because she was Netalia before that.
+
+=== Rings ===
+Poem of the Rings Kvothe:
+
+{{quote|On his first hand he wore rings of stone,<br>Iron, amber, wood and bone.<br>There were rings unseen on his second hand.<br>One was blood in a flowing band.<br>One of air all whisper thin,<br>And the ring of ice had a flaw within.<br>Full faintly shone the ring of flame,<br>and the final ring was without name.|Poem about Kvothe{{ref|TWMF|2}}}}
+
+The ring of amber is known to be a storytelling invention. The ring of wood may be either the ring Auri gives him or the ring Meluan Lackless sends to him. The ring of bone is most likely Stapes' blood-debt ring. The rings on the second hand suggest that Kvothe learns and masters the names of blood, wind, ice/water, and fire. Furthermore, the ring without a name is suspected to be copper, a substance that cannot be named. The ring without a name may also be the Nameless, something the Cthaeh was said to be involved in making, possibly the weapon (key to the doors of stone) locked inside the [[Loeclos Box|Lockless box]].
+
+Master Elodin has Fela wear her mastery of stone on her left hand, saying that the right hand 'means something else entirely'. It is therefore interesting that Kvothe's rings are on his ''first'' and ''second'' hands, so we are left unsure which rings represent mastery of a name and which refer to this something else.
+
+=== Kvothe and Kote ===
+While Kvothe and Kote are one and the same, the characters are not identical.
+
+Kote has apparently lost the ability to perform sympathy and seems to be right-handed, while Kvothe seems to be left-handed.
+
+Many fans theorize that Kote is a "repressed" version of Kvothe, though it is not known if Kvothe repressed himself voluntarily or it was done by some external power.
+
+Another popular theory is that Kvothe became Kote when he broke the oath made to Denna (''"I swear I won't attempt to uncover your patron" I said bitterly. "I swear it on my name and my power. I swear it by my good left hand. I swear it by the ever-moving moon.”).''
+* Supporting this theory, Kote seems to lack Kvothe's powers, disfavors his "good left hand", and no longer uses his former name.
+* However, the oath is made upon "the ever-moving moon", and there is no indication anywhere that the moon has stopped moving. It is possible, though, that in breaking the oath he will not be allowed to enter Fae realm again.
+
+== Fan arts ==
+<gallery widths="126" orientation="square" position="center" captionalign="center">
+Kvothe2.jpg|Kvothe by @ [http://toherrys.deviantart.com/art/Kvothe-548259149|Rosi Kampe]
+File:Kvothe by MORGANA0ANAGROM.jpg|Kvothe by [https://www.deviantart.com/morgana0anagrom/art/Kvothe-724658137 MORGANA0ANAGROM]
+Kvothe in the bar.png|Kvothe by [http://manweri.deviantart.com/ Michelle Tolo]
+Kvothe1.jpg|Kvothe by [http://vielmond.tumblr.com/post/102818466105/young-kvothe|Camila Vielmond]
+Kvothe realistic.jpg|Kvothe by [http://fosterama.tumblr.com/post/83440618335 Jotaese]
+Kvothe name.jpg|Kvothe by [http://scarlett-winter.deviantart.com/art/Kvothe-529879008|Scarlett Winter]
+Kvothe123.png|Young Kvothe by @ [http://ereya.deviantart.com/art/Kvothe-369724815 Ereya]
+Kvothedd.jpg|Kvothe by [http://djamilaknopf.deviantart.com/art/The-Kingkiller-Chronicle-Kvothe-521006255|Djamila Knopf]
+Kvothe wise.jpg|Kvothe by @ [http://artandlongskirts.tumblr.com/post/138700382898/my-interpretation-of-kvothe-i-tried-to-give-him-a artandlongskirts]
+Kote2.jpg|Kvothe by [http://kuro-art.deviantart.com Kurogane]
+Kotef.jpg|Kvothe by @ [http://marosar.deviantart.com/art/Kvothee-Fotooo-660177975 Marosar]
+Kvothe 1216.png
+Kvothe.jpg
+File:Kvothe in the Eolian by Skadivore.jpg|Kvothe in the Eolian by [https://www.deviantart.com/skadivore/art/Kvothe-in-the-Eolian-613729325 Skadivore]
+File:Kvothe by Silvaticus.jpg|Kvothe the Kingkiller by [https://www.deviantart.com/silvaticus/art/Kvothe-the-Kingkiller-485882652 Silvaticus]
+</gallery>
+[[File:Kvothe2323.png|thumb|1x1px]]
+
+
+==References==
+{{reflist}}
+
+
+{{university navbox}}
+[[es:Kvothe]]
+[[de:Kvothe]]
+[[pl:Kvothe]]
+[[ru:Квоут]]
+[[Category:Characters]]
+[[Category:Major Characters]]
+[[Category:Musicians]]
+[[Category:Artificers]]
+[[Category:Sympathist]]
+[[Category:Physicker]]
+[[Category:Namers]]
+[[Category:Legendary figures]]
