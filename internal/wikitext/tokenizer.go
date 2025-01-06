@@ -202,7 +202,7 @@ func appendToToken(char string, tokens TokenCollection) {
 
 // Prepares document for tokenization.
 func cleanDocument(t string) string {
-	s := cleanHtml(t)
+	s := cleanHtmlTags(t)
 
 	// strip urls from text (likely came from <ref> tags that got cleaned above
 	reg := regexp.MustCompile(`(f|ht)(tp)(s?)(://)(\S*)[.|/]([^\s\]\}]*)`)
@@ -211,28 +211,15 @@ func cleanDocument(t string) string {
 	// wikitext bold
 	s = strings.ReplaceAll(s, "'''", "")
 	// wikitext italics
-	return strings.ReplaceAll(s, "''", "")
+	s = strings.ReplaceAll(s, "''", "")
+
+	return s
 }
 
-// removes html tags from text
-func cleanHtml(t string) string {
-	isTag := false
-	parts := strings.Split(t, "")
-	cleaned := []string{}
+// removes html tags from text, but preserves inner text
+func cleanHtmlTags(t string) string {
+	reg := regexp.MustCompile("<[^<>]*>")
+	s := reg.ReplaceAllString(t, "")
 
-	for _, p := range parts {
-		if p == "<" {
-			isTag = true
-		}
-
-		if !isTag {
-			cleaned = append(cleaned, p)
-		}
-
-		if p == ">" {
-			isTag = false
-		}
-	}
-
-	return strings.Join(cleaned, "")
+	return s
 }
