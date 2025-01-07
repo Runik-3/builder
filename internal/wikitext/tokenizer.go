@@ -14,6 +14,8 @@ const (
 	link_end
 	template_start
 	template_end
+	table_start
+	table_end
 	heading
 	text
 )
@@ -90,6 +92,11 @@ func tokenizer(raw string) TokenCollection {
 				newToken("", state, &tokens)
 				break
 			}
+			if tt == table_start {
+				state = state.set("table")
+				newToken("", state, &tokens)
+				break
+			}
 			if tt == heading {
 				state = state.set("heading")
 				newToken("", state, &tokens)
@@ -129,7 +136,25 @@ func tokenizer(raw string) TokenCollection {
 				if state.len() == 1 {
 					state = state.set("text_start")
 				} else {
-					appendToToken("", tokens) // close template
+					state = state.pop()
+				}
+				break
+			}
+			if tt == text {
+				appendToToken(char, tokens)
+				break
+			}
+
+		case "table":
+			if tt == table_start {
+				state = append(state, "table")
+				break
+			}
+			if tt == table_end {
+				// check stack and assign appropriate state
+				if state.len() == 1 {
+					state = state.set("text_start")
+				} else {
 					state = state.pop()
 				}
 				break
@@ -139,7 +164,6 @@ func tokenizer(raw string) TokenCollection {
 				break
 			}
 		}
-
 		i++
 	}
 	return tokens
@@ -152,8 +176,12 @@ func tokenType(chars []string, i *int) TokenType {
 	currChar := chars[*i]
 	// end of file
 	if len(chars) == *i+1 {
+		// FIXME: this is gross -- can this be solved with an EOF token?
 		if currChar == "=" {
 			tknType = heading
+		}
+		if currChar == "}" {
+			tknType = table_end
 		}
 		return tknType
 	}
@@ -162,20 +190,27 @@ func tokenType(chars []string, i *int) TokenType {
 
 	if currChar == "[" && nextChar == "[" {
 		*i++
-		tknType = link_start
+		return link_start
 	}
 	if currChar == "]" && nextChar == "]" {
 		*i++
-		tknType = link_end
+		return link_end
 	}
 	if currChar == "{" && nextChar == "{" {
 		*i++
-		tknType = template_start
+		return template_start
 	}
 	if currChar == "}" && nextChar == "}" {
 		*i++
-		tknType = template_end
+		return template_end
 	}
+	if currChar == "{" {
+		return table_start
+	}
+	if currChar == "}" {
+		return table_end
+	}
+
 	if currChar == "=" {
 		for range chars[*i:] {
 			if len(chars) > *i+1 && chars[*i+1] == "=" {
@@ -197,6 +232,8 @@ func newToken(char string, state State, tokens *TokenCollection) {
 func appendToToken(char string, tokens TokenCollection) {
 	if len(tokens) > 0 {
 		currTkn := &tokens[len(tokens)-1]
+		// potential improvement would be to store this as an array until we finish
+		// the token and then we can close it off by joining.
 		currTkn.Value += char
 	}
 }
@@ -218,6 +255,10 @@ func cleanDocument(t string) string {
 	return s
 }
 
+// FIXME: Regex isn't quite the right tool for this job. It's not grainular
+// enough to handle nested or side-by-side tags. HTML tags will have to be
+// handled within the tokenizer.
+
 // removes html tags whose inner text we don't want to preserve
 func cleanHtmlContent(s string) string {
 	tags := []string{"ref"}
@@ -233,7 +274,6 @@ func cleanHtmlContent(s string) string {
 // removes html tags from text, but preserves inner text
 func cleanHtmlTags(s string) string {
 	reg := regexp.MustCompile("<[^<>]*>")
-	s = reg.ReplaceAllString(s, "")
 
-	return s
+	return reg.ReplaceAllString(s, "")
 }
