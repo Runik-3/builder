@@ -46,11 +46,9 @@ func TestParserDepth(t *testing.T) {
 	}
 }
 
-//go:embed test_wikitext.txt
-var sample_text string
-
 func BenchmarkParsing(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		ParseDefinition(sample_text, 1)
+		ParseDefinition(sample_wikitext_lg, 1)
+		ParseDefinition(sample_wikitext_sm, 1)
 	}
 }

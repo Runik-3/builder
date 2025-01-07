@@ -1,6 +1,7 @@
 package wikitext
 
 import (
+	_ "embed"
 	"testing"
 )
 
@@ -52,5 +53,12 @@ func TestCleanDocument(t *testing.T) {
 		if r != c[1] {
 			t.Fatalf("\nWant:\n%s\n\nRecieved:\n%s", c[1], r)
 		}
+	}
+}
+
+func BenchmarkTokenizer(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		tokenizer(sample_wikitext_lg)
+		tokenizer(sample_wikitext_sm)
 	}
 }
