@@ -12,8 +12,8 @@ type TokenType int
 const (
 	link_start TokenType = iota
 	link_end
-	table_start
-	table_end
+	template_start
+	template_end
 	heading
 	text
 )
@@ -58,7 +58,7 @@ func (s State) len() int {
 }
 
 // returns a flat collection of tokens, but respects nested
-// token types like tables.
+// token types like templates.
 func tokenizer(raw string) TokenCollection {
 	cleaned := cleanDocument(raw)
 	tokens := TokenCollection{}
@@ -85,8 +85,8 @@ func tokenizer(raw string) TokenCollection {
 				newToken("", state, &tokens)
 				break
 			}
-			if tt == table_start {
-				state = state.set("table")
+			if tt == template_start {
+				state = state.set("template")
 				newToken("", state, &tokens)
 				break
 			}
@@ -119,17 +119,17 @@ func tokenizer(raw string) TokenCollection {
 				break
 			}
 
-		case "table":
-			if tt == table_start {
-				state = append(state, "table")
+		case "template":
+			if tt == template_start {
+				state = append(state, "template")
 				break
 			}
-			if tt == table_end {
+			if tt == template_end {
 				// check stack and assign appropriate state
 				if state.len() == 1 {
 					state = state.set("text_start")
 				} else {
-					appendToToken("", tokens) // close table
+					appendToToken("", tokens) // close template
 					state = state.pop()
 				}
 				break
@@ -170,11 +170,11 @@ func tokenType(chars []string, i *int) TokenType {
 	}
 	if currChar == "{" && nextChar == "{" {
 		*i++
-		tknType = table_start
+		tknType = template_start
 	}
 	if currChar == "}" && nextChar == "}" {
 		*i++
-		tknType = table_end
+		tknType = template_end
 	}
 	if currChar == "=" {
 		for range chars[*i:] {
