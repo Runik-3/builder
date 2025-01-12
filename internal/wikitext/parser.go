@@ -5,10 +5,12 @@ import (
 )
 
 func ParseDefinition(raw string, depth int) string {
-	tokens := tokenizer(raw)
+	tokenizer := NewTokenizer(raw)
+	tokenizer.Tokenize()
+
 	definition := ""
 
-	for _, t := range tokens {
+	for _, t := range tokenizer.tokens {
 		switch t.Type {
 		case "text":
 			definition += t.Value
