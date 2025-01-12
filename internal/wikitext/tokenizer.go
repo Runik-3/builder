@@ -7,27 +7,15 @@ import (
 	"strings"
 )
 
-type TokenType int
-
-const (
-	link_start TokenType = iota
-	link_end
-	template_start
-	template_end
-	table_start
-	table_end
-	heading
-	text
-)
+type Token struct {
+	Type string
+	//SubType string
+	Value string
+}
 
 // Since we only care about text content, tokenized results are
 // represented as a flat collection.
 type TokenCollection []Token
-
-type Token struct {
-	Type  string
-	Value string
-}
 
 func (t *TokenCollection) Stringify() (string, error) {
 	json, err := json.Marshal(t)
@@ -59,117 +47,127 @@ func (s State) len() int {
 	return len(s)
 }
 
-// returns a flat collection of tokens, but respects nested
-// token types like templates.
-func tokenizer(raw string) TokenCollection {
-	cleaned := cleanDocument(raw)
-	tokens := TokenCollection{}
-	state := State{"text_start"}
+type Tokenizer struct {
+	tokens     TokenCollection
+	state      State
+	characters []string
+}
 
+func NewTokenizer(raw string) Tokenizer {
+	cleaned := cleanDocument(raw)
 	characters := strings.Split(cleaned, "")
 
-	i := 0
-	for i < len(characters) {
-		char := characters[i]
-		tt := tokenType(characters, &i)
+	return Tokenizer{characters: characters, state: State{"text_start"}}
+}
 
-		switch state.getState() {
+// returns a flat collection of tokens, but respects nested
+// token types like templates.
+func (t *Tokenizer) Tokenize() Tokenizer {
+	i := 0
+	for i < len(t.characters) {
+		char := t.characters[i]
+		tt := t.GetTokenType(&i)
+
+		switch t.state.getState() {
 		case "text_start":
 			if tt == text {
-				state = state.set("text")
-				newToken(char, state, &tokens)
+				t.state = t.state.set("text")
+				t.newToken(char, t.state)
 				break
 			}
 			fallthrough
 		case "text":
 			if tt == link_start {
-				state = state.set("link")
-				newToken("", state, &tokens)
+				t.state = t.state.set("link")
+				t.newToken("", t.state)
 				break
 			}
 			if tt == template_start {
-				state = state.set("template")
-				newToken("", state, &tokens)
+				t.state = t.state.set("template")
+				t.newToken("", t.state)
 				break
 			}
 			if tt == table_start {
-				state = state.set("table")
-				newToken("", state, &tokens)
+				t.state = t.state.set("table")
+				t.newToken("", t.state)
 				break
 			}
 			if tt == heading {
-				state = state.set("heading")
-				newToken("", state, &tokens)
+				t.state = t.state.set("heading")
+				t.newToken("", t.state)
 				break
 			}
 			if tt == text {
-				appendToToken(char, tokens)
+				t.appendToToken(char)
 			}
 
 		case "link":
 			if tt == link_end {
-				state = state.set("text_start")
+				t.state = t.state.set("text_start")
 				break
 			}
 			if tt == text {
-				appendToToken(char, tokens)
+				t.appendToToken(char)
 				break
 			}
 
 		case "heading":
 			if tt == heading {
-				state = state.set("text_start")
+				t.state = t.state.set("text_start")
 				break
 			}
 			if tt == text {
-				appendToToken(char, tokens)
+				t.appendToToken(char)
 				break
 			}
 
 		case "template":
 			if tt == template_start {
-				state = append(state, "template")
+				t.state = append(t.state, "template")
 				break
 			}
 			if tt == template_end {
 				// check stack and assign appropriate state
-				if state.len() == 1 {
-					state = state.set("text_start")
+				if t.state.len() == 1 {
+					t.state = t.state.set("text_start")
 				} else {
-					state = state.pop()
+					t.state = t.state.pop()
 				}
 				break
 			}
 			if tt == text {
-				appendToToken(char, tokens)
+				t.appendToToken(char)
 				break
 			}
 
 		case "table":
 			if tt == table_start {
-				state = append(state, "table")
+				t.state = append(t.state, "table")
 				break
 			}
 			if tt == table_end {
 				// check stack and assign appropriate state
-				if state.len() == 1 {
-					state = state.set("text_start")
+				if t.state.len() == 1 {
+					t.state = t.state.set("text_start")
 				} else {
-					state = state.pop()
+					t.state = t.state.pop()
 				}
 				break
 			}
 			if tt == text {
-				appendToToken(char, tokens)
+				t.appendToToken(char)
 				break
 			}
 		}
 		i++
 	}
-	return tokens
+	return *t
+
 }
 
-func tokenType(chars []string, i *int) TokenType {
+// this should return tokengrammar
+func (t *Tokenizer) GetTokenType(i *int) TokenType {
+	chars := t.characters
 	// TODO: the tokenizer is in need of a cleanup, this can be improved.
 	tknType := text
 
@@ -225,13 +223,14 @@ func tokenType(chars []string, i *int) TokenType {
 	return tknType
 }
 
-func newToken(char string, state State, tokens *TokenCollection) {
+func (t *Tokenizer) newToken(char string, state State) {
 	newTkn := Token{Type: state.getState(), Value: char}
-	*tokens = append(*tokens, newTkn)
+	t.tokens = append(t.tokens, newTkn)
 }
-func appendToToken(char string, tokens TokenCollection) {
-	if len(tokens) > 0 {
-		currTkn := &tokens[len(tokens)-1]
+
+func (t *Tokenizer) appendToToken(char string) {
+	if len(t.tokens) > 0 {
+		currTkn := &t.tokens[len(t.tokens)-1]
 		// potential improvement would be to store this as an array until we finish
 		// the token and then we can close it off by joining.
 		currTkn.Value += char
@@ -240,8 +239,8 @@ func appendToToken(char string, tokens TokenCollection) {
 
 // Prepares document for tokenization.
 func cleanDocument(t string) string {
-	s := cleanHtmlContent(t)
-	s = cleanHtmlTags(s)
+	//s := cleanHtmlContent(t)
+	s := cleanHtmlTags(t)
 
 	// strip urls from text (likely came from <ref> tags that got cleaned above
 	reg := regexp.MustCompile(`(f|ht)(tp)(s?)(://)(\S*)[.|/]([^\s\]\}]*)`)
