@@ -60,8 +60,8 @@ func NewTokenizer(raw string) Tokenizer {
 	return Tokenizer{characters: characters, state: State{"text_start"}}
 }
 
-// returns a flat collection of tokens, but respects nested
-// token types like templates.
+// FIXME: this can be cleaned up, let's make it leaner and easier to extend --
+// already started the improvements with the tokentype func, let's keep going
 func (t *Tokenizer) Tokenize() Tokenizer {
 	i := 0
 	for i < len(t.characters) {
@@ -70,63 +70,63 @@ func (t *Tokenizer) Tokenize() Tokenizer {
 
 		switch t.state.getState() {
 		case "text_start":
-			if tt == text {
+			if tt.Token == text {
 				t.state = t.state.set("text")
 				t.newToken(char, t.state)
 				break
 			}
 			fallthrough
 		case "text":
-			if tt == link_start {
+			if tt.Token == link_start {
 				t.state = t.state.set("link")
 				t.newToken("", t.state)
 				break
 			}
-			if tt == template_start {
+			if tt.Token == template_start {
 				t.state = t.state.set("template")
 				t.newToken("", t.state)
 				break
 			}
-			if tt == table_start {
+			if tt.Token == table_start {
 				t.state = t.state.set("table")
 				t.newToken("", t.state)
 				break
 			}
-			if tt == heading {
+			if tt.Token == heading {
 				t.state = t.state.set("heading")
 				t.newToken("", t.state)
 				break
 			}
-			if tt == text {
+			if tt.Token == text {
 				t.appendToToken(char)
 			}
 
 		case "link":
-			if tt == link_end {
+			if tt.Token == link_end {
 				t.state = t.state.set("text_start")
 				break
 			}
-			if tt == text {
+			if tt.Token == text {
 				t.appendToToken(char)
 				break
 			}
 
 		case "heading":
-			if tt == heading {
+			if tt.Token == heading {
 				t.state = t.state.set("text_start")
 				break
 			}
-			if tt == text {
+			if tt.Token == text {
 				t.appendToToken(char)
 				break
 			}
 
 		case "template":
-			if tt == template_start {
+			if tt.Token == template_start {
 				t.state = append(t.state, "template")
 				break
 			}
-			if tt == template_end {
+			if tt.Token == template_end {
 				// check stack and assign appropriate state
 				if t.state.len() == 1 {
 					t.state = t.state.set("text_start")
@@ -135,17 +135,17 @@ func (t *Tokenizer) Tokenize() Tokenizer {
 				}
 				break
 			}
-			if tt == text {
+			if tt.Token == text {
 				t.appendToToken(char)
 				break
 			}
 
 		case "table":
-			if tt == table_start {
+			if tt.Token == table_start {
 				t.state = append(t.state, "table")
 				break
 			}
-			if tt == table_end {
+			if tt.Token == table_end {
 				// check stack and assign appropriate state
 				if t.state.len() == 1 {
 					t.state = t.state.set("text_start")
@@ -154,73 +154,31 @@ func (t *Tokenizer) Tokenize() Tokenizer {
 				}
 				break
 			}
-			if tt == text {
+			if tt.Token == text {
 				t.appendToToken(char)
 				break
 			}
 		}
 		i++
 	}
-	return *t
 
+	return *t
 }
 
-// this should return tokengrammar
-func (t *Tokenizer) GetTokenType(i *int) TokenType {
-	chars := t.characters
-	// TODO: the tokenizer is in need of a cleanup, this can be improved.
-	tknType := text
+func (t *Tokenizer) GetTokenType(i *int) TokenGrammar {
+	currChar := t.characters[*i]
 
-	currChar := chars[*i]
-	// end of file
-	if len(chars) == *i+1 {
-		// FIXME: this is gross -- can this be solved with an EOF token?
-		if currChar == "=" {
-			tknType = heading
-		}
-		if currChar == "}" {
-			tknType = table_end
-		}
-		return tknType
+	matcherFunc, ok := matcherFunctions[currChar]
+	if !ok {
+		return TokenGrammar{Token: text, State: "text"}
 	}
 
-	nextChar := chars[*i+1]
-
-	if currChar == "[" && nextChar == "[" {
-		*i++
-		return link_start
-	}
-	if currChar == "]" && nextChar == "]" {
-		*i++
-		return link_end
-	}
-	if currChar == "{" && nextChar == "{" {
-		*i++
-		return template_start
-	}
-	if currChar == "}" && nextChar == "}" {
-		*i++
-		return template_end
-	}
-	if currChar == "{" {
-		return table_start
-	}
-	if currChar == "}" {
-		return table_end
+	r, isMatch := matcherFunc(i, &t.characters)
+	if isMatch {
+		return r
 	}
 
-	if currChar == "=" {
-		for range chars[*i:] {
-			if len(chars) > *i+1 && chars[*i+1] == "=" {
-				*i++
-				continue
-			}
-			tknType = heading
-			break
-		}
-	}
-
-	return tknType
+	return TokenGrammar{Token: text, State: "text"}
 }
 
 func (t *Tokenizer) newToken(char string, state State) {
@@ -256,8 +214,9 @@ func cleanDocument(t string) string {
 
 // FIXME: Regex isn't quite the right tool for this job. It's not grainular
 // enough to handle nested or side-by-side tags. HTML tags will have to be
-// handled within the tokenizer.
-
+// handled within the tokenizer. -- THIS IS DISABLED FOR NOW AND NEEDS TO BE
+// RE-ENABLED BEFORE NEXT RELEASE
+//
 // removes html tags whose inner text we don't want to preserve
 func cleanHtmlContent(s string) string {
 	tags := []string{"ref"}
