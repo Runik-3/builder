@@ -29,17 +29,23 @@ func TestGenerateDefinitionsFromWiki(t *testing.T) {
 		dict := Dict{}
 		dict.GenerateDefinitionsFromWiki(MockWikiBatchFunction, "", GeneratorOptions{Depth: 2})
 
-		isEqual(t, dict.Lexicon[0].Word, "batch1_page1", "")
-		contains(t, dict.Lexicon[0].Definition, "This is the first page of the first batch.")
+		// Note: order is not guaranteed in the Lexicon since we're iterating a
+		// map of pages
+		def, exists := dict.Lexicon.Find("batch1_page1")
+		isEqual(t, exists, true, "")
+		contains(t, def.Definition, "This is the first page of the first batch.")
 
-		isEqual(t, dict.Lexicon[1].Word, "batch2_page1", "")
-		contains(t, dict.Lexicon[1].Definition, "This is the first page of the second batch.")
+		def, exists = dict.Lexicon.Find("batch2_page1")
+		isEqual(t, exists, true, "")
+		contains(t, def.Definition, "This is the first page of the second batch.")
 
-		isEqual(t, dict.Lexicon[2].Word, "batch2_page2", "")
-		contains(t, dict.Lexicon[2].Definition, "This is the second page of the second batch.")
+		def, exists = dict.Lexicon.Find("batch2_page2")
+		isEqual(t, exists, true, "")
+		contains(t, def.Definition, "This is the second page of the second batch.")
 
-		isEqual(t, dict.Lexicon[3].Word, "batch3_page1", "")
-		contains(t, dict.Lexicon[3].Definition, "This is the first page of the third batch.")
+		def, exists = dict.Lexicon.Find("batch3_page1")
+		isEqual(t, exists, true, "")
+		contains(t, def.Definition, "This is the first page of the third batch.")
 
 		isEqual(t, mockBatchCalled, 3, "")
 		isEqual(t, len(dict.Lexicon), 4, "")

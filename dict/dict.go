@@ -23,6 +23,15 @@ func (l *Lexicon) Add(e Entry) {
 	*l = append(*l, e)
 }
 
+func (l *Lexicon) Find(word string) (Entry, bool) {
+	for _, entry := range *l {
+		if entry.Word == word {
+			return entry, true
+		}
+	}
+	return Entry{}, false
+}
+
 func (l *Lexicon) Print() {
 	fmt.Println("Lexicon (definition -- word)")
 	fmt.Println("-------------------------------")
@@ -50,6 +59,8 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wikiUrl strin
 			return err
 		}
 
+		// FIXME: order is not guaranteed in the Lexicon since we're iterating
+		// a map of pages.
 		for _, p := range res.Query.Pages {
 			def := wikitext.ParseDefinition(p.Revisions[0].Slots.Main.Content, options.Depth)
 			if def != "" {
