@@ -3,6 +3,8 @@ package wikitext
 import (
 	_ "embed"
 	"testing"
+
+	test "github.com/runik-3/builder/internal/testUtils"
 )
 
 func TestTokenizer(t *testing.T) {
@@ -63,8 +65,26 @@ func TestCleanDocument(t *testing.T) {
 }
 
 func TestTokenBatcher(t *testing.T) {
-	tokenizer := NewTokenizer("this is a test")
-	tokenizer.batch(1, 5)
+	testString := "this is a test"
+	tokenizer := NewTokenizer(testString)
+
+	batch := tokenizer.batch(1, 5)
+	test.IsEqual(t, len(batch), 5, "")
+	test.IsEqual(t, batch[0], "t", "")
+	test.IsEqual(t, batch[4], " ", "")
+
+	batch = tokenizer.batch(2, 5)
+	test.IsEqual(t, len(batch), 5, "")
+	test.IsEqual(t, batch[0], "i", "")
+	test.IsEqual(t, batch[4], " ", "")
+
+	batch = tokenizer.batch(3, 5)
+	test.IsEqual(t, len(batch), 4, "")
+	test.IsEqual(t, batch[0], "t", "")
+	test.IsEqual(t, batch[3], "t", "")
+
+	batch = tokenizer.batch(4, 5)
+	test.IsEqual(t, len(batch), 0, "")
 }
 
 func BenchmarkTokenizer(b *testing.B) {

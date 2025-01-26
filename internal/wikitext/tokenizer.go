@@ -71,6 +71,10 @@ func (t *Tokenizer) batch(batch int, size int) []string {
 	start := (batch - 1) * size
 	end := batch * size
 
+	if start > len(t.characters) {
+		return []string{}
+	}
+
 	if end > len(t.characters) {
 		end = len(t.characters)
 	}
