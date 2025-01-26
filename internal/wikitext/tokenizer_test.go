@@ -65,26 +65,55 @@ func TestCleanDocument(t *testing.T) {
 }
 
 func TestTokenBatcher(t *testing.T) {
-	testString := "this is a test"
-	tokenizer := NewTokenizer(testString)
+	testSimpleText := "this is a test"
 
-	batch := tokenizer.batch(1, 5)
-	test.IsEqual(t, len(batch), 5, "")
-	test.IsEqual(t, batch[0], "t", "")
-	test.IsEqual(t, batch[4], " ", "")
+	t.Run("Test batching func", func(t *testing.T) {
+		tokenizer := NewTokenizer(testSimpleText)
+		batch := tokenizer.batcher(1, 5)
+		test.IsEqual(t, len(batch), 5, "")
+		test.IsEqual(t, batch[0], "t", "")
+		test.IsEqual(t, batch[4], " ", "")
 
-	batch = tokenizer.batch(2, 5)
-	test.IsEqual(t, len(batch), 5, "")
-	test.IsEqual(t, batch[0], "i", "")
-	test.IsEqual(t, batch[4], " ", "")
+		batch = tokenizer.batcher(2, 5)
+		test.IsEqual(t, len(batch), 5, "")
+		test.IsEqual(t, batch[0], "i", "")
+		test.IsEqual(t, batch[4], " ", "")
 
-	batch = tokenizer.batch(3, 5)
-	test.IsEqual(t, len(batch), 4, "")
-	test.IsEqual(t, batch[0], "t", "")
-	test.IsEqual(t, batch[3], "t", "")
+		batch = tokenizer.batcher(3, 5)
+		test.IsEqual(t, len(batch), 4, "")
+		test.IsEqual(t, batch[0], "t", "")
+		test.IsEqual(t, batch[3], "t", "")
 
-	batch = tokenizer.batch(4, 5)
-	test.IsEqual(t, len(batch), 0, "")
+		batch = tokenizer.batcher(4, 5)
+		test.IsEqual(t, len(batch), 0, "")
+	})
+
+	t.Run("Test tokenize in batches", func(t *testing.T) {
+		tokenizer := NewTokenizer(testSimpleText)
+		batch := tokenizer.Tokenize(TokenizerOptions{1, 5})
+		test.IsEqual(t, batch.tokens[0].Type, "text", "")
+		test.IsEqual(t, batch.tokens[0].Value, "this ", "")
+	})
+
+	testWikiText := "[[link]] some text"
+
+	t.Run("Test tokenize wikitext in batches", func(t *testing.T) {
+		tokenizer := NewTokenizer(testWikiText)
+		batch1 := tokenizer.Tokenize(TokenizerOptions{1, 5})
+		test.IsEqual(t, batch1.tokens[0].Type, "link", "")
+		test.IsEqual(t, batch1.tokens[0].Value, "lin", "")
+
+		batch2 := tokenizer.Tokenize(TokenizerOptions{2, 5})
+		test.IsEqual(t, batch2.tokens[0].Type, "link", "")
+		test.IsEqual(t, batch2.tokens[0].Value, "link", "")
+		test.IsEqual(t, batch2.tokens[1].Type, "text", "")
+		test.IsEqual(t, batch2.tokens[1].Value, " s", "")
+
+		// increase batch size (also means we need to adjust our batch no.)
+		batch3 := tokenizer.Tokenize(TokenizerOptions{2, 10})
+		test.IsEqual(t, batch3.tokens[1].Type, "text", "")
+		test.IsEqual(t, batch3.tokens[1].Value, " some text", "")
+	})
 }
 
 func BenchmarkTokenizer(b *testing.B) {
