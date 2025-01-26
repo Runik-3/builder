@@ -53,6 +53,13 @@ type Tokenizer struct {
 	characters []string
 }
 
+type TokenizerOptions struct {
+	// If true, the tokenizer will process the text in batches
+	chunk     bool
+	batch     int
+	batchSize int
+}
+
 func NewTokenizer(raw string) Tokenizer {
 	cleaned := cleanDocument(raw)
 	characters := strings.Split(cleaned, "")
@@ -60,9 +67,20 @@ func NewTokenizer(raw string) Tokenizer {
 	return Tokenizer{characters: characters, state: State{"text_start"}}
 }
 
+func (t *Tokenizer) batch(batch int, size int) []string {
+	start := (batch - 1) * size
+	end := batch * size
+
+	if end > len(t.characters) {
+		end = len(t.characters)
+	}
+
+	return t.characters[start:end]
+}
+
 // FIXME: this can be cleaned up, let's make it leaner and easier to extend --
 // already started the improvements with the tokentype func, let's keep going
-func (t *Tokenizer) Tokenize() Tokenizer {
+func (t *Tokenizer) Tokenize(options TokenizerOptions) Tokenizer {
 	i := 0
 	for i < len(t.characters) {
 		char := t.characters[i]

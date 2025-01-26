@@ -30,7 +30,7 @@ func TestTokenizer(t *testing.T) {
 
 	for _, c := range cases {
 		tokenizer := NewTokenizer(c[0])
-		tokenizer.Tokenize()
+		tokenizer.Tokenize(TokenizerOptions{})
 
 		tokensAsJson, _ := tokenizer.tokens.Stringify()
 
@@ -62,13 +62,18 @@ func TestCleanDocument(t *testing.T) {
 	}
 }
 
+func TestTokenBatcher(t *testing.T) {
+	tokenizer := NewTokenizer("this is a test")
+	tokenizer.batch(1, 5)
+}
+
 func BenchmarkTokenizer(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		tokenizer := NewTokenizer(sample_wikitext_lg)
-		tokenizer.Tokenize()
+		tokenizer.Tokenize(TokenizerOptions{})
 
 		tokenizer = NewTokenizer(sample_wikitext_sm)
-		tokenizer.Tokenize()
+		tokenizer.Tokenize(TokenizerOptions{})
 	}
 }
