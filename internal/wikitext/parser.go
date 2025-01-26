@@ -6,7 +6,7 @@ import (
 
 func ParseDefinition(raw string, depth int) string {
 	tokenizer := NewTokenizer(raw)
-	tokenizer.Tokenize()
+	tokenizer.Tokenize(TokenizerOptions{})
 
 	definition := ""
 
