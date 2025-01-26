@@ -4,9 +4,9 @@ import (
 	j "encoding/json"
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 
+	test "github.com/runik-3/builder/internal/testUtils"
 	"github.com/runik-3/builder/wikiBot"
 )
 
@@ -17,10 +17,10 @@ func TestGenerateDefinitionsFromWiki(t *testing.T) {
 		dict := Dict{}
 		dict.GenerateDefinitionsFromWiki(MockWikiBatchFunction, "", GeneratorOptions{Depth: 2, EntryLimit: 1})
 
-		isEqual(t, dict.Lexicon[0].Word, "batch1_page1", "")
-		contains(t, dict.Lexicon[0].Definition, "This is the first page of the first batch.")
-		isEqual(t, mockBatchCalled, 1, "")
-		isEqual(t, len(dict.Lexicon), 1, "")
+		test.IsEqual(t, dict.Lexicon[0].Word, "batch1_page1", "")
+		test.Contains(t, dict.Lexicon[0].Definition, "This is the first page of the first batch.")
+		test.IsEqual(t, mockBatchCalled, 1, "")
+		test.IsEqual(t, len(dict.Lexicon), 1, "")
 
 		mockBatchCalled = 0
 	})
@@ -32,23 +32,23 @@ func TestGenerateDefinitionsFromWiki(t *testing.T) {
 		// Note: order is not guaranteed in the Lexicon since we're iterating a
 		// map of pages
 		def, exists := dict.Lexicon.Find("batch1_page1")
-		isEqual(t, exists, true, "")
-		contains(t, def.Definition, "This is the first page of the first batch.")
+		test.IsEqual(t, exists, true, "")
+		test.Contains(t, def.Definition, "This is the first page of the first batch.")
 
 		def, exists = dict.Lexicon.Find("batch2_page1")
-		isEqual(t, exists, true, "")
-		contains(t, def.Definition, "This is the first page of the second batch.")
+		test.IsEqual(t, exists, true, "")
+		test.Contains(t, def.Definition, "This is the first page of the second batch.")
 
 		def, exists = dict.Lexicon.Find("batch2_page2")
-		isEqual(t, exists, true, "")
-		contains(t, def.Definition, "This is the second page of the second batch.")
+		test.IsEqual(t, exists, true, "")
+		test.Contains(t, def.Definition, "This is the second page of the second batch.")
 
 		def, exists = dict.Lexicon.Find("batch3_page1")
-		isEqual(t, exists, true, "")
-		contains(t, def.Definition, "This is the first page of the third batch.")
+		test.IsEqual(t, exists, true, "")
+		test.Contains(t, def.Definition, "This is the first page of the third batch.")
 
-		isEqual(t, mockBatchCalled, 3, "")
-		isEqual(t, len(dict.Lexicon), 4, "")
+		test.IsEqual(t, mockBatchCalled, 3, "")
+		test.IsEqual(t, len(dict.Lexicon), 4, "")
 
 		mockBatchCalled = 0
 	})
@@ -77,18 +77,3 @@ func getFixtureData(fixture string) map[string]wikiBot.AllPagesResponse {
 	return response
 }
 
-func isEqual(t *testing.T, val1 any, val2 any, message string) {
-	if val1 != val2 {
-		if message != "" {
-			t.Fatal(message)
-		} else {
-			t.Fatalf("%v not equal to %v", val1, val2)
-		}
-	}
-}
-
-func contains(t *testing.T, str string, subStr string) {
-	if !strings.Contains(str, subStr) {
-		t.Fatalf("%v does not contain %v", str, subStr)
-	}
-}
