@@ -189,6 +189,13 @@ func (t *Tokenizer) Tokenize(options TokenizerOptions) Tokenizer {
 				break
 			}
 		}
+
+		// End of file
+		if i == len(t.characters)-1 {
+			t.state.set("EOF")
+			t.newToken("", t.state)
+		}
+
 		i++
 	}
 
