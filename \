@@ -6,17 +6,19 @@ import (
 
 func ParseDefinition(raw string, depth int) string {
 	tokenizer := NewTokenizer(raw)
+
 	definition := ""
 
-	// While loop, while def length is less than sentence depth, keep batching
+	// While loop, while def length is less than sentence depth, keep processing
+	// batches
 	batch := 1
 	batchSize := 100
 	for !isDefinitionParsed(&definition, &tokenizer, depth) {
 		tokenizer.Tokenize(TokenizerOptions{batch, batchSize})
 		definition = ""
 
-		// FIXME: we're doing a little extra work by resetting the definition above
-		// and processing tokens over again. Perhaps an unapply last token func?
+		// Need to track index of token we're currently looking at to continue
+		// parsing definition
 		for _, t := range tokenizer.tokens {
 			switch t.Type {
 			case "text":
