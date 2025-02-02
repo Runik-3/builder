@@ -56,7 +56,7 @@ func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing an
 	params.Add("siprop", "statistics|general")
 	params.Add("origin", "*")
 
-	wikiDetailsRes, detailsErr := utils.GetRequest[WikiDetailsResponse](fmtUrl, params)
+	wikiDetailsRes, detailsErr := utils.GetRequest[WikiDetailsResponse](fmtUrl, params, utils.GetRequestOptions{})
 	if detailsErr != nil {
 		return WikiDetails{}, detailsErr
 	}
@@ -94,7 +94,7 @@ func wikiLanguages(wikiUrl string, mainPage string) (WikiDetailsResponse, error)
 	params.Add("llprop", "url|langname|autonym")
 	params.Add("titles", mainPage)
 
-	langRes, err := utils.GetRequest[WikiDetailsResponse](fmtUrl, params)
+	langRes, err := utils.GetRequest[WikiDetailsResponse](fmtUrl, params, utils.GetRequestOptions{})
 	if err != nil {
 		return WikiDetailsResponse{}, err
 	}
