@@ -71,7 +71,7 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wikiUrl strin
 		// FIXME: order is not guaranteed in the Lexicon since we're iterating
 		// a map of pages.
 		for _, p := range res.Query.Pages {
-			def, err := wikitext.ParseDefinition(p.Revisions[0].Slots.Main.Content, options.Depth)
+			def, err := wikitext.ParseDefinition(p.GetPageContent(), options.Depth)
 			if err != nil {
 				continue
 			}
