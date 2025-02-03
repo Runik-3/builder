@@ -30,6 +30,15 @@ type Page struct {
 	LangLinks []Lang     `json:"langlinks"`
 }
 
+func (p *Page) GetPageContent() string {
+	if p.Revisions[0].Slots.Main.Content != "" {
+		return p.Revisions[0].Slots.Main.Content
+	}
+
+	// Try path from the old revisions wiki response
+	return p.Revisions[0].Content
+}
+
 type Lang struct {
 	Lang     string `json:"lang"`
 	LangName string `json:"langname"`
