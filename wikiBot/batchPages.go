@@ -37,9 +37,13 @@ type Lang struct {
 	Url      string `json:"url"`
 }
 
-// TODO make this interface compatible with the deprecated revisions structure
 type Revision struct {
 	Slots Slot `json:"slots"`
+
+	// Support the old mediawiki revisions api format.
+	Model   string `json:"contentmodel"`
+	Format  string `json:"contentformat"`
+	Content string `json:"*"`
 }
 
 type Slot struct {

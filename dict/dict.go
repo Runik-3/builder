@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/runik-3/builder/internal/utils"
 	"github.com/runik-3/builder/internal/wikitext"
@@ -52,6 +53,7 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wikiUrl strin
 	// initial call starts from the first page
 	startFrom := ""
 
+	generateStart := time.Now()
 	cont := true
 	for cont {
 		res, err := getBatch(wikiUrl, startFrom, options.EntryLimit-entries)
@@ -59,10 +61,20 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wikiUrl strin
 			return err
 		}
 
+		// Break out if we're in an endless loop and not processing anything.
+		const TIMEOUT = 15 * time.Second
+		elapsed := time.Since(generateStart)
+		if elapsed > time.Duration(TIMEOUT) {
+			break
+		}
+
 		// FIXME: order is not guaranteed in the Lexicon since we're iterating
 		// a map of pages.
 		for _, p := range res.Query.Pages {
-			def := wikitext.ParseDefinition(p.Revisions[0].Slots.Main.Content, options.Depth)
+			def, err := wikitext.ParseDefinition(p.Revisions[0].Slots.Main.Content, options.Depth)
+			if err != nil {
+				continue
+			}
 			if def != "" {
 				d.Lexicon.Add(Entry{Word: p.Title, Definition: def})
 				entries++

@@ -22,7 +22,7 @@ func TestParser(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		r := ParseDefinition(c[0], 1)
+		r, _ := ParseDefinition(c[0], 1)
 		if r != c[1] {
 			t.Fatalf("\nWant:\n%s\n\nRecieved:\n%s", c[1], r)
 		}
@@ -39,7 +39,7 @@ func TestParserDepth(t *testing.T) {
 
 	for _, c := range cases {
 		depth, _ := strconv.Atoi(c[2])
-		r := ParseDefinition(c[0], depth)
+		r, _ := ParseDefinition(c[0], depth)
 		if r != c[1] {
 			t.Fatalf("\nWant:\n%s\n\nRecieved:\n%s", c[1], r)
 		}
