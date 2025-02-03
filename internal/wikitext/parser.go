@@ -1,10 +1,14 @@
 package wikitext
 
 import (
+	"errors"
 	"strings"
 )
 
-func ParseDefinition(raw string, depth int) string {
+func ParseDefinition(raw string, depth int) (string, error) {
+	if raw == "" {
+		return "", errors.New("No page content.")
+	}
 	tokenizer := NewTokenizer(raw)
 	definition := ""
 
@@ -43,10 +47,10 @@ func ParseDefinition(raw string, depth int) string {
 
 	// TODO - Handle redirects more gracefully instead of removing outright
 	if strings.Contains(strings.ToLower(definition), "#redirect") {
-		return ""
+		return "", nil
 	}
 
-	return definition
+	return definition, nil
 }
 
 func isDefinitionParsed(def *string, t *Tokenizer, depth int) bool {
