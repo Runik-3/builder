@@ -3,7 +3,6 @@ package wikiBot
 import (
 	"net/url"
 	"strconv"
-	"strings"
 
 	"github.com/runik-3/builder/internal/utils"
 )
@@ -66,7 +65,7 @@ type Main struct {
 }
 
 // fetches batch of entries and unmarshalls the result
-func GetWikiPageBatch(baseUrl string, startFrom string, limit int) (AllPagesResponse, error) {
+func GetWikiPageBatch(baseUrl string, startFrom string, limit int, options utils.GetRequestOptions) (AllPagesResponse, error) {
 	// define query params
 	params := url.Values{}
 	params.Add("action", "query")
@@ -78,21 +77,9 @@ func GetWikiPageBatch(baseUrl string, startFrom string, limit int) (AllPagesResp
 	params.Add("rvprop", "content")
 	params.Add("rvslots", "main")
 
-	res, err := utils.GetRequest[AllPagesResponse](baseUrl, params, utils.GetRequestOptions{})
+	res, err := utils.GetRequest[AllPagesResponse](baseUrl, params, options)
 	// successful response
 	if err == nil {
-		return res, nil
-	}
-
-	// handle err cases
-	// wikis using tls 1.2 can throw 403s because the go http module can't
-	// establish a connection. Repeat the same request, but force wikibot to use
-	// tls 1.2 to be compatible.
-	if strings.Contains(err.Error(), "403") {
-		res, err := utils.GetRequest[AllPagesResponse](baseUrl, params, utils.GetRequestOptions{ForceTLS12: true})
-		if err != nil {
-			return AllPagesResponse{}, err
-		}
 		return res, nil
 	}
 

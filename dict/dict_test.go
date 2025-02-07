@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	test "github.com/runik-3/builder/internal/testUtils"
+	"github.com/runik-3/builder/internal/utils"
 	"github.com/runik-3/builder/wikiBot"
 )
 
@@ -15,7 +16,7 @@ var mockBatchCalled int = 0
 func TestGenerateDefinitionsFromWiki(t *testing.T) {
 	t.Run("fetches a single batch when limit is 1", func(t *testing.T) {
 		dict := Dict{}
-		dict.GenerateDefinitionsFromWiki(MockWikiBatchFunction, "", GeneratorOptions{Depth: 2, EntryLimit: 1})
+		dict.GenerateDefinitionsFromWiki(MockWikiBatchFunction, wikiBot.WikiDetails{}, GeneratorOptions{Depth: 2, EntryLimit: 1})
 
 		test.IsEqual(t, dict.Lexicon[0].Word, "batch1_page1", "")
 		test.Contains(t, dict.Lexicon[0].Definition, "This is the first page of the first batch.")
@@ -27,7 +28,7 @@ func TestGenerateDefinitionsFromWiki(t *testing.T) {
 
 	t.Run("fetches definitions in batches from all wiki pages", func(t *testing.T) {
 		dict := Dict{}
-		dict.GenerateDefinitionsFromWiki(MockWikiBatchFunction, "", GeneratorOptions{Depth: 2})
+		dict.GenerateDefinitionsFromWiki(MockWikiBatchFunction, wikiBot.WikiDetails{}, GeneratorOptions{Depth: 2})
 
 		// Note: order is not guaranteed in the Lexicon since we're iterating a
 		// map of pages
@@ -55,7 +56,7 @@ func TestGenerateDefinitionsFromWiki(t *testing.T) {
 }
 
 // in this mock src determines the kind of response we get back
-func MockWikiBatchFunction(src string, startFrom string, limit int) (wikiBot.AllPagesResponse, error) {
+func MockWikiBatchFunction(src string, startFrom string, limit int, options utils.GetRequestOptions) (wikiBot.AllPagesResponse, error) {
 	mockBatchCalled += 1
 
 	allBatches := getFixtureData("wikiResponseBatch.json")
@@ -76,4 +77,3 @@ func getFixtureData(fixture string) map[string]wikiBot.AllPagesResponse {
 
 	return response
 }
-

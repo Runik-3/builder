@@ -3,6 +3,7 @@ package wikiBot
 import (
 	"fmt"
 	"net/url"
+	"strings"
 
 	"github.com/runik-3/builder/internal/utils"
 )
@@ -31,6 +32,7 @@ type General struct {
 }
 
 type WikiDetails struct {
+	ApiUrl    string
 	SiteName  string
 	MainPage  string
 	Lang      string
@@ -38,13 +40,15 @@ type WikiDetails struct {
 	Pages     int
 	Articles  int
 	Languages []Lang
+	// options to include in requests to the wiki server
+	RequestOpts utils.GetRequestOptions
 }
 
 // fetches details about the requested wiki including,
 // name, size, and supported languages.
 // returns err if wiki url is invalid.
 func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing and return a better shape
-	fmtUrl, err := utils.NormalizeUrl(wikiUrl)
+	apiUrl, err := utils.NormalizeUrl(wikiUrl)
 	if err != nil {
 		return WikiDetails{}, err
 	}
@@ -56,13 +60,21 @@ func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing an
 	params.Add("siprop", "statistics|general")
 	params.Add("origin", "*")
 
-	wikiDetailsRes, detailsErr := utils.GetRequest[WikiDetailsResponse](fmtUrl, params, utils.GetRequestOptions{})
-	if detailsErr != nil {
-		return WikiDetails{}, detailsErr
+	requestOpts := utils.GetRequestOptions{}
+	wikiDetailsRes, err := utils.GetRequest[WikiDetailsResponse](apiUrl, params, requestOpts)
+	// wikis using tls 1.2 can throw 403s because the go http module can't
+	// establish a connection. Repeat the same request, but force the request to
+	// use tls 1.2 to be compatible.
+	if err != nil && strings.Contains(err.Error(), "403") {
+		requestOpts = utils.GetRequestOptions{ForceTLS12: true}
+		wikiDetailsRes, err = utils.GetRequest[WikiDetailsResponse](apiUrl, params, requestOpts)
+		if err != nil {
+			return WikiDetails{}, err
+		}
 	}
-	wikiLangsRes, langErr := wikiLanguages(wikiUrl, wikiDetailsRes.Query.General.MainPage)
-	if langErr != nil {
-		return WikiDetails{}, langErr
+	wikiLangsRes, err := wikiLanguages(wikiUrl, wikiDetailsRes.Query.General.MainPage, requestOpts)
+	if err != nil {
+		return WikiDetails{}, err
 	}
 
 	langs := []Lang{}
@@ -71,17 +83,19 @@ func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing an
 	}
 
 	return WikiDetails{
-		SiteName:  wikiDetailsRes.Query.General.SiteName,
-		MainPage:  wikiDetailsRes.Query.General.MainPage,
-		Lang:      wikiDetailsRes.Query.General.Lang,
-		Logo:      wikiDetailsRes.Query.General.Logo,
-		Pages:     wikiDetailsRes.Query.Statistics.Pages,
-		Articles:  wikiDetailsRes.Query.Statistics.Articles,
-		Languages: langs,
+		ApiUrl:      apiUrl,
+		SiteName:    wikiDetailsRes.Query.General.SiteName,
+		MainPage:    wikiDetailsRes.Query.General.MainPage,
+		Lang:        wikiDetailsRes.Query.General.Lang,
+		Logo:        wikiDetailsRes.Query.General.Logo,
+		Pages:       wikiDetailsRes.Query.Statistics.Pages,
+		Articles:    wikiDetailsRes.Query.Statistics.Articles,
+		Languages:   langs,
+		RequestOpts: requestOpts,
 	}, nil
 }
 
-func wikiLanguages(wikiUrl string, mainPage string) (WikiDetailsResponse, error) {
+func wikiLanguages(wikiUrl string, mainPage string, options utils.GetRequestOptions) (WikiDetailsResponse, error) {
 	fmtUrl, err := utils.NormalizeUrl(wikiUrl)
 	if err != nil {
 		return WikiDetailsResponse{}, err
@@ -94,7 +108,7 @@ func wikiLanguages(wikiUrl string, mainPage string) (WikiDetailsResponse, error)
 	params.Add("llprop", "url|langname|autonym")
 	params.Add("titles", mainPage)
 
-	langRes, err := utils.GetRequest[WikiDetailsResponse](fmtUrl, params, utils.GetRequestOptions{})
+	langRes, err := utils.GetRequest[WikiDetailsResponse](fmtUrl, params, options)
 	if err != nil {
 		return WikiDetailsResponse{}, err
 	}

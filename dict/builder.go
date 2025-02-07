@@ -1,7 +1,6 @@
 package dict
 
 import (
-	"github.com/runik-3/builder/internal/utils"
 	wikibot "github.com/runik-3/builder/wikiBot"
 )
 
@@ -25,12 +24,14 @@ func BuildDictionary(wikiUrl string, options GeneratorOptions) (Dict, error) {
 		}
 	}
 
-	u, err := utils.NormalizeUrl(wikiUrl)
+	// TODO: We have more info we can use when we want to extend the dictionary
+	// json schema to include more context.
+	wiki, err := wikibot.GetWikiDetails(wikiUrl)
 	if err != nil {
 		return Dict{}, err
 	}
 
-	err = dict.GenerateDefinitionsFromWiki(wikibot.GetWikiPageBatch, u, options)
+	err = dict.GenerateDefinitionsFromWiki(wikibot.GetWikiPageBatch, wiki, options)
 	if err != nil {
 		return Dict{}, err
 	}

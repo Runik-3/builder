@@ -46,17 +46,16 @@ type Dict struct {
 	Lexicon Lexicon
 }
 
-type BatchFunction func(src string, startFrom string, limit int) (wikibot.AllPagesResponse, error)
+type BatchFunction func(src string, startFrom string, limit int, options utils.GetRequestOptions) (wikibot.AllPagesResponse, error)
 
-func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wikiUrl string, options GeneratorOptions) error {
+func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.WikiDetails, options GeneratorOptions) error {
 	entries := 0
-	// initial call starts from the first page
 	startFrom := ""
-
 	generateStart := time.Now()
+
 	cont := true
 	for cont {
-		res, err := getBatch(wikiUrl, startFrom, options.EntryLimit-entries)
+		res, err := getBatch(wiki.ApiUrl, startFrom, options.EntryLimit-entries, wiki.RequestOpts)
 		if err != nil {
 			return err
 		}
