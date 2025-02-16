@@ -85,6 +85,14 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.
 			}
 		}
 
+		if options.ProgressHook != nil {
+			total := wiki.Articles
+			if options.EntryLimit < wiki.Articles {
+				total = options.EntryLimit
+			}
+			options.ProgressHook(entries, total)
+		}
+
 		if entries == options.EntryLimit {
 			break
 		}

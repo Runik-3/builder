@@ -10,6 +10,9 @@ type GeneratorOptions struct {
 	Depth      int
 	Format     string
 	EntryLimit int
+	// A function that gets called after each batch is processed, used to hook
+	// into the progress of the generator.
+	ProgressHook func(processed int, total int)
 }
 
 func BuildDictionary(wikiUrl string, options GeneratorOptions) (Dict, error) {

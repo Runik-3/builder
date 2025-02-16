@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 
 	"github.com/runik-3/builder/dict"
@@ -17,11 +18,12 @@ func main() {
 
 	flag.Parse()
 	options := dict.GeneratorOptions{
-		Name:       *name,
-		Output:     *output,
-		Format:     *format,
-		Depth:      *depth,
-		EntryLimit: *entryLimit,
+		Name:         *name,
+		Output:       *output,
+		Format:       *format,
+		Depth:        *depth,
+		EntryLimit:   *entryLimit,
+		ProgressHook: printProgress,
 	}
 
 	args := flag.Args()
@@ -47,4 +49,8 @@ func main() {
 	default:
 		log.Fatalf("%s is not a valid command. See help for more options.", args[0])
 	}
+}
+
+func printProgress(current int, total int) {
+	fmt.Printf("%d/%d definitions processed\n", current, total)
 }
