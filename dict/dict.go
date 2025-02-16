@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/url"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
 
@@ -31,6 +32,12 @@ func (l *Lexicon) Find(word string) (Entry, bool) {
 		}
 	}
 	return Entry{}, false
+}
+
+func (l *Lexicon) Sort() {
+	sort.Slice(*l, func(i, j int) bool {
+		return strings.ToLower((*l)[i].Word) < strings.ToLower((*l)[j].Word)
+	})
 }
 
 func (l *Lexicon) Print() {
@@ -67,8 +74,6 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.
 			break
 		}
 
-		// FIXME: order is not guaranteed in the Lexicon since we're iterating
-		// a map of pages.
 		for _, p := range res.Query.Pages {
 			def, err := wikitext.ParseDefinition(p.GetPageContent(), options.Depth)
 			if err != nil {
@@ -112,6 +117,8 @@ func (d *Dict) NameFromWiki(wikiUrl string) (*Dict, error) {
 
 // TODO - support for more formats: csv, xdxf, etc.
 func (d Dict) Write(path string, format string) (string, error) {
+	d.Lexicon.Sort()
+
 	fmtText, err := Format(format, d)
 	if err != nil {
 		return "", err
