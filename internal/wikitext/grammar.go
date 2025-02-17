@@ -11,8 +11,6 @@ const (
 	table_end
 	// parse all headings (h1-h6) as a single rule since we skip them anyway
 	heading
-	html_start
-	html_end
 	text
 )
 
@@ -20,6 +18,8 @@ type TokenGrammar struct {
 	Token TokenType
 	State string
 }
+
+var TEXT_TOKEN TokenGrammar = TokenGrammar{Token: text, State: "text"}
 
 var grammar = map[string]TokenGrammar{
 	"[[":     {Token: link_start, State: "link"},

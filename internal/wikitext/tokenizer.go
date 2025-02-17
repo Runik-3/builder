@@ -2,14 +2,13 @@ package wikitext
 
 import (
 	"encoding/json"
-	"fmt"
 	"regexp"
+	"slices"
 	"strings"
 )
 
 type Token struct {
-	Type string
-	//SubType string
+	Type  string
 	Value string
 }
 
@@ -102,29 +101,29 @@ func (t *Tokenizer) Tokenize(options TokenizerOptions) Tokenizer {
 		case "text_start":
 			if tt.Token == text {
 				t.state = t.state.set("text")
-				t.newToken(char, t.state)
+				t.newToken(char)
 				break
 			}
 			fallthrough
 		case "text":
 			if tt.Token == link_start {
 				t.state = t.state.set("link")
-				t.newToken("", t.state)
+				t.newToken("")
 				break
 			}
 			if tt.Token == template_start {
 				t.state = t.state.set("template")
-				t.newToken("", t.state)
+				t.newToken("")
 				break
 			}
 			if tt.Token == table_start {
 				t.state = t.state.set("table")
-				t.newToken("", t.state)
+				t.newToken("")
 				break
 			}
 			if tt.Token == heading {
 				t.state = t.state.set("heading")
-				t.newToken("", t.state)
+				t.newToken("")
 				break
 			}
 			if tt.Token == text {
@@ -193,7 +192,7 @@ func (t *Tokenizer) Tokenize(options TokenizerOptions) Tokenizer {
 		// End of file
 		if i == len(t.characters)-1 {
 			t.state.set("EOF")
-			t.newToken("", t.state)
+			t.newToken("")
 		}
 
 		i++
@@ -207,7 +206,7 @@ func (t *Tokenizer) GetTokenType(i *int) TokenGrammar {
 
 	matcherFunc, ok := matcherFunctions[currChar]
 	if !ok {
-		return TokenGrammar{Token: text, State: "text"}
+		return TEXT_TOKEN
 	}
 
 	r, isMatch := matcherFunc(i, &t.characters)
@@ -215,11 +214,11 @@ func (t *Tokenizer) GetTokenType(i *int) TokenGrammar {
 		return r
 	}
 
-	return TokenGrammar{Token: text, State: "text"}
+	return TEXT_TOKEN
 }
 
-func (t *Tokenizer) newToken(char string, state State) {
-	newTkn := Token{Type: state.getState(), Value: char}
+func (t *Tokenizer) newToken(char string) {
+	newTkn := Token{Type: t.state.getState(), Value: char}
 	t.tokens = append(t.tokens, newTkn)
 }
 
@@ -234,9 +233,7 @@ func (t *Tokenizer) appendToToken(char string) {
 
 // Prepares document for tokenization.
 func cleanDocument(t string) string {
-	//s := cleanHtmlContent(t)
-	s := cleanHtmlTags(t)
-
+	s := cleanHtml(t)
 	// strip urls from text (likely came from <ref> tags that got cleaned above
 	reg := regexp.MustCompile(`(f|ht)(tp)(s?)(://)(\S*)[.|/]([^\s\]\}]*)`)
 	s = reg.ReplaceAllString(s, "")
@@ -249,26 +246,70 @@ func cleanDocument(t string) string {
 	return s
 }
 
-// FIXME: Regex isn't quite the right tool for this job. It's not grainular
-// enough to handle nested or side-by-side tags. HTML tags will have to be
-// handled within the tokenizer. -- THIS IS DISABLED FOR NOW AND NEEDS TO BE
-// RE-ENABLED BEFORE NEXT RELEASE
-//
-// removes html tags whose inner text we don't want to preserve
-func cleanHtmlContent(s string) string {
-	tags := []string{"ref"}
+func cleanHtml(s string) string {
+	// Tags whose inner content we don't want to preserve
+	removeHtmlContent := []string{"ref"}
+	chars := strings.Split(s, "")
+	cleanedText := []string{}
 
-	for _, t := range tags {
-		reg := regexp.MustCompile(fmt.Sprintf("<%s.*>.*<\\/%s>", t, t))
-		s = reg.ReplaceAllString(s, "")
+	tagType := ""
+	// when true, write to cleanedText
+	write := true
+	tag := ""
+	tags := []string{} // to track nesting of clean html content tags
+	for i, c := range chars {
+		if c == "<" {
+			tagType = "open"
+
+			lookAhead := canLookAhead(i, &chars)
+			if lookAhead && chars[i+1] == "/" {
+				tagType = "close"
+			}
+			write = false
+			continue
+		}
+
+		if c == ">" {
+			// ignore attributes that may have been captured along with the tag
+			parsedTag := strings.Split(tag, " ")[0]
+			// we don't want text contents from this tag type
+			if tagType == "open" {
+				write = true
+				// If this tag is a remove html content tag don't write
+				if slices.Contains(removeHtmlContent, parsedTag) {
+					write = false
+					tags = append(tags, tag)
+				}
+			} else if tagType == "close" {
+				if slices.Contains(removeHtmlContent, parsedTag[1:]) {
+					tags = pop(tags)
+				}
+				write = true
+			}
+
+			// If this tag is nested in a remove html content tag don't write
+			if len(tags) > 0 {
+				write = false
+			}
+			tagType = ""
+			tag = ""
+			continue
+		}
+
+		if write {
+			cleanedText = append(cleanedText, c)
+		}
+		if tagType != "" {
+			tag += c
+		}
 	}
 
-	return s
+	return strings.Join(cleanedText, "")
 }
 
-// removes html tags from text, but preserves inner text
-func cleanHtmlTags(s string) string {
-	reg := regexp.MustCompile("<[^<>]*>")
-
-	return reg.ReplaceAllString(s, "")
+func pop(s []string) []string {
+	if len(s) == 0 {
+		return s
+	}
+	return s[:len(s)-1]
 }
