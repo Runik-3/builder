@@ -1,39 +1,51 @@
 package wikitext
 
-type TokenType int
+type TokenType string
 
 const (
-	link_start TokenType = iota
-	link_end
-	template_start
-	template_end
-	table_start
-	table_end
+	link_start     TokenType = "link_start"
+	link_end       TokenType = "link_end"
+	template_start TokenType = "template_start"
+	template_end   TokenType = "template_end"
+	table_start    TokenType = "table_start"
+	table_end      TokenType = "table_end"
 	// parse all headings (h1-h6) as a single rule since we skip them anyway
-	heading
-	text
+	heading_token TokenType = "heading_token"
+	text_token    TokenType = "text_token"
+)
+
+type State string
+
+const (
+	link     State = "link"
+	template State = "template"
+	table    State = "table"
+	heading  State = "heading"
+	unset    State = "unset"
+	text     State = "text"
+	EOF      State = "EOF"
 )
 
 type TokenGrammar struct {
 	Token TokenType
-	State string
+	State State
 }
 
-var TEXT_TOKEN TokenGrammar = TokenGrammar{Token: text, State: "text"}
+var TEXT_TOKEN TokenGrammar = TokenGrammar{Token: text_token, State: text}
 
 var grammar = map[string]TokenGrammar{
-	"[[":     {Token: link_start, State: "link"},
-	"]]":     {Token: link_end, State: "link"},
-	"{{":     {Token: template_start, State: "template"},
-	"}}":     {Token: template_end, State: "template"},
-	"{":      {Token: table_start, State: "table"},
-	"}":      {Token: table_end, State: "table"},
-	"======": {Token: heading, State: "heading"},
-	"=====":  {Token: heading, State: "heading"},
-	"====":   {Token: heading, State: "heading"},
-	"===":    {Token: heading, State: "heading"},
-	"==":     {Token: heading, State: "heading"},
-	"=":      {Token: heading, State: "heading"},
+	"[[":     {Token: link_start, State: link},
+	"]]":     {Token: link_end, State: link},
+	"{{":     {Token: template_start, State: template},
+	"}}":     {Token: template_end, State: template},
+	"{":      {Token: table_start, State: table},
+	"}":      {Token: table_end, State: table},
+	"======": {Token: heading_token, State: heading},
+	"=====":  {Token: heading_token, State: heading},
+	"====":   {Token: heading_token, State: heading},
+	"===":    {Token: heading_token, State: heading},
+	"==":     {Token: heading_token, State: heading},
+	"=":      {Token: heading_token, State: heading},
 }
 
 var matcherFunctions = map[string]func(*int, *[]string) (TokenGrammar, bool){

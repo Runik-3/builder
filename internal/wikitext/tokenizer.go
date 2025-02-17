@@ -8,7 +8,7 @@ import (
 )
 
 type Token struct {
-	Type  string
+	Type  State
 	Value string
 }
 
@@ -25,30 +25,30 @@ func (t *TokenCollection) Stringify() (string, error) {
 	return string(json), nil
 }
 
-type State []string
+type StateStack []State
 
-func (s State) getState() string {
+func (s StateStack) getState() State {
 	return s[len(s)-1]
 }
 
-func (s State) pop() State {
+func (s StateStack) pop() StateStack {
 	if len(s) > 0 {
 		return s[0 : len(s)-1]
 	}
 	return s
 }
 
-func (s State) set(state string) State {
+func (s StateStack) set(state State) StateStack {
 	return append(s.pop(), state)
 }
 
-func (s State) len() int {
+func (s StateStack) len() int {
 	return len(s)
 }
 
 type Tokenizer struct {
 	tokens     TokenCollection
-	state      State
+	state      StateStack
 	characters []string
 }
 
@@ -62,7 +62,7 @@ func NewTokenizer(raw string) Tokenizer {
 	cleaned := cleanDocument(raw)
 	characters := strings.Split(cleaned, "")
 
-	return Tokenizer{characters: characters, state: State{"text_start"}}
+	return Tokenizer{characters: characters, state: StateStack{unset}}
 }
 
 func (t *Tokenizer) batcher(batch int, size int) []string {
@@ -98,92 +98,77 @@ func (t *Tokenizer) Tokenize(options TokenizerOptions) Tokenizer {
 		tt := t.GetTokenType(&i)
 
 		switch t.state.getState() {
-		case "text_start":
-			if tt.Token == text {
-				t.state = t.state.set("text")
+		case unset:
+			if tt.Token == text_token {
+				t.state = t.state.set(text)
 				t.newToken(char)
 				break
 			}
 			fallthrough
-		case "text":
-			if tt.Token == link_start {
-				t.state = t.state.set("link")
+		case text:
+			if tt.Token != text_token {
+				t.state = t.state.set(tt.State)
 				t.newToken("")
 				break
 			}
-			if tt.Token == template_start {
-				t.state = t.state.set("template")
-				t.newToken("")
-				break
-			}
-			if tt.Token == table_start {
-				t.state = t.state.set("table")
-				t.newToken("")
-				break
-			}
-			if tt.Token == heading {
-				t.state = t.state.set("heading")
-				t.newToken("")
-				break
-			}
-			if tt.Token == text {
+			if tt.Token == text_token {
 				t.appendToToken(char)
 			}
 
-		case "link":
+		case link:
 			if tt.Token == link_end {
-				t.state = t.state.set("text_start")
+				t.state = t.state.set(unset)
 				break
 			}
-			if tt.Token == text {
+			if tt.Token == text_token {
 				t.appendToToken(char)
 				break
 			}
 
-		case "heading":
-			if tt.Token == heading {
-				t.state = t.state.set("text_start")
+		case heading:
+			if tt.Token == heading_token {
+				t.state = t.state.set(unset)
 				break
 			}
-			if tt.Token == text {
+			if tt.Token == text_token {
 				t.appendToToken(char)
 				break
 			}
 
-		case "template":
+		case template:
 			if tt.Token == template_start {
-				t.state = append(t.state, "template")
+				t.state = append(t.state, template)
 				break
 			}
 			if tt.Token == template_end {
 				// check stack and assign appropriate state
 				if t.state.len() == 1 {
-					t.state = t.state.set("text_start")
+					t.state = t.state.set(unset)
 				} else {
 					t.state = t.state.pop()
 				}
 				break
 			}
-			if tt.Token == text {
+			if tt.Token == text_token {
 				t.appendToToken(char)
 				break
 			}
 
-		case "table":
+		case table:
 			if tt.Token == table_start {
-				t.state = append(t.state, "table")
+				t.state = append(t.state, table)
 				break
 			}
 			if tt.Token == table_end {
 				// check stack and assign appropriate state
 				if t.state.len() == 1 {
-					t.state = t.state.set("text_start")
+					t.state = t.state.set(unset)
 				} else {
 					t.state = t.state.pop()
 				}
 				break
 			}
-			if tt.Token == text {
+			if tt.Token == text_token {
 				t.appendToToken(char)
 				break
 			}
@@ -191,7 +176,7 @@ func (t *Tokenizer) Tokenize(options TokenizerOptions) Tokenizer {
 
 		// End of file
 		if i == len(t.characters)-1 {
-			t.state.set("EOF")
+			t.state.set(EOF)
 			t.newToken("")
 		}
 
