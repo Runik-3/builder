@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
-	"time"
 
 	"github.com/runik-3/builder/internal/utils"
 	"github.com/runik-3/builder/internal/wikitext"
@@ -58,7 +57,6 @@ type BatchFunction func(src string, startFrom string, limit int, options utils.G
 func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.WikiDetails, options GeneratorOptions) error {
 	entries := 0
 	startFrom := ""
-	generateStart := time.Now()
 
 	cont := true
 	for cont {
@@ -67,11 +65,8 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.
 			return err
 		}
 
-		// Break out if we're in an endless loop and not processing anything.
-		const TIMEOUT = 15 * time.Second
-		elapsed := time.Since(generateStart)
-		if elapsed > time.Duration(TIMEOUT) {
-			break
+		if len(res.Query.Pages) == 0 {
+			return errors.New("Could not get page content.")
 		}
 
 		for _, p := range res.Query.Pages {
