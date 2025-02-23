@@ -19,6 +19,8 @@ func TestParser(t *testing.T) {
 		{"A.203 is a robot from the achovy system", "A.203 is a robot from the achovy system"},
 		{"==Heading==A.203 is a robot from the achovy system", "A.203 is a robot from the achovy system"},
 		{"handwritten in [[wikipedia:Octavo|octavo-sized pages]]", "handwritten in octavo-sized pages"},
+		{"[[Category:Poems]]", ""},
+		{"[[Media:Poems]]", ""},
 	}
 
 	for _, c := range cases {
