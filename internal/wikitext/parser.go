@@ -68,11 +68,15 @@ func isDefinitionParsed(def *string, t *Tokenizer, depth int) bool {
 	return false
 }
 
-// handles the different link types
+// Handles the different link types
+//
+// If link is in our list of unsupported, ignore it
+// If link type is specified and does not contain display, ignore it
+// If link type is specified but does contain display, keep it
 func resolveLink(link string) string {
 	// Since we're only parsing text from wikis, we don't want to handle link
-	// types that don't include display text (ie. files, media, categories)
-	unsupported := []string{"file:", "media:", "category:"}
+	// types that don't include useful display text (ie. files, media)
+	unsupported := []string{"file:", "media:"}
 
 	for _, u := range unsupported {
 		if strings.Contains(strings.ToLower(link), u) {
@@ -88,6 +92,10 @@ func resolveLink(link string) string {
 		if hasDisplay {
 			return strings.Join(parts[1:], "")
 		}
+		return ""
+	}
+
+	if strings.Contains(link, ":") {
 		return ""
 	}
 

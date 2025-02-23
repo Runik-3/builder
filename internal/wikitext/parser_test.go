@@ -21,6 +21,8 @@ func TestParser(t *testing.T) {
 		{"handwritten in [[wikipedia:Octavo|octavo-sized pages]]", "handwritten in octavo-sized pages"},
 		{"[[Category:Poems]]", ""},
 		{"[[Media:Poems]]", ""},
+		{"[[Media:Poems|Display should not show]]", ""},
+		{"[[Category:Poems|Display should show]]", "Display should show"},
 	}
 
 	for _, c := range cases {
