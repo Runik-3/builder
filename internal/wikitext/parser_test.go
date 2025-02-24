@@ -23,6 +23,25 @@ func TestParser(t *testing.T) {
 		{"[[Media:Poems]]", ""},
 		{"[[Media:Poems|Display should not show]]", ""},
 		{"[[Category:Poems|Display should show]]", "Display should show"},
+		{`{{quote|Simmon [...] had a great deal to offer. He was a gemstone in the rough. Not stunning at first glance, but with a great deal of worth beneath the surface. Sim was tender, kind, and attentive [...] Sim was a prince.|[[Kvothe]]{{ref|TWMF}}}}
+{{character infobox
+|image = Playing Cards poster Simmon.png
+|alias = Sim
+|family = *Duke of Dalonir (father)
+*Five unnamed siblings
+|species = Human
+|gender = Male
+|hair = Sandy
+|eye = Light
+|ethnicity = [[The Aturan Empire|Aturan]]
+|occupation = [[University]] student
+|field = Alchemy, Poetry
+|rank = Re'lar
+|skin = Pale}}
+
+'''Simmon''' {{pron|PR|/'sɪmən/}}<ref>https://youtu.be/MPEB6NAGoYk?t=101</ref>, usually referred to as Sim, is one of [[Kvothe|Kvothe's]] best friends at [[the University]].`,
+			"Simmon , usually referred to as Sim, is one of Kvothe's best friends at the University.",
+		},
 	}
 
 	for _, c := range cases {
@@ -34,7 +53,6 @@ func TestParser(t *testing.T) {
 }
 
 func TestParserDepth(t *testing.T) {
-
 	cases := [][]string{
 		{"'''Kossil''' is a Priestess at the Place of the Tombs of Atuan. She serves as the High Priestess of the Godking. She, along with [[Thar]] and [[Tenar]], are the high authorities there.", "Kossil is a Priestess at the Place of the Tombs of Atuan.", "1"},
 		{"'''Kossil''' is a Priestess at the Place of the Tombs of Atuan. She serves as the High Priestess of the Godking. She, along with [[Thar]] and [[Tenar]], are the high authorities there.", "Kossil is a Priestess at the Place of the Tombs of Atuan. She serves as the High Priestess of the Godking.", "2"},

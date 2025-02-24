@@ -50,11 +50,11 @@ type Tokenizer struct {
 	tokens     TokenCollection
 	state      StateStack
 	characters []string
+	i          int
 }
 
 type TokenizerOptions struct {
-	// If these values exist, the tokenizer will process the text in batches
-	batch     int
+	// If this value exists, the tokenizer will process the text in batches
 	batchSize int
 }
 
@@ -83,19 +83,17 @@ func (t *Tokenizer) batcher(batch int, size int) []string {
 // FIXME: this can be cleaned up, let's make it leaner and easier to extend --
 // already started the improvements with the tokentype func, let's keep going
 func (t *Tokenizer) Tokenize(options TokenizerOptions) Tokenizer {
-	chars := t.characters
-	i := 0
-	batchStart := 0
-
-	if options.batch != 0 && options.batchSize != 0 {
-		chars = t.batcher(options.batch, options.batchSize)
-		batchStart = (options.batch - 1) * options.batchSize
-		i = batchStart
+	batch := len(t.characters)
+	if options.batchSize != 0 {
+		maybeBatch := t.i + options.batchSize
+		if maybeBatch < batch {
+			batch = maybeBatch
+		}
 	}
 
-	for i < batchStart+len(chars) {
-		char := t.characters[i]
-		tt := t.GetTokenType(&i)
+	for t.i < batch {
+		char := t.characters[t.i]
+		tt := t.GetTokenType()
 
 		switch t.state.getState() {
 		case unset:
@@ -175,26 +173,26 @@ func (t *Tokenizer) Tokenize(options TokenizerOptions) Tokenizer {
 		}
 
 		// End of file
-		if i == len(t.characters)-1 {
+		if t.i == len(t.characters)-1 {
 			t.state.set(EOF)
 			t.newToken("")
 		}
 
-		i++
+		t.i++
 	}
 
 	return *t
 }
 
-func (t *Tokenizer) GetTokenType(i *int) TokenGrammar {
-	currChar := t.characters[*i]
+func (t *Tokenizer) GetTokenType() TokenGrammar {
+	currChar := t.characters[t.i]
 
 	matcherFunc, ok := matcherFunctions[currChar]
 	if !ok {
 		return TEXT_TOKEN
 	}
 
-	r, isMatch := matcherFunc(i, &t.characters)
+	r, isMatch := matcherFunc(&t.i, &t.characters)
 	if isMatch {
 		return r
 	}

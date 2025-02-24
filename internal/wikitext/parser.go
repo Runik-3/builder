@@ -13,10 +13,9 @@ func ParseDefinition(raw string, depth int) (string, error) {
 	definition := ""
 
 	// While loop, while def length is less than sentence depth, keep batching
-	batch := 1
 	batchSize := 300
 	for !isDefinitionParsed(&definition, &tokenizer, depth) {
-		tokenizer.Tokenize(TokenizerOptions{batch, batchSize})
+		tokenizer.Tokenize(TokenizerOptions{batchSize})
 		definition = ""
 
 		// FIXME: we're doing a little extra work by resetting the definition above
@@ -30,7 +29,6 @@ func ParseDefinition(raw string, depth int) (string, error) {
 				definition += resolveLink(t.Value)
 			}
 		}
-		batch++
 	}
 
 	// resolve depth of definition

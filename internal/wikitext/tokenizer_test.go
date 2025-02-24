@@ -2,8 +2,10 @@ package wikitext
 
 import (
 	_ "embed"
-	test "github.com/runik-3/builder/internal/testUtils"
+	"fmt"
 	"testing"
+
+	test "github.com/runik-3/builder/internal/testUtils"
 )
 
 func TestTokenizer(t *testing.T) {
@@ -92,7 +94,7 @@ func TestTokenBatcher(t *testing.T) {
 
 	t.Run("Test tokenize in batches", func(t *testing.T) {
 		tokenizer := NewTokenizer(testSimpleText)
-		batch := tokenizer.Tokenize(TokenizerOptions{1, 5})
+		batch := tokenizer.Tokenize(TokenizerOptions{5})
 		test.IsEqual(t, batch.tokens[0].Type, text, "")
 		test.IsEqual(t, batch.tokens[0].Value, "this ", "")
 	})
@@ -101,20 +103,35 @@ func TestTokenBatcher(t *testing.T) {
 
 	t.Run("Test tokenize wikitext in batches", func(t *testing.T) {
 		tokenizer := NewTokenizer(testWikiText)
-		batch1 := tokenizer.Tokenize(TokenizerOptions{1, 5})
+		batch1 := tokenizer.Tokenize(TokenizerOptions{5})
 		test.IsEqual(t, batch1.tokens[0].Type, link, "")
 		test.IsEqual(t, batch1.tokens[0].Value, "lin", "")
 
-		batch2 := tokenizer.Tokenize(TokenizerOptions{2, 5})
+		batch2 := tokenizer.Tokenize(TokenizerOptions{5})
 		test.IsEqual(t, batch2.tokens[0].Type, link, "")
 		test.IsEqual(t, batch2.tokens[0].Value, "link", "")
 		test.IsEqual(t, batch2.tokens[1].Type, text, "")
 		test.IsEqual(t, batch2.tokens[1].Value, " s", "")
 
 		// increase batch size (also means we need to adjust our batch no.)
-		batch3 := tokenizer.Tokenize(TokenizerOptions{2, 10})
+		batch3 := tokenizer.Tokenize(TokenizerOptions{10})
 		test.IsEqual(t, batch3.tokens[1].Type, text, "")
 		test.IsEqual(t, batch3.tokens[1].Value, " some text", "")
+	})
+
+	// This test will batch in the middle of the template token
+	testTemplateBatch := "{{a|b}}test"
+	t.Run("Test tokenize wikitext in batches on token boundary", func(t *testing.T) {
+		tokenizer := NewTokenizer(testTemplateBatch)
+		batch1 := tokenizer.Tokenize(TokenizerOptions{6})
+		fmt.Println(tokenizer.tokens)
+		test.IsEqual(t, batch1.tokens[0].Type, template, "")
+		test.IsEqual(t, batch1.tokens[0].Value, "a|b", "")
+
+		batch2 := tokenizer.Tokenize(TokenizerOptions{6})
+		fmt.Println(tokenizer.tokens)
+		test.IsEqual(t, batch2.tokens[1].Type, text, "")
+		test.IsEqual(t, batch2.tokens[1].Value, "test", "")
 	})
 }
 func BenchmarkTokenizer(b *testing.B) {
