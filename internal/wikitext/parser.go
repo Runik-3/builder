@@ -2,6 +2,7 @@ package wikitext
 
 import (
 	"errors"
+	"regexp"
 	"strings"
 )
 
@@ -42,6 +43,7 @@ func ParseDefinition(raw string, depth int) (string, error) {
 	definition = strings.ReplaceAll(definition, "  ", " ")
 	// trim whitespace
 	definition = strings.TrimSpace(definition)
+	definition = handleIndents(definition)
 
 	// TODO - Handle redirects more gracefully instead of removing outright
 	if strings.Contains(strings.ToLower(definition), "#redirect") {
@@ -98,4 +100,18 @@ func resolveLink(link string) string {
 	}
 
 	return link
+}
+
+func handleIndents(s string) string {
+	reg := regexp.MustCompile(`\n:+`)
+	return reg.ReplaceAllStringFunc(s, func(match string) string {
+		const COLON_RUNE = 58
+		indent := ""
+		for _, char := range match {
+			if char == COLON_RUNE {
+				indent += "  "
+			}
+		}
+		return "\n" + indent
+	})
 }

@@ -42,6 +42,8 @@ func TestParser(t *testing.T) {
 '''Simmon''' {{pron|PR|/'sɪmən/}}<ref>https://youtu.be/MPEB6NAGoYk?t=101</ref>, usually referred to as Sim, is one of [[Kvothe|Kvothe's]] best friends at [[the University]].`,
 			"Simmon , usually referred to as Sim, is one of Kvothe's best friends at the University.",
 		},
+		{"Handle\n:indents", "Handle\n  indents"},
+		{"Handle\n:nested\n::indents", "Handle\n  nested\n    indents"},
 	}
 
 	for _, c := range cases {
