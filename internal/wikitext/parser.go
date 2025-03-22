@@ -7,10 +7,10 @@ import (
 )
 
 func ParseDefinition(raw string, depth int) (string, error) {
-	if raw == "" {
+	tokenizer := NewTokenizer(raw)
+	if len(tokenizer.characters) == 0 {
 		return "", errors.New("No page content.")
 	}
-	tokenizer := NewTokenizer(raw)
 	definition := ""
 
 	// While loop, while def length is less than sentence depth, keep batching
