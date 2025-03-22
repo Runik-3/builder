@@ -58,6 +58,7 @@ func TestCleanDocument(t *testing.T) {
 		{`<ref>should <strong>be</strong> cleaned strong</ref>`, ""},
 		{`<ref>should <ref>be</ref> cleaned</ref>`, ""},
 		{`<ref>should <img src=""> cleaned</ref>`, ""},
+		{`<   this is not real html content </code>`, ""},
 	}
 
 	for _, c := range cases {

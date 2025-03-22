@@ -264,7 +264,13 @@ func cleanHtml(s string) string {
 					tags = append(tags, tag)
 				}
 			} else if tagType == "close" {
-				if slices.Contains(removeHtmlContent, parsedTag[1:]) {
+				// There was an issue parsing the tag, the content may be malformed.
+				// Let's still clean the malformed content. If this becomes a regular
+				// pattern for pages with valid content, we can come up with a
+				// strategy to handle this.
+				if len(parsedTag) < 1 {
+					tags = pop(tags)
+				} else if slices.Contains(removeHtmlContent, parsedTag[1:]) {
 					tags = pop(tags)
 				}
 				write = true
