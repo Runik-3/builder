@@ -49,6 +49,8 @@ func (l *Lexicon) Print() {
 
 type Dict struct {
 	Name    string
+	ApiUrl  string
+	Lang    string
 	Lexicon Lexicon
 }
 
