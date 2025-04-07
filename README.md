@@ -100,46 +100,85 @@ go get github.com/runik-3/builder
 The `GetWikiDetails` function is exported from `/wikiBot`. It can act as a tool to validate wiki urls or simply fetch useful metadata about a wiki before it's generated.
 
 ```go
-func GetWikiDetails(wikiUrl string) (WikiDetails, error)
+import (
+  "fmt"
+  wikibot "github.com/runik-3/builder/wikiBot"
+)
 
-// returns WikiDetails
-type WikiDetails struct {
-	SiteName  string
-	MainPage  string
-	Lang      string
-	Logo      string
-	Pages     int
-	Articles  int
-	Languages []Lang
+details, err := wikibot.GetWikiDetails("htts://stardust.fandom.com")
+fmt.Printf("%+v", details)
+
+/*
+{
+  ApiUrl:https://kingkiller.fandom.com/api.php 
+  SiteName:Kingkiller Chronicle Wiki 
+  MainPage:Kingkiller Wiki 
+  Lang:en 
+  Logo:https://images.wikia.com/nameofthewind/images/b/bc/Wiki.png 
+  Pages:11700 
+  Articles:466 
+  Languages:
+    [
+      {
+        Lang:de 
+        LangName:German 
+        Autonym:Deutsch 
+        Url:https://knigsmrder.fandom.com/de/wiki/
+      } 
+      ...
+    ] 
+  RequestOpts: {
+    ForceTLS12:false
+  }
 }
+*/
 ```
 
 ### Generate Dictionary
 
-Import the `/dict` package to get access to the `BuildDictionary` function, takes a wikiurl and some other options and builds a dictionary based on its entries.
+The `BuildDictionary` funciton is exported from `/dict`. `BuildDictionary` takes in a wiki url and some options and generates a dictionary based on the content of the wiki.
 
 ```go
-func BuildDictionary(wikiUrl string, options GeneratorOptions) (Dict, error)
+import (
+    d "github.com/runik-3/builder/dict"
+)
 
-// takes GeneratorOptions
-type GeneratorOptions struct {
-	Name       string
-	Output     string
-	Depth      int
-	Format     string
-	EntryLimit int
+var wikiUrl string = "https://kingkiller.fandom.com"
+
+_, err := d.BuildDictionary(wikiUrl, d.GeneratorOptions{
+    Name:         "kingkiller",
+    Output:       outputDir,
+    Format:       "json",
+    EntryLimit:   10000,
+    Depth:        1,
+})
+
+/*
+<outputDir>/kingkiller.json:
+----------------------------
+
+{
+  "Name":"kingkiller",
+  "ApiUrl":"https://kingkiller.fandom.com/api.php",
+  "Lang":"en",
+  "Lexicon":[
+    {
+      "Word":"Arwyl",
+      "Definition":"Master Arwyl is the Master Physicker of the University, and presides over the instruction and day-to-day operations of the Medica."
+    },
+    ...
+  ]
 }
-
-// returns Dict
-type Dict struct {
-	Name    string
-	Lexicon Lexicon
-}
-
-type Lexicon []Entry
-
-type Entry struct {
-	Word       string
-	Definition string
-}
+*/
 ```
+
+#### Generator Options
+
+| Option       | Description                                                                                                                                    |
+|--------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| Name         | The name of the generated dictionary.                                                                                                          |
+| Output       | The directory the dictionary will be written to. If none is defined, no file will be written.                                                  |
+| Format       | The file format the dictionary is written in -- supports JSON and dictfile.                                                                    |
+| Depth        | The number of sentences that make up each definition.                                                                                          |
+| EntryLimit   | The maximum number of word entries written to a dictionary.                                                                                    |
+| ProgressHook | A function that runs after every batch is processed -- can be used to report progress or perform some other action that hooks into generation. |
