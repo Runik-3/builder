@@ -26,6 +26,8 @@ func ParseWordVariants(word string, definition string) []string {
 		variants = append(variants, word[len(thePrefix):])
 	}
 
+	// Is full name, title or place
+
 	return variants
 }
 
