@@ -4,9 +4,11 @@ import (
 	_ "embed"
 	"strconv"
 	"testing"
+
+	test "github.com/runik-3/builder/internal/testUtils"
 )
 
-func TestParser(t *testing.T) {
+func TestParseDefinition(t *testing.T) {
 	cases := [][]string{
 		{"'''Denna''' {{pron|PR|/'dɛne/}}<ref>https://youtu.be/MPEB6NAGoYk?t=1041</ref> is the primary female figure in ''[[The Name of the Wind]]''; she is arguably the main romantic interest of Kvothe, who holds an irresistible fascination with her.", "Denna is the primary female figure in The Name of the Wind; she is arguably the main romantic interest of Kvothe, who holds an irresistible fascination with her."},
 		{"'''Akari au Raa''' was a [[Gold]], the progenitor of [[House Raa]], and one of the founders of the [[The Society|Society]].", "Akari au Raa was a Gold, the progenitor of House Raa, and one of the founders of the Society."},
@@ -69,6 +71,27 @@ func TestParserDepth(t *testing.T) {
 			t.Fatalf("\nWant:\n%s\n\nRecieved:\n%s", c[1], r)
 		}
 	}
+}
+
+func TestParseWordVariants(t *testing.T) {
+	t.Run("Creates a variant when word has 'the' prefix", func(t *testing.T) {
+		variants := ParseWordVariants("The One Ring", "")
+		test.IsEqual(t, len(variants), 1, "")
+		test.IsEqual(t, variants[0], "One Ring", "")
+	})
+	t.Run("Does not create a variant when word does not 'the' prefix", func(t *testing.T) {
+		variants := ParseWordVariants("Jon Snow", "")
+		test.IsEqual(t, len(variants), 0, "")
+	})
+	t.Run("Handles different casing", func(t *testing.T) {
+		variants := ParseWordVariants("the Wicked Witch", "")
+		test.IsEqual(t, len(variants), 1, "")
+		test.IsEqual(t, variants[0], "Wicked Witch", "")
+
+		variants = ParseWordVariants("THE Wicked Witch", "")
+		test.IsEqual(t, len(variants), 1, "")
+		test.IsEqual(t, variants[0], "Wicked Witch", "")
+	})
 }
 
 func BenchmarkParsing(b *testing.B) {

@@ -6,6 +6,29 @@ import (
 	"strings"
 )
 
+// Creates word variants based on conditions of the word or definition
+func ParseWordVariants(word string, definition string) []string {
+	variants := []string{}
+
+	/*
+	 * Handle "the"
+	 *
+	 * When a page title includes "the", we want to include a variant with the
+	 * definite article stripped so we have more accurate matching.
+	 *
+	 * Example from kingkiller wiki:
+	 * When parsing the article "The Cthaeh", we also include the variant
+	 * "Cthaeh".
+	 */
+	thePrefix := "the "
+	hasThePrefix := strings.HasPrefix(strings.ToLower(word), thePrefix)
+	if hasThePrefix {
+		variants = append(variants, word[len(thePrefix):])
+	}
+
+	return variants
+}
+
 func ParseDefinition(raw string, depth int) (string, error) {
 	tokenizer := NewTokenizer(raw)
 	if len(tokenizer.characters) == 0 {
@@ -13,7 +36,6 @@ func ParseDefinition(raw string, depth int) (string, error) {
 	}
 	definition := ""
 
-	// While loop, while def length is less than sentence depth, keep batching
 	batchSize := 300
 	for !isDefinitionParsed(&definition, &tokenizer, depth) {
 		tokenizer.Tokenize(TokenizerOptions{batchSize})

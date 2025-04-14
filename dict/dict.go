@@ -16,6 +16,7 @@ import (
 type Entry struct {
 	Word       string
 	Definition string
+	Variants   []string
 }
 
 type Lexicon []Entry
@@ -72,12 +73,17 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.
 		}
 
 		for _, p := range res.Query.Pages {
-			def, err := wikitext.ParseDefinition(p.GetPageContent(), options.Depth)
+			entry := Entry{}
+			parsedDefinition, err := wikitext.ParseDefinition(p.GetPageContent(), options.Depth)
 			if err != nil {
 				continue
 			}
-			if def != "" {
-				d.Lexicon.Add(Entry{Word: p.Title, Definition: def})
+			entry.Word = p.Title
+			entry.Definition = parsedDefinition
+			entry.Variants = wikitext.ParseWordVariants(entry.Word, entry.Definition)
+
+			if parsedDefinition != "" {
+				d.Lexicon.Add(entry)
 				entries++
 			}
 		}
