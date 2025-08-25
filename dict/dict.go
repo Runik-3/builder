@@ -72,12 +72,13 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.
 		}
 
 		for _, p := range res.Query.Pages {
+			word := wikitext.ParseWord(p.Title)
 			def, err := wikitext.ParseDefinition(p.GetPageContent(), options.Depth)
 			if err != nil {
 				continue
 			}
 			if def != "" {
-				d.Lexicon.Add(Entry{Word: p.Title, Definition: def})
+				d.Lexicon.Add(Entry{Word: word, Definition: def})
 				entries++
 			}
 		}

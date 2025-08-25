@@ -7,6 +7,11 @@ import (
 	"strings"
 )
 
+func ParseWord(raw string) string {
+	// Replace `"` char with `'` in headword
+	return strings.ReplaceAll(raw, "\"", "'")
+}
+
 func ParseDefinition(raw string, depth int) (string, error) {
 	tokenizer := NewTokenizer(raw)
 	if len(tokenizer.characters) == 0 {

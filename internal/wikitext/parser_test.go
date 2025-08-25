@@ -73,6 +73,19 @@ func TestParserDepth(t *testing.T) {
 	}
 }
 
+func TestParseWord(t *testing.T) {
+	cases := [][]string{
+		{"Selia \"Barren\"", "Selia 'Barren'"},
+	}
+
+	for _, c := range cases {
+		r := ParseWord(c[0])
+		if r != c[1] {
+			t.Fatalf("\nWant:\n%s\n\nRecieved:\n%s", c[1], r)
+		}
+	}
+}
+
 func BenchmarkParsing(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		ParseDefinition(sample_wikitext_lg, 1)
