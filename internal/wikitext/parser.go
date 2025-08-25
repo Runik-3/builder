@@ -2,6 +2,7 @@ package wikitext
 
 import (
 	"errors"
+	"html"
 	"regexp"
 	"strings"
 )
@@ -44,6 +45,8 @@ func ParseDefinition(raw string, depth int) (string, error) {
 	// trim whitespace
 	definition = strings.TrimSpace(definition)
 	definition = handleIndents(definition)
+	// convert html escaped chars to ascii
+	definition = html.UnescapeString(definition)
 
 	// TODO - Handle redirects more gracefully instead of removing outright
 	if strings.Contains(strings.ToLower(definition), "#redirect") {
