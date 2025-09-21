@@ -218,8 +218,8 @@ func (t *Tokenizer) appendToToken(char string) {
 func cleanDocument(t string) string {
 	s := cleanHtml(t)
 	// strip urls from text (likely came from <ref> tags that got cleaned above
-	reg := regexp.MustCompile(`(f|ht)(tp)(s?)(://)(\S*)[.|/]([^\s\]\}]*)`)
-	s = reg.ReplaceAllString(s, "")
+	urlReg := regexp.MustCompile(`(f|ht)(tp)(s?)(://)(\S*)[.|/]([^\s\]\}]*)`)
+	s = urlReg.ReplaceAllString(s, "")
 
 	// wikitext bold
 	s = strings.ReplaceAll(s, "'''", "")

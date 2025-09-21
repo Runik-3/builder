@@ -44,6 +44,8 @@ func TestParser(t *testing.T) {
 		},
 		{"Handle\n:indents", "Handle\n  indents"},
 		{"Handle\n:nested\n::indents", "Handle\n  nested\n    indents"},
+		{":handle start indent", "  handle start indent"},
+		{"::handle start indent", "    handle start indent"},
 		{"https://example.com", ""},
 		{"&larr; test &rarr;", "← test →"},
 		{"it&apos;s testing time", "it's testing time"},

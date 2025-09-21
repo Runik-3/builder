@@ -111,15 +111,9 @@ func resolveLink(link string) string {
 }
 
 func handleIndents(s string) string {
-	reg := regexp.MustCompile(`\n:+`)
+	// Matches up to 6 levels of indent on first line or any new line
+	reg := regexp.MustCompile(`(^|\n)(:){1,6}`)
 	return reg.ReplaceAllStringFunc(s, func(match string) string {
-		const COLON_RUNE = 58
-		indent := ""
-		for _, char := range match {
-			if char == COLON_RUNE {
-				indent += "  "
-			}
-		}
-		return "\n" + indent
+		return strings.ReplaceAll(match, ":", "  ")
 	})
 }

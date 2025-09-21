@@ -29,6 +29,7 @@ func TestTokenizer(t *testing.T) {
 		{"= Description =", `[{"Type":"heading","Value":" Description "},{"Type":"EOF","Value":""}]`},
 		{"==Description==", `[{"Type":"heading","Value":"Description"},{"Type":"EOF","Value":""}]`},
 		{"======= Description =======", `[{"Type":"text","Value":"="},{"Type":"heading","Value":" Description ="},{"Type":"EOF","Value":""}]`}, // not great but this is better than destroying text
+		//{"::Description", `[{"Type":"indent","Value":" Description"},{"Type":"EOF","Value":""}]`},
 	}
 
 	for _, c := range cases {

@@ -9,7 +9,7 @@ const (
 	template_end   TokenType = "template_end"
 	table_start    TokenType = "table_start"
 	table_end      TokenType = "table_end"
-	// parse all headings (h1-h6) as a single rule since we skip them anyway
+	// parse all headings (h1-h6) as a single rule since we don't preserve them
 	heading_token TokenType = "heading_token"
 	text_token    TokenType = "text_token"
 )
