@@ -1,6 +1,7 @@
 package wikiBot
 
 import (
+	"errors"
 	"fmt"
 	"net/url"
 	"strings"
@@ -48,11 +49,6 @@ type WikiDetails struct {
 // name, size, and supported languages.
 // returns err if wiki url is invalid.
 func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing and return a better shape
-	apiUrl, err := utils.NormalizeUrl(wikiUrl)
-	if err != nil {
-		return WikiDetails{}, err
-	}
-
 	params := url.Values{}
 	params.Add("action", "query")
 	params.Add("format", "json")
@@ -61,18 +57,38 @@ func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing an
 	params.Add("origin", "*")
 
 	requestOpts := utils.GetRequestOptions{}
-	wikiDetailsRes, err := utils.GetRequest[WikiDetailsResponse](apiUrl, params, requestOpts)
-	// wikis using tls 1.2 can throw 403s because the go http module can't
-	// establish a connection. Repeat the same request, but force the request to
-	// use tls 1.2 to be compatible.
-	if err != nil && strings.Contains(err.Error(), "403") {
-		requestOpts = utils.GetRequestOptions{ForceTLS12: true}
-		wikiDetailsRes, err = utils.GetRequest[WikiDetailsResponse](apiUrl, params, requestOpts)
+
+	// Mediawiki api endpoints can have any of these suffixes
+	apiSuffixes := []string{"/api.php", "/w/api.php", "/wiki/api.php"}
+	wikiApiEndpoint := ""
+	var wikiDetailsRes WikiDetailsResponse
+
+	// Try potential api endpoint suffixes
+	for _, suffix := range apiSuffixes {
+		apiUrl, err := utils.NormalizeUrl(wikiUrl, suffix)
 		if err != nil {
-			return WikiDetails{}, err
+			continue
+		}
+
+		wikiDetailsRes, err = utils.GetRequest[WikiDetailsResponse](apiUrl, params, requestOpts)
+		// wikis using tls 1.2 can throw 403s because the go http module can't
+		// establish a connection. Repeat the same request, but force the request to
+		// use tls 1.2 to be compatible.
+		if err != nil && strings.Contains(err.Error(), "403") {
+			requestOpts = utils.GetRequestOptions{ForceTLS12: true}
+			wikiDetailsRes, err = utils.GetRequest[WikiDetailsResponse](apiUrl, params, requestOpts)
+		}
+		if err == nil {
+			wikiApiEndpoint = apiUrl
+			break
 		}
 	}
-	wikiLangsRes, err := wikiLanguages(wikiUrl, wikiDetailsRes.Query.General.MainPage, requestOpts)
+
+	if wikiApiEndpoint == "" {
+		return WikiDetails{}, errors.New("Could not find a valid endpoint for this wiki. Try copy/pasting the exact wiki api endpoint url.")
+	}
+
+	wikiLangsRes, err := wikiLanguages(wikiApiEndpoint, wikiDetailsRes.Query.General.MainPage, requestOpts)
 	if err != nil {
 		return WikiDetails{}, err
 	}
@@ -83,7 +99,7 @@ func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing an
 	}
 
 	return WikiDetails{
-		ApiUrl:      apiUrl,
+		ApiUrl:      wikiApiEndpoint,
 		SiteName:    wikiDetailsRes.Query.General.SiteName,
 		MainPage:    wikiDetailsRes.Query.General.MainPage,
 		Lang:        wikiDetailsRes.Query.General.Lang,
@@ -96,11 +112,6 @@ func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing an
 }
 
 func wikiLanguages(wikiUrl string, mainPage string, options utils.GetRequestOptions) (WikiDetailsResponse, error) {
-	fmtUrl, err := utils.NormalizeUrl(wikiUrl)
-	if err != nil {
-		return WikiDetailsResponse{}, err
-	}
-
 	params := url.Values{}
 	params.Add("action", "query")
 	params.Add("format", "json")
@@ -108,7 +119,7 @@ func wikiLanguages(wikiUrl string, mainPage string, options utils.GetRequestOpti
 	params.Add("llprop", "url|langname|autonym")
 	params.Add("titles", mainPage)
 
-	langRes, err := utils.GetRequest[WikiDetailsResponse](fmtUrl, params, options)
+	langRes, err := utils.GetRequest[WikiDetailsResponse](wikiUrl, params, options)
 	if err != nil {
 		return WikiDetailsResponse{}, err
 	}

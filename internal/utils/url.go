@@ -7,8 +7,12 @@ import (
 )
 
 // ensures the url points to the wiki's api endpoint
-func NormalizeUrl(u string) (string, error) {
+func NormalizeUrl(u string, suffix string) (string, error) {
 	parsedUrl, err := url.Parse(u)
+
+	if strings.Contains(parsedUrl.Path, suffix) {
+		return u, nil
+	}
 
 	invalidErr := errors.New("Invalid url, please try again with a valid url (eg. https://malazan.fandom.com/api.php)")
 	if err != nil {
@@ -21,26 +25,22 @@ func NormalizeUrl(u string) (string, error) {
 
 	endpointUrl := url.URL{}
 
-	if !strings.Contains(parsedUrl.Path, "api.php") {
-		endpointUrl.Scheme = parsedUrl.Scheme
-		endpointUrl.Host = parsedUrl.Host
-		endpointUrl.Path = buildWikiPath(parsedUrl.Path)
-		return endpointUrl.String(), nil
-	}
+	endpointUrl.Scheme = parsedUrl.Scheme
+	endpointUrl.Host = parsedUrl.Host
+	endpointUrl.Path = buildWikiPath(parsedUrl.Path, suffix)
 
-	return u, nil
+	return endpointUrl.String(), nil
+
 }
 
 // builds a wiki url path, retaining a language code if the wiki is not
 // english language
-func buildWikiPath(path string) string {
-	const WIKI_API_SUFFIX = "/api.php"
-
+func buildWikiPath(path string, suffix string) string {
 	pathParts := strings.Split(path, "/")
 	builtPath := ""
 
 	if len(pathParts) <= 1 {
-		return WIKI_API_SUFFIX
+		return suffix
 	}
 
 	startOfUrlPath := pathParts[1]
@@ -52,7 +52,7 @@ func buildWikiPath(path string) string {
 		}
 	}
 
-	return builtPath + WIKI_API_SUFFIX
+	return builtPath + suffix
 }
 
 var languageCodes = []string{

@@ -15,7 +15,7 @@ func TestUrlValidation(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		r, _ := NormalizeUrl(c[0])
+		r, _ := NormalizeUrl(c[0], "/api.php")
 		if r != c[1] {
 			t.Fatalf("\nWant:\n%s\n\nRecieved:\n%s", c[1], r)
 		}
