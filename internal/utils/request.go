@@ -8,11 +8,13 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 type GetRequestOptions struct {
 	// The go http client can't negotiate connections to wikis using TLS 1.2
 	ForceTLS12 bool
+	Timeout    time.Duration
 }
 
 func GetRequest[T any](baseUrl string, queryParams url.Values, options GetRequestOptions) (T, error) {
@@ -22,7 +24,9 @@ func GetRequest[T any](baseUrl string, queryParams url.Values, options GetReques
 	}
 	queryUrl.RawQuery = queryParams.Encode()
 
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: options.Timeout,
+	}
 	if options.ForceTLS12 {
 		client.Transport = &http.Transport{
 			TLSClientConfig: &tls.Config{

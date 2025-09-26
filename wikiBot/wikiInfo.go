@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/runik-3/builder/internal/utils"
 )
@@ -56,7 +57,10 @@ func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing an
 	params.Add("siprop", "statistics|general")
 	params.Add("origin", "*")
 
-	requestOpts := utils.GetRequestOptions{}
+	requestOpts := utils.GetRequestOptions{
+		// Is is this timeout too short?
+		Timeout: 5 * time.Second,
+	}
 
 	// Mediawiki api endpoints can have any of these suffixes
 	apiSuffixes := []string{"/api.php", "/w/api.php", "/wiki/api.php"}
@@ -84,6 +88,7 @@ func GetWikiDetails(wikiUrl string) (WikiDetails, error) { // do some parsing an
 		}
 	}
 
+	// TODO-MM: is this sufficient to know if we found the endpoint?
 	if wikiApiEndpoint == "" {
 		return WikiDetails{}, errors.New("Could not find a valid endpoint for this wiki. Try copy/pasting the exact wiki api endpoint url.")
 	}
