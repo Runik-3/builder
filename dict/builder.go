@@ -18,18 +18,15 @@ type GeneratorOptions struct {
 func BuildDictionary(wikiUrl string, options GeneratorOptions) (Dict, error) {
 	dict := Dict{Lexicon: Lexicon{}}
 
-	if options.Name != "" {
-		dict.Name = options.Name
-	} else {
-		_, err := dict.NameFromWiki(wikiUrl)
-		if err != nil {
-			return Dict{}, err
-		}
-	}
-
 	wiki, err := wikibot.GetWikiDetails(wikiUrl)
 	if err != nil {
 		return Dict{}, err
+	}
+
+	if options.Name != "" {
+		dict.Name = options.Name
+	} else {
+		dict.Name = wiki.SiteName
 	}
 
 	dict.ApiUrl = wiki.ApiUrl
