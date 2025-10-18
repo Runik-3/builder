@@ -115,6 +115,10 @@ func canLookAhead(i int, chars *[]string) bool {
 	return len(*chars) > i+1
 }
 
+func canLookBehind(i int, chars *[]string) bool {
+	return i-1 >= 0
+}
+
 func getTokenMatch(key string, i *int) (TokenGrammar, bool) {
 	rule, ok := grammar[key]
 	if !ok {

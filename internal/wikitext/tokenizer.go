@@ -255,6 +255,12 @@ func cleanHtml(s string) string {
 		if c == ">" {
 			// ignore attributes that may have been captured along with the tag
 			parsedTag := strings.Split(tag, " ")[0]
+
+			// handle self-closingtags
+			if canLookBehind(i, &chars) && chars[i-1] == "/" {
+				tagType = "close"
+			}
+
 			// we don't want text contents from this tag type
 			if tagType == "open" {
 				write = true
