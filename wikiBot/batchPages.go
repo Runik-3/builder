@@ -23,10 +23,11 @@ type Pages struct {
 }
 
 type Page struct {
-	PageId    int        `json:"pageid"`
-	Title     string     `json:"title"`
-	Revisions []Revision `json:"revisions"`
-	LangLinks []Lang     `json:"langlinks"`
+	PageId    int         `json:"pageid"`
+	Title     string      `json:"title"`
+	Revisions []Revision  `json:"revisions"`
+	Redirects []Redirect `json:"redirects"`
+	LangLinks []Lang      `json:"langlinks"`
 }
 
 func (p *Page) GetPageContent() string {
@@ -58,6 +59,11 @@ type Slot struct {
 	Main Main `json:"main"`
 }
 
+type Redirect struct {
+	PageId int `json:"pageid"`
+	Title string `json:"title"`
+}
+
 type Main struct {
 	Model   string `json:"contentmodel"`
 	Format  string `json:"contentformat"`
@@ -73,9 +79,10 @@ func GetWikiPageBatch(baseUrl string, startFrom string, limit int, options utils
 	params.Add("generator", "allpages")
 	params.Add("gaplimit", strconv.Itoa(pagesToFetch(limit)))
 	params.Add("gapfrom", startFrom)
-	params.Add("prop", "revisions")
+	params.Add("prop", "revisions|redirects")
 	params.Add("rvprop", "content")
 	params.Add("rvslots", "main")
+	params.Add("rdprop", "pageid|title")
 
 	res, err := utils.GetRequest[AllPagesResponse](baseUrl, params, options)
 	// successful response
