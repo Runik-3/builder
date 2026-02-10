@@ -53,6 +53,16 @@ func TestGenerateDefinitionsFromWiki(t *testing.T) {
 
 		mockBatchCalled = 0
 	})
+
+	t.Run("parses redirects as synonyms", func(t *testing.T) {
+		dict := Dict{}
+		dict.GenerateDefinitionsFromWiki(MockWikiBatchFunction, wikiBot.WikiDetails{}, GeneratorOptions{Depth: 2, EntryLimit: 1})
+		
+		test.IsEqual(t, dict.Lexicon[0].Word, "batch1_page1", "")
+		expected_syns := []string{"one", "first"}
+		test.IsEqual(t, dict.Lexicon[0].Synonyms[0], expected_syns[0], "")
+		test.IsEqual(t, dict.Lexicon[0].Synonyms[1], expected_syns[1], "")
+	})
 }
 
 // in this mock src determines the kind of response we get back

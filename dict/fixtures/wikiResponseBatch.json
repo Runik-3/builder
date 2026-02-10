@@ -21,6 +21,10 @@
                 }
               }
             }
+          ],
+          "redirects": [
+            { "pageid": 123, "title": "one" },
+            { "pageid": 124, "title": "first" }
           ]
         }
       }
