@@ -15,6 +15,7 @@ import (
 type Entry struct {
 	Word       string
 	Definition string
+	Synonyms   []string
 }
 
 type Lexicon []Entry
@@ -73,13 +74,19 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.
 		for _, p := range res.Query.Pages {
 			word := wikitext.ParseWord(p.Title)
 			def, err := wikitext.ParseDefinition(p.GetPageContent(), options.Depth)
-			if err != nil {
+			if err != nil || def == "" {
 				continue
 			}
-			if def != "" {
-				d.Lexicon.Add(Entry{Word: word, Definition: def})
-				entries++
+
+			redirects := []string{}
+			if len(p.Redirects) > 0 {
+				for _, r := range p.Redirects {
+					redirects = append(redirects, r.Title)
+				}
 			}
+
+			d.Lexicon.Add(Entry{Word: word, Definition: def, Synonyms: redirects})
+			entries++
 		}
 
 		if options.ProgressHook != nil {
