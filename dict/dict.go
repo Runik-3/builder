@@ -54,15 +54,16 @@ type Dict struct {
 	Lexicon Lexicon
 }
 
-type BatchFunction func(src string, startFrom string, limit int, options utils.GetRequestOptions) (wikibot.AllPagesResponse, error)
+type BatchFunction func(src string, startFrom string, limit int, redirectsContinue string, options utils.GetRequestOptions) (wikibot.AllPagesResponse, error)
 
 func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.WikiDetails, options GeneratorOptions) error {
 	entries := 0
 	startFrom := ""
+	redirectsContinue := ""
 
 	cont := true
 	for cont {
-		res, err := getBatch(wiki.ApiUrl, startFrom, options.EntryLimit-entries, wiki.RequestOpts)
+		res, err := getBatch(wiki.ApiUrl, startFrom, options.EntryLimit-entries, redirectsContinue, wiki.RequestOpts)
 		if err != nil {
 			return err
 		}
@@ -72,21 +73,38 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.
 		}
 
 		for _, p := range res.Query.Pages {
-			word := wikitext.ParseWord(p.Title)
-			def, err := wikitext.ParseDefinition(p.GetPageContent(), options.Depth)
-			if err != nil || def == "" {
-				continue
-			}
-
-			redirects := []string{}
-			if len(p.Redirects) > 0 {
-				for _, r := range p.Redirects {
-					redirects = append(redirects, r.Title)
+			// We didn't retrieve the full batch of redirects. We have the same page
+			// content, with some additional redirects to add to exising entries.
+			if redirectsContinue != "" {
+				if len(p.Redirects) == 0 {
+					continue
 				}
-			}
 
-			d.Lexicon.Add(Entry{Word: word, Definition: def, Synonyms: redirects})
-			entries++
+				existingEntry, found := d.Lexicon.Find(p.Title)
+				if !found {
+					continue
+				}
+				for _, r := range p.Redirects {
+					existingEntry.Synonyms = append(existingEntry.Synonyms, r.Title)
+				}
+			} else {
+				// Parse page content
+				word := wikitext.ParseWord(p.Title)
+				def, err := wikitext.ParseDefinition(p.GetPageContent(), options.Depth)
+				if err != nil || def == "" {
+					continue
+				}
+
+				redirects := []string{}
+				if len(p.Redirects) > 0 {
+					for _, r := range p.Redirects {
+						redirects = append(redirects, r.Title)
+					}
+				}
+
+				d.Lexicon.Add(Entry{Word: word, Definition: def, Synonyms: redirects})
+				entries++
+			}
 		}
 
 		if options.ProgressHook != nil {
@@ -101,11 +119,19 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.
 			break
 		}
 
-		if res.Continue.Apcontinue == "" {
+		if res.Continue.Gapcontinue == "" && res.Continue.Rdcontinue == "" {
 			cont = false
 		}
-		// the next batch call starts on the page where we left off
-		startFrom = res.Continue.Apcontinue
+
+		if res.Continue.Rdcontinue != "" {
+			// we didn't get all the redirects for this batch, continue fetching
+			redirectsContinue = res.Continue.Rdcontinue
+		} else {
+			// reset
+			redirectsContinue = ""
+			// the next batch call starts on the page where we left off
+			startFrom = res.Continue.Gapcontinue
+		}
 	}
 
 	// TODO only print in CLI mode

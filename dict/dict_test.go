@@ -66,7 +66,7 @@ func TestGenerateDefinitionsFromWiki(t *testing.T) {
 }
 
 // in this mock src determines the kind of response we get back
-func MockWikiBatchFunction(src string, startFrom string, limit int, options utils.GetRequestOptions) (wikiBot.AllPagesResponse, error) {
+func MockWikiBatchFunction(src string, startFrom string, limit int, redirectsContinue string, options utils.GetRequestOptions) (wikiBot.AllPagesResponse, error) {
 	mockBatchCalled += 1
 
 	allBatches := getFixtureData("wikiResponseBatch.json")
