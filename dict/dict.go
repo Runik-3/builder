@@ -56,7 +56,7 @@ type Dict struct {
 
 type BatchFunction func(src string, startFrom string, limit int, redirectsContinue string, options utils.GetRequestOptions) (wikibot.AllPagesResponse, error)
 
-func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.WikiDetails, options GeneratorOptions) error {
+func (dict *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.WikiDetails, options GeneratorOptions) error {
 	entries := 0
 	startFrom := ""
 	redirectsContinue := ""
@@ -72,46 +72,22 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.
 			return errors.New("Could not get page content.")
 		}
 
-		for _, p := range res.Query.Pages {
-			// We didn't retrieve the full batch of redirects. We have the same page
-			// content, with some additional redirects to add to exising entries.
+		for _, page := range res.Query.Pages {
 			if redirectsContinue != "" {
-				if len(p.Redirects) == 0 {
-					continue
-				}
-
-				existingEntry, found := d.Lexicon.Find(p.Title)
-				if !found {
-					continue
-				}
-				for _, r := range p.Redirects {
-					existingEntry.Synonyms = append(existingEntry.Synonyms, r.Title)
-				}
+				handleParseAdditionalRedirects(page, dict)
 			} else {
-				// Parse page content
-				word := wikitext.ParseWord(p.Title)
-				def, err := wikitext.ParseDefinition(p.GetPageContent(), options.Depth)
-				if err != nil || def == "" {
+				entry, ok := parseContentAsEntry(page, options)
+				if !ok {
 					continue
 				}
 
-				redirects := []string{}
-				if len(p.Redirects) > 0 {
-					for _, r := range p.Redirects {
-						redirects = append(redirects, r.Title)
-					}
-				}
-
-				d.Lexicon.Add(Entry{Word: word, Definition: def, Synonyms: redirects})
+				dict.Lexicon.Add(entry)
 				entries++
 			}
 		}
 
 		if options.ProgressHook != nil {
-			total := wiki.Articles
-			if options.EntryLimit < wiki.Articles {
-				total = options.EntryLimit
-			}
+			total := min(options.EntryLimit, wiki.Articles)
 			options.ProgressHook(entries, total)
 		}
 
@@ -127,10 +103,10 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.
 			// we didn't get all the redirects for this batch, continue fetching
 			redirectsContinue = res.Continue.Rdcontinue
 		} else {
-			// reset
-			redirectsContinue = ""
 			// the next batch call starts on the page where we left off
 			startFrom = res.Continue.Gapcontinue
+			// reset before next request
+			redirectsContinue = ""
 		}
 	}
 
@@ -140,15 +116,15 @@ func (d *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikibot.
 }
 
 // TODO - support for more formats: csv, xdxf, etc.
-func (d Dict) Write(path string, format string) (string, error) {
-	d.Lexicon.Sort()
+func (dict Dict) Write(path string, format string) (string, error) {
+	dict.Lexicon.Sort()
 
-	fmtText, err := Format(format, d)
+	fmtText, err := Format(format, dict)
 	if err != nil {
 		return "", err
 	}
 
-	fileName := fmt.Sprintf("%s.%s", d.Name, format)
+	fileName := fmt.Sprintf("%s.%s", dict.Name, format)
 	normalizedPath := filepath.Join(filepath.FromSlash(path), fileName)
 
 	err = utils.WriteToFile(fmtText, normalizedPath)
@@ -159,4 +135,38 @@ func (d Dict) Write(path string, format string) (string, error) {
 	fmt.Printf("Successfully built dictionary at %s\n", normalizedPath)
 
 	return normalizedPath, nil
+}
+
+func parseContentAsEntry(page wikibot.Page, options GeneratorOptions) (Entry, bool) {
+	word := wikitext.ParseWord(page.Title)
+	def, err := wikitext.ParseDefinition(page.GetPageContent(), options.Depth)
+	if err != nil || def == "" {
+		return Entry{}, false
+	}
+
+	redirects := []string{}
+	if len(page.Redirects) > 0 {
+		for _, r := range page.Redirects {
+			redirects = append(redirects, r.Title)
+		}
+	}
+
+	return Entry{Word: word, Definition: def, Synonyms: redirects}, true
+}
+
+// We didn't retrieve the full batch of redirects. We have the same page
+// content, with some additional redirects to add to exising entries.
+func handleParseAdditionalRedirects(p wikibot.Page, d *Dict) {
+	if len(p.Redirects) == 0 {
+		return
+	}
+
+	existingEntry, found := d.Lexicon.Find(p.Title)
+	if !found {
+		return
+	}
+
+	for _, r := range p.Redirects {
+		existingEntry.Synonyms = append(existingEntry.Synonyms, r.Title)
+	}
 }
