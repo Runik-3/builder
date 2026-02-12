@@ -14,7 +14,10 @@ type AllPagesResponse struct {
 }
 
 type Continue struct {
-	Apcontinue string `json:"gapcontinue"`
+	// Generator continue -- used when we're fetching another set of pages
+	Gapcontinue string `json:"gapcontinue"`
+	// Redirect continue -- used when we're fetching more redirects
+	Rdcontinue string `json:"rdcontinue"`
 	Continue   string `json:"continue"`
 }
 
@@ -23,11 +26,11 @@ type Pages struct {
 }
 
 type Page struct {
-	PageId    int         `json:"pageid"`
-	Title     string      `json:"title"`
-	Revisions []Revision  `json:"revisions"`
+	PageId    int        `json:"pageid"`
+	Title     string     `json:"title"`
+	Revisions []Revision `json:"revisions"`
 	Redirects []Redirect `json:"redirects"`
-	LangLinks []Lang      `json:"langlinks"`
+	LangLinks []Lang     `json:"langlinks"`
 }
 
 func (p *Page) GetPageContent() string {
@@ -60,8 +63,8 @@ type Slot struct {
 }
 
 type Redirect struct {
-	PageId int `json:"pageid"`
-	Title string `json:"title"`
+	PageId int    `json:"pageid"`
+	Title  string `json:"title"`
 }
 
 type Main struct {
@@ -71,7 +74,7 @@ type Main struct {
 }
 
 // fetches batch of entries and unmarshalls the result
-func GetWikiPageBatch(baseUrl string, startFrom string, limit int, options utils.GetRequestOptions) (AllPagesResponse, error) {
+func GetWikiPageBatch(baseUrl string, startFrom string, limit int, redirectsContinue string, options utils.GetRequestOptions) (AllPagesResponse, error) {
 	// define query params
 	params := url.Values{}
 	params.Add("action", "query")
@@ -79,10 +82,13 @@ func GetWikiPageBatch(baseUrl string, startFrom string, limit int, options utils
 	params.Add("generator", "allpages")
 	params.Add("gaplimit", strconv.Itoa(pagesToFetch(limit)))
 	params.Add("gapfrom", startFrom)
-	params.Add("prop", "revisions|redirects")
+	params.Add("prop", "redirects|revisions")
 	params.Add("rvprop", "content")
 	params.Add("rvslots", "main")
 	params.Add("rdprop", "pageid|title")
+	if redirectsContinue != "" {
+		params.Add("rdcontinue", redirectsContinue)
+	}
 
 	res, err := utils.GetRequest[AllPagesResponse](baseUrl, params, options)
 	// successful response
