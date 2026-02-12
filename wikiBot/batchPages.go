@@ -86,6 +86,7 @@ func GetWikiPageBatch(baseUrl string, startFrom string, limit int, redirectsCont
 	params.Add("rvprop", "content")
 	params.Add("rvslots", "main")
 	params.Add("rdprop", "pageid|title")
+	params.Add("rdlimit", "max")
 	if redirectsContinue != "" {
 		params.Add("rdcontinue", redirectsContinue)
 	}
