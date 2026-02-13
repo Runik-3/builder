@@ -2,7 +2,6 @@ package wikitext
 
 import (
 	_ "embed"
-	"fmt"
 	"testing"
 
 	test "github.com/runik-3/builder/internal/testUtils"
@@ -127,12 +126,10 @@ func TestTokenBatcher(t *testing.T) {
 	t.Run("Test tokenize wikitext in batches on token boundary", func(t *testing.T) {
 		tokenizer := NewTokenizer(testTemplateBatch)
 		batch1 := tokenizer.Tokenize(TokenizerOptions{6})
-		fmt.Println(tokenizer.tokens)
 		test.IsEqual(t, batch1.tokens[0].Type, template, "")
 		test.IsEqual(t, batch1.tokens[0].Value, "a|b", "")
 
 		batch2 := tokenizer.Tokenize(TokenizerOptions{6})
-		fmt.Println(tokenizer.tokens)
 		test.IsEqual(t, batch2.tokens[1].Type, text, "")
 		test.IsEqual(t, batch2.tokens[1].Value, "test", "")
 	})
