@@ -24,13 +24,14 @@ func (l *Lexicon) Add(e Entry) {
 	*l = append(*l, e)
 }
 
-func (l *Lexicon) Find(word string) (Entry, bool) {
-	for _, entry := range *l {
+func (l *Lexicon) Find(word string) (*Entry, bool) {
+	for i := range *l {
+		entry := &(*l)[i]
 		if entry.Word == word {
 			return entry, true
 		}
 	}
-	return Entry{}, false
+	return nil, false
 }
 
 func (l *Lexicon) Sort() {
