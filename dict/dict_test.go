@@ -84,7 +84,7 @@ func TestGenerateDefinitionsFromWiki(t *testing.T) {
 func mockWikiBatchFunction(src string, startFrom string, limit int, redirectsContinue string, options utils.GetRequestOptions) (wikiBot.AllPagesResponse, error) {
 	mockBatchCalled += 1
 
-	allBatches := getFixtureData("wikiResponseBatch.json")
+	allBatches := getFixturePagesResponse("wikiResponseBatch.json")
 	batch := wikiBot.AllPagesResponse{}
 
 	// simulate fetching batches based on start page from the API
@@ -96,7 +96,7 @@ func mockWikiBatchFunction(src string, startFrom string, limit int, redirectsCon
 func MockWikiBatchFuncWithRedirect(src string, startFrom string, limit int, redirectsContinue string, options utils.GetRequestOptions) (wikiBot.AllPagesResponse, error) {
 	mockBatchCalled += 1
 
-	allBatches := getFixtureData("wikiResponseBatchWithRedirects.json")
+	allBatches := getFixturePagesResponse("wikiResponseBatchWithRedirects.json")
 	batch := wikiBot.AllPagesResponse{}
 
 	// simulate fetching batches/redirects based on start page from the API
@@ -109,7 +109,7 @@ func MockWikiBatchFuncWithRedirect(src string, startFrom string, limit int, redi
 	return batch, nil
 }
 
-func getFixtureData(fixture string) map[string]wikiBot.AllPagesResponse {
+func getFixturePagesResponse(fixture string) map[string]wikiBot.AllPagesResponse {
 	pathToResponseJson, _ := filepath.Abs(filepath.Join("fixtures", fixture))
 	responseJson, _ := os.ReadFile(pathToResponseJson)
 
