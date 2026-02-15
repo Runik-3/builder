@@ -1,15 +1,14 @@
 package dict
 
 import (
+	"bytes"
 	j "encoding/json"
-	"errors"
 	"fmt"
+	"text/template"
 )
 
 // Formats dictionaries into raw text
 func Format(format string, d Dict) (string, error) {
-	lex := d.Lexicon
-
 	switch format {
 	case "json":
 		j, fmtErr := json(d)
@@ -19,13 +18,10 @@ func Format(format string, d Dict) (string, error) {
 		return j, nil
 
 	case "df":
-		return df(lex), nil
-	case "csv":
-		return csv(lex), nil
-	case "xdxf":
-		return xdxf(lex), nil
+		dictFile, err := df(d)
+		return dictFile, err
 	default:
-		return "", errors.New(fmt.Sprintf("Unsupported file format detected: %s \n", format))
+		return "", fmt.Errorf("Unsupported file format detected: %s \n", format)
 	}
 }
 
@@ -40,22 +36,21 @@ func json(d Dict) (string, error) {
 	return string(json), nil
 }
 
-func df(l Lexicon) string {
-	dictFile := ""
-
-	for _, v := range l {
-		dictFile += fmt.Sprintf("@ %s\n%s\n", v.Word, v.Definition)
+func df(d Dict) (string, error) {
+	const DF_TEMPLATE = `{{range .Lexicon}}@ {{.Word}}
+{{range .Synonyms}}& {{.}}
+{{end}}{{.Definition}}
+{{end}}`
+	tmpl, err := template.New("DictFile template").Parse(DF_TEMPLATE)
+	if err != nil {
+		return "", nil
 	}
 
-	return dictFile
-}
+	var buf bytes.Buffer
+	err = tmpl.Execute(&buf, d)
+	if err != nil {
+		return "", err
+	}
 
-func csv(l Lexicon) string {
-	// TODO implement
-	return ""
-}
-
-func xdxf(l Lexicon) string {
-	// TODO implement
-	return ""
+	return buf.String(), nil
 }
