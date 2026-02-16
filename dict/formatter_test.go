@@ -33,8 +33,8 @@ func TestFormatDictFile(t *testing.T) {
 }
 
 func getFixtureData(fixture string) string {
-	pathToResponseJson, _ := filepath.Abs(filepath.Join("fixtures", fixture))
-	text, _ := os.ReadFile(pathToResponseJson)
+	pathToFixture, _ := filepath.Abs(filepath.Join("fixtures", fixture))
+	text, _ := os.ReadFile(pathToFixture)
 
 	return string(text)
 }
