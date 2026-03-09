@@ -52,5 +52,5 @@ func main() {
 }
 
 func printProgress(current int, total int) {
-	fmt.Printf("%d/%d definitions processed\n", current, total)
+	fmt.Printf("%d/%d articles processed\n", current, total)
 }

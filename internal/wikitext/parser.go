@@ -53,11 +53,6 @@ func ParseDefinition(raw string, depth int) (string, error) {
 	// convert html escaped chars to ascii
 	definition = html.UnescapeString(definition)
 
-	// TODO - Handle redirects more gracefully instead of removing outright
-	if strings.Contains(strings.ToLower(definition), "#redirect") {
-		return "", nil
-	}
-
 	return definition, nil
 }
 

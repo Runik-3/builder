@@ -79,6 +79,20 @@ func TestGenerateDefinitionsFromWiki(t *testing.T) {
 			test.IsEqual(t, def.Synonyms[i], expected_syns[i], "")
 		}
 	})
+
+	t.Run("removes pages from dictionary when parsed as synonyms", func(t *testing.T) {
+		dict := Dict{}
+		if mockBatchCalled < 10 {
+			dict.GenerateDefinitionsFromWiki(MockWikiBatchFuncWithRedirect, wikiBot.WikiDetails{}, GeneratorOptions{Depth: 2, EntryLimit: 1})
+		}
+
+		_, found := dict.Lexicon.Find("batch1_page1")
+		test.IsEqual(t, found, true, "")
+
+		// redirect parsed as synonym removed
+		_, found = dict.Lexicon.Find("b1_p2")
+		test.IsEqual(t, found, false, "")
+	})
 }
 
 func mockWikiBatchFunction(src string, startFrom string, limit int, redirectsContinue string, options utils.GetRequestOptions) (wikiBot.AllPagesResponse, error) {

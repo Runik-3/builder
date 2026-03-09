@@ -62,6 +62,8 @@ func (dict *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikib
 	startFrom := ""
 	redirectsContinue := ""
 
+	redirects := map[string]bool{}
+
 	cont := true
 	for cont {
 		res, err := getBatch(wiki.ApiUrl, startFrom, options.EntryLimit-entries, redirectsContinue, wiki.RequestOpts)
@@ -74,10 +76,16 @@ func (dict *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikib
 		}
 
 		for _, page := range res.Query.Pages {
+			// Ignore pages in redirect list
+			_, ok := redirects[page.Title]
+			if ok {
+				continue
+			}
+
 			if redirectsContinue != "" {
-				handleParseAdditionalRedirects(page, dict)
+				handleParseAdditionalRedirects(page, dict, redirects)
 			} else {
-				entry, ok := parseContentAsEntry(page, options)
+				entry, ok := parseContentAsEntry(page, options, redirects)
 				if !ok {
 					continue
 				}
@@ -111,8 +119,18 @@ func (dict *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikib
 		}
 	}
 
+	// Remove entries that have been added as synonyms
+	filteredWords := []Entry{}
+	for _, entry := range dict.Lexicon {
+		_, isSyn := redirects[entry.Word]
+		if !isSyn {
+			filteredWords = append(filteredWords, entry)
+		}
+	}
+	dict.Lexicon = filteredWords
+
 	// TODO only print in CLI mode
-	fmt.Printf("📖 Found %d entries \n", entries)
+	fmt.Printf("📖 Found %d entries \n", len(dict.Lexicon))
 	return nil
 }
 
@@ -138,26 +156,27 @@ func (dict Dict) Write(path string, format string) (string, error) {
 	return normalizedPath, nil
 }
 
-func parseContentAsEntry(page wikibot.Page, options GeneratorOptions) (Entry, bool) {
+func parseContentAsEntry(page wikibot.Page, options GeneratorOptions, redirects map[string]bool) (Entry, bool) {
 	word := wikitext.ParseWord(page.Title)
 	def, err := wikitext.ParseDefinition(page.GetPageContent(), options.Depth)
 	if err != nil || def == "" {
 		return Entry{}, false
 	}
 
-	redirects := []string{}
+	synonyms := []string{}
 	if len(page.Redirects) > 0 {
 		for _, r := range page.Redirects {
-			redirects = append(redirects, r.Title)
+			synonyms = append(synonyms, r.Title)
+			redirects[r.Title] = true
 		}
 	}
 
-	return Entry{Word: word, Definition: def, Synonyms: redirects}, true
+	return Entry{Word: word, Definition: def, Synonyms: synonyms}, true
 }
 
 // We didn't retrieve the full batch of redirects. We have the same page
 // content, with some additional redirects to add to exising entries.
-func handleParseAdditionalRedirects(p wikibot.Page, d *Dict) {
+func handleParseAdditionalRedirects(p wikibot.Page, d *Dict, redirects map[string]bool) {
 	if len(p.Redirects) == 0 {
 		return
 	}
@@ -169,5 +188,6 @@ func handleParseAdditionalRedirects(p wikibot.Page, d *Dict) {
 
 	for _, r := range p.Redirects {
 		existingEntry.Synonyms = append(existingEntry.Synonyms, r.Title)
+		redirects[r.Title] = true
 	}
 }
