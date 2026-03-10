@@ -45,10 +45,13 @@ func ParseDefinition(raw string, depth int) (string, error) {
 	}
 	definition = strings.Join(sentences, "")
 
+	// TODO: consider using a strings.Replacer for these replace ops
+
 	// remove doubled spaces
 	definition = strings.ReplaceAll(definition, "  ", " ")
 	// trim whitespace
 	definition = strings.TrimSpace(definition)
+	definition = collapseNewlines(definition)
 	definition = handleIndents(definition)
 	// convert html escaped chars to ascii
 	definition = html.UnescapeString(definition)
@@ -103,6 +106,12 @@ func resolveLink(link string) string {
 	}
 
 	return link
+}
+
+// Collapses excessive newlines into double-spaced break.
+func collapseNewlines(s string) string {
+	reg := regexp.MustCompile(`(\n){3,}`)
+	return reg.ReplaceAllString(s, "\n\n")
 }
 
 func handleIndents(s string) string {

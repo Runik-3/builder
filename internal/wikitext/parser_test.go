@@ -50,7 +50,12 @@ func TestParser(t *testing.T) {
 		{"it&apos;s testing time", "it's testing time"},
 		{
 			`{{InfoBoxBattleMech|<ref name=TRCIp60f/>}}The '''''Timber Wolf''''' is a fast, heavy [[OmniMech]].`,
-			"The Timber Wolf is a fast, heavy OmniMech."},
+			"The Timber Wolf is a fast, heavy OmniMech.",
+		},
+		{"Collapse\n\n\nnewlines", "Collapse\n\nnewlines"},
+		{"Collapse\n\n\n\n\n\n\nnewlines", "Collapse\n\nnewlines"},
+		{"Don't\ncollapse", "Don't\ncollapse"},
+		{"Don't\n\ncollapse", "Don't\n\ncollapse"},
 	}
 
 	for _, c := range cases {
