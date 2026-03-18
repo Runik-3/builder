@@ -1,0 +1,235 @@
+{{Redirect2|Duncan|Dunk|others with the same name}}
+{{Infobox character
+| arms = Dunk
+| arms2 = Gallows Knight
+| arms3 = Kingsguard
+| title = Ser
+| firstname = Duncan
+| epithet = the Tall
+| nametemplate = title/firstname/epithet
+| image = Dunk.jpg
+| image_caption = Dunk, by Amok © Roaring Studios
+| Alias = Dunk{{Ref|THK}}<br>Duncan the Tall{{Ref|THK}}<br>Dunk the Lunk{{Ref|THK}}<br>Dunk of Flea Bottom{{Ref|TSS}}<br>Duncan the Dim{{Ref|TSS}}<br>Ser Giant{{Ref|TMK}}<br>The Gallows Knight{{Ref|TMK}}<br>The Hanged Man{{Ref|TMK}}
+| Title = [[Knight|Ser]]{{Ref|THK}}<br>[[Lord Commander of the Kingsguard]]{{Ref|TWOIAF|4|15}}
+| Allegiance = [[House Osgrey]]<br>[[House Targaryen]]<br>[[Kingsguard]]
+| Culture = [[Crownlands]]
+| Date_of_Birth = {{Date|193}}<ref>''See the [[Years after Aegon's Conquest/Calculations Ages#Duncan the Tall|Duncan the Tall]] calculation.''</ref>
+| Place_of_Birth = [[King's Landing]]{{Ref|THK}}
+| Date_of_Death = {{Date|259}}
+| Place_of_Death = [[Summerhall]] {{s|presumed}}{{Refn|group="N"|Based on the semi-canon app ''[[A World of Ice and Fire]]'', Ser Duncan the Tall died in 259 AC during the [[tragedy at Summerhall]].{{Ref|AWOIAF|Duncan}} However, according to Dexter Sol Ansell, the actor who portrays [[Aegon V Targaryen|Egg]] in ''[[A Knight of the Seven Kingdoms (TV series)|A Knight of the Seven Kingdoms]]'', he was told by [[George R. R. Martin]] that Duncan survived the fire of Summerhall.<ref name=decider>{{Cite video | people = [https://www.youtube.com/@decider Decider] and [https://www.youtube.com/@pagesix Page Six] | year = 2026 | url = https://www.youtube.com/watch?v=UL11JAqY2m8&t=388s | title =  'AKOTSK' Stars Peter Claffey & Dexter Sol Ansell Craft Their Own Puppets  | time = 6:28 | publisher = YouTube | date = February 12, 2026}}</ref><ref name=dexsolansell>asoiaf.westeros.org: [https://asoiaf.westeros.org/index.php?/topic/166153-dex-sol-ansell-actor-who-plays-egg-in-hbos-akotsk-lets-out-massive-summerhall-spoiler/page/2/#comment-91878 Dex Sol Ansell, actor who plays Egg in HBO's AKOTSK, lets out massive Summerhall spoiler&ndash; Comment by Ran (February 13, 2026)]</ref> Subsequently, Ansell explained that "some people think they know what's going to happen [at Summerhall], but I've been speaking to George, and he hasn't decided either".<ref>Vulture (February 22, 2026): [https://www.vulture.com/article/dexter-sol-ansell-knight-of-the-seven-kingdoms-finale-interview.html Dexter Sol Ansell Has His Own Ideas About Egg's Future]</ref>}}
+| Spouse =
+| Lover = 
+| Issue = At least one son or daughter{{Ref|ssm|1257}}
+| coat-of-arms = A green shooting star above an elm tree proper on sunset{{Ref|THK}}<ref name="heraldry"/><br>(''Sunset, a shooting star vert above an elm tree proper'')
+| Books = ''[[The World of Ice & Fire]]'' (mentioned)<br>''[[The Hedge Knight]]'' (POV)<br>''[[The Sworn Sword]]'' (POV)<br>''[[The Mystery Knight]]'' (POV)<br>''[[A Storm of Swords]]'' (mentioned)<br>''[[A Feast for Crows]]'' (mentioned)<br>''[[A Dance with Dragons]]'' (mentioned)
+| Played_by = [[w:Peter Claffey|Peter Claffey]]
+| TV_series = ''[[A Knight of the Seven Kingdoms (TV series)|A Knight of the Seven Kingdoms]]'': [[A Knight of the Seven Kingdoms - Season 1|Season 1]]
+}}
+
+'''Duncan the Tall''' was a [[knight]] during the reigns of Kings [[Daeron II Targaryen|Daeron II]], [[Aerys I Targaryen|Aerys I]], [[Maekar I Targaryen|Maekar I]], and [[Aegon V Targaryen]]. Raised as '''Dunk''' in [[Flea Bottom]], he became the squire of a [[hedge knight]], Ser [[Arlan of Pennytree]]. Duncan then traveled the [[Seven Kingdoms]] as a hedge knight himself, with the young Prince Aegon, called "Egg", as his squire. The early exploits of "[[Dunk and Egg]]" are chronicled in ''[[A Knight of the Seven Kingdoms]]'', which collects ''[[The Hedge Knight]]'', ''[[The Sworn Sword]]'', and ''[[The Mystery Knight]]''. Duncan then served Aegon after he ascended the [[Iron Throne]], eventually becoming [[Lord Commander of the Kingsguard|Lord Commander]] of the [[Kingsguard]] for Aegon V.
+
+Duncan's personal arms were a green shooting star above an [[elm]] tree proper on sunset,{{Ref|THK}}<ref name="heraldry">The Citadel: [https://www.westeros.org/Citadel/Heraldry/Other/1/ Heraldry - Houseless Hedge Knights]</ref> but he also briefly used, while competing as a [[mystery knight]] in a tournament, the sigil of an unknown knight, "a hanged man swinging grim and gray beneath a gallows tree."{{Ref|TMK}}
+
+In the television adaptation ''[[A Knight of the Seven Kingdoms (TV series)|A Knight of the Seven Kingdoms]]'', Duncan is portrayed by [[Peter Claffey]].<ref>The Hollywood Reporter: [https://www.hollywoodreporter.com/tv/tv-news/game-of-thrones-hedge-knight-dunk-and-egg-cast-1235867446/ Dunk and Egg cast] (April 5, 2024)</ref>
+
+==Appearance and Character==
+{{See also|:Category:Images of Duncan the Tall|l1=Images of Duncan the Tall}}
+Duncan was an inch shy of seven feet tall.{{Ref|THK}}{{Ref|TMK}} He had thick, shaggy hair which sun-streaked in the [[summer (season)|summer]]. After the events at [[Standfast]] in {{Date|211}}, he had a dagger scar on his cheek.{{Ref|TSS}}{{Ref|TMK}} Dunk was strong and quick, and was taught jousting and swordplay.{{Ref|THK}} He was better with a sword than with a lance,{{Ref|TMK}} and even better with an axe or mace.{{Ref|TSS}}
+
+Duncan had a humble personality, and frequently thought of himself as thick-headed, recalling how Ser [[Arlan of Pennytree|Arlan]] had often said, "Dunk the lunk, thick as a castle wall", and referred to him as "slow as an [[aurochs]]".{{Ref|THK}}
+
+Having grown up in the slums of Flea Bottom, Duncan spoke with a recognizable King's Landing [[Common Tongue|accent]].{{Ref|TSS}}
+
+==History==
+===Early life===
+Duncan's earliest memories were of living as a street urchin in the [[Flea Bottom]] slums of [[King's Landing]].{{Ref|THK}} His closest friends went by the names of [[Ferret]], [[Rafe]], and [[Pudding]]. By his own admission, they were "little monsters" with Duncan, at the time still known as "Dunk", the worst of all.{{Ref|TMK}} Sometimes they would sell{{Ref|TSS}} or even dump{{Ref|TMK}} pieces of meat of dubious origin to the local pot shops that made the [[bowl of brown|bowls of brown]]. Dunk was an orphan{{Ref|THK}} who never knew either of his parents. It may be that he is a [[bastard]]. He believed his father might have been a criminal, and once hoped to someday go to the [[north]] and eventually the [[Wall]], where he could perhaps meet some tall old man who looked like him.{{Ref|TSS}}
+
+[[File: YoungDunk Arlan TMK comic.png|thumb|200px|left|Ser Arlan and Dunk in Flea Bottom, by Mike S. Miller]]
+Ser [[Arlan of Pennytree]], a [[hedge knight]], took Dunk as his new [[squire]] three or four years after the death of his previous squire, [[Roger of Pennytree]], during the [[Battle of the Redgrass Field|final battle]] of the [[First Blackfyre Rebellion]] in {{Date|196}}.{{Refn|group="N"|Duncan had been serving Ser Arlan since he was five or six years old, after the tourney at [[Storm's End]] in {{Date|200}},{{Ref|THK}} and was "no more than three or four" at the time of the Redgrass Field, in late {{Date|196}}, when Roger died.{{Ref|TSS}}{{Ref|TWOIAF|The Targaryen Kings: Daeron II}}}}{{Ref|TSS}} He found the young Dunk, aged five or six,{{Ref|THK}} in King's Landing chasing a pig and took him on.{{Ref|TMK}} Arlan raised Dunk, and together they traveled all over Westeros, except the north.{{Ref|TSS}} Though they never visited [[Pennytree]], where Arlan was from,{{Ref|TMK}} they served Lord [[Leo Tyrell (Longthorn)|Leo Tyrell]] at [[Highgarden]] during one of the first few years that Dunk served Arlan,{{Ref|THK}} visited [[King's Landing]] in {{Date|205}},{{Ref|TMK}} served [[Lord Florent]] for half a year and joined [[Lord Dondarrion (father of Manfred)|Lord Dondarrion]] in the hunt for the [[Vulture King (Daeron II)|Vulture King]], both in {{Date|206}}, and visited [[Lannisport]] in {{Date|208}},{{Ref|THK}} amongst other places. As well, Duncan accompanied Arlan when he was one of several [[knight]]s hired by a Dornish merchant who wanted to travel from [[Lannisport]] to the [[Prince's Pass]] in [[Dorne]].{{Ref|TSS}}
+
+Dunk learned sword-fighting from Ser Arlan,{{Ref|THK}} though he still recalls his fighting experience from Flea Bottom as well.{{Ref|THK}}{{Ref|TSS}} Ever since the first time that Arlan had let Duncan hold a sword, Duncan had dreamt of becoming a knight of the [[Kingsguard]].{{Ref|TMK}}
+
+Dunk was not sure exactly how old he was because he grew up as an abandoned orphan in the streets of King's Landing, and his unusually large height from a young age made it difficult to guess. By 209 AC he loosely thought he must be about 16 or 17 years old, which would place his birth somewhere between 191 to 193 AC.{{Ref|THK}}
+
+===Tourney at Ashford Meadow===
+[[File:Dunk and Egg by Even Mehl Amundsen.jpg|thumb|Dunk and [[Aegon V Targaryen|Egg]], by Even Mehl Amundsen ©]]
+In {{Date|209}}, a [[tourney]] was to be held at [[Ashford Meadow]] in the [[Reach]]. Ser [[Arlan of Pennytree]] died on the way to [[Ashford|Ashford Castle]], however, and after Dunk had buried the [[hedge knight]], he decided to compete in the [[tourney at Ashford Meadow]] in Arlan's stead. At [[inn near Ashford|an inn]] along the way, Dunk met a [[Daeron Targaryen (son of Maekar I)|drunken man]] who claimed to have dreamed about him, and who became distraught at the sight of him. Dunk also met a bald-headed boy who begged Dunk to be allowed to become his [[squire]] when Dunk left. Dunk refused, left, and shortly thereafter arrived at Ashford.{{ref|THK}}
+
+Duncan made camp, and that evening discovered the bald boy from the inn at his camp. When the boy assumed that Dunk's name was short for Duncan, Dunk agreed, calling himself Ser Duncan the Tall, for his height and because it sounded powerful. The boy claimed to be called "Egg" and said he came from [[King's Landing]], causing Dunk to believe the boy was an orphan from [[Flea Bottom]], just like he had been. Because he did not have a squire, Dunk accepted Egg as his squire for the duration of the tourney. That night, in their camp under an [[elm]] tree, Dunk saw a green [[astronomy|falling star]], which he believed was lucky.{{Ref|THK}}
+
+Once at the tourney grounds, Duncan was forced to sell [[Sweetfoot]], one of his [[horse]]s, and Arlan's old [[armor]], in order to buy armor of his own from [[Steely Pate]]. He met a puppeteer named [[Tanselle]], who was performing at a stall on the tourney grounds. The day after Dunk's arrival, he went to register for the tourney, which required [[knighthood]] to participate. Identifying himself as Ser Duncan the Tall, Dunk told [[Plummer]], [[Lord Ashford]]'s steward, how Arlan had knighted him before his death. Several of his thoughts and actions, as well as other facts, however, suggest that his tale is not completely true.{{Refn|group="N"|name=knighthood|There is a Noreascon report{{Ref|ssm|1307}} with a paraphrased statement by [[George R. R. Martin]], confirming that Duncan had not been knighted by Ser Arlan. Besides this [[So Spake Martin|SSM]], other indications have been laid out by readers. Immediately after burying Arlan, Duncan considers finding another knight to squire for,{{Ref|THK}} which is at odds with his supposed new-made knighthood. Duncan also becomes uncomfortable at several occasions when his knighting is brought up, such as when Lady [[Rohanne Webber]] asks if he was knighted by Arlan, and Duncan looks at his feet while saying "No one else was like to do it."{{Ref|TSS}} Duncan wonders if his ears have turned red when [[Plummer]] asks if he is a knight. Duncan is extremely hesitant to knight [[Raymun Fossoway]], feeling both relieved and guilty when [[Lyonel Baratheon]] steps in to knight Raymun instead.{{Ref|THK}} Lastly, Duncan admits to himself that "He knew what it was like to want something so badly that you would tell a monstrous lie just to get near it."{{Ref|THK}} Readers have suspected that this refers to his lie about his knighthood.}} Plummer suggested that Duncan find someone to vouch for him and return the next day.{{ref|THK}}
+
+Unable to find anyone, Duncan returned to the castle the next day, where he accidentally interrupted Prince [[Baelor Targaryen (son of Daeron II)|Baelor]] and Prince [[Maekar I Targaryen|Maekar Targaryen]], who were occupied with the missing Princes [[Daeron Targaryen (son of Maekar I)|Daeron]] and [[Aegon V Targaryen|Aegon]], two of Maekar's sons. After Duncan explained his problem to the princes, Baelor recalled jousting against Arlan years before, and vouched for Duncan, allowing his participation. Since Dunk's shield displayed the winged chalice arms of the late Arlan, Baelor said he could not bear the sigil himself, as he was not Arlan's trueborn son. Dunk paid Tanselle to paint over the shield with a new design, a green shooting star above an elm tree at sunset; a sunset because Arlan liked them, an elm for the tree by his camp, and a shooting star for the lucky one he had seen.{{Ref|THK}}
+
+When Tanselle was attacked by Prince [[Aerion Targaryen]], Duncan rushed to her defense, attacking the prince in the process. When Aerion's guards intervened, Egg protected Duncan from further harm by revealing his identity as Prince Aegon. Duncan was arrested and brought to the castle, where Prince Baelor informed him how Prince Daeron had claimed to his father that the missing Aegon had been kidnapped by a robber knight, while Aerion was twisting the puppeteer story into treason. Due to the lies of both Aerion and Daeron, Maekar became furious with Duncan. Baelor was forced to allow Aerion a trial, and Aerion demanded a [[trial of seven]].{{Ref|THK}}
+
+With help from Aegon, Duncan found six allies: Ser [[Robyn Rhysling]], Ser [[Humfrey Hardyng]], Lord [[Lyonel Baratheon]], Ser [[Humfrey Beesbury]], the newly-knighted [[Raymun Fossoway]], and Prince Baelor. Aerion was supported by Daeron, Maekar, Ser [[Steffon Fossoway]], Ser [[Willem Wylde]], Ser [[Donnel of Duskendale]], and Ser [[Roland Crakehall (Kingsguard)|Roland Crakehall]], the latter three being knights of the [[Kingsguard]]. To his surprise, Duncan discovered that the [[smallfolk]] supported him, as he had remembered his vows as a knight{{Ref|THK}} ("protecting the weak and defending the innocent"){{Ref|ACOK|32}}{{Ref|ACOK|52}}{{Ref|ADWD|27}} by protecting Tanselle. During the combat, Duncan eventually found himself facing Aerion one on one, and he managed to best Aerion by using his strength and his fighting skills from Flea Bottom. Duncan forced Aerion to yield. As Daeron had already faked his defeat—as he had promised Duncan the day before—Duncan was declared cleared free of all charges.{{Ref|THK}}
+
+Humfrey Beesbury was slain in the fighting, and Humfrey Hardyng died from his wounds in the night. Prince Baelor was mortally wounded as well by his own brother, Prince Maekar, leaving Duncan feeling extremely guilty. Maekar offered Duncan a place at [[Summerhall]] so his son Aegon could squire for Duncan. While Duncan agreed to take the prince as his squire, he insisted on remaining a hedge knight, convinced it would teach Egg humility. The next morning Aegon departed with Duncan, saying his father had told him to serve Duncan.{{Ref|THK}}
+
+===On the road===
+[[File:Marc Simonetti DunkEggtravels.jpg|thumb|Duncan and [[Aegon V Targaryen|Aegon]] traveling, by Marc Simonetti ©]]
+Duncan and Aegon traveled to [[Dorne]], passing through the [[Prince's Pass]] and eventually reaching [[Vaith]], where Duncan accidentally insulted Lady [[Cassella Vaith]], the first highborn woman he had ever met. During the crossing of the desert, Duncan's horse [[Chestnut]] died,{{Ref|TSS}} and he and Aegon had to ride double on [[Thunder (horse)|Thunder]].{{Ref|TSS}} While in {{Date|209}} and {{Date|210}} the [[Great Spring Sickness]] ran its course through Westeros, Duncan and Aegon were able to avoid encountering this plague as they were in Dorne, one of the two places where the plague had not come.{{Ref|TSS}}
+
+Duncan and Aegon took a poleboat down the [[Greenblood]] to [[Planky Town]], where they took passage on the galleas ''[[White Lady]]'' to [[Oldtown]].{{Ref|TSS}}{{Ref|TMK}} Aboard the ship, Duncan had his first experience of combat at sea when he helped repel some raiders.{{Ref|TMK}} In Oldtown, Aegon's brother [[Aemon Targaryen (son of Maekar I)|Aemon]] measured Duncan, and found he was an inch short of seven feet.{{Ref|TSS}}
+
+At some point, Duncan and Aegon were gifted a mule, [[Maester (mule)|Maester]], by one of Aegon's brothers,{{Ref|TSS}} presumably Aemon.<ref group="N" name=Maester>The mule was almost certainly given by Aemon, as its name is "Maester", and Aegon and Duncan have been mentioned to have visited with Aemon in Oldtown, whereas no mention is made of Aegon encountering his brother Daeron, while his brother Aerion is still in Lys. If Aemon gave Dunk the mule, it was in Oldtown, sometime after they visited Vaith.</ref>
+
+===Service at Standfast===
+Duncan and Aegon took service with Ser [[Eustace Osgrey]], a poor and broken [[landed knight]], at [[Standfast]] in the [[Reach]]. Also employed was Ser [[Bennis of the Brown Shield]], an old acquaintance of Duncan from his time with Arlan. Duncan and Bennis discovered that peasants of the widowed [[Rohanne Webber]], [[Lady of Coldmoat]] had dammed the [[Chequy Water]]. Bennis provoked Rohanne by cutting the cheek of one of her peasants. Duncan and Bennis began training a small levy of peasants for Eustace.
+
+Since Eustace refused to travel to [[Coldmoat]], Duncan went to the castle to try to reason with Lady Webber. Though sexual tension charged their meeting, Rohanne refused Duncan and told him about Eustace's support of [[Daemon I Blackfyre|Daemon Blackfyre]] during the [[First Blackfyre Rebellion|Blackfyre Rebellion]]. Shocked by the revelation, Duncan attempted to leave Eustace's service, but a fire in the nearby woods caused him to suspect that Rohanne had already started her campaign against Eustace.{{Ref|TSS}}
+
+Duncan knew that the battle was a lost cause. He disbanded Eustace's meager levies, but promised to be by his side when he faced Rohanne. Meeting with her forces, Duncan cut his own cheek, claiming he was the one who attacked Rohanne's peasant. Lady Webber and Ser Eustance refused to back down, however, and they decided upon [[trial by combat]]. Duncan represented the elderly Eustace, and Rohanne's champion was her overbearing [[castellan]], Ser [[Lucas Inchfield]]. Duncan's wrestling ability compensated for his lack of swordsmanship, and he managed to kill Lucas Longinch, though Duncan received major wounds himself and almost drowned in the stream in which they had been fighting.{{Ref|TSS}}
+
+After recuperating, Duncan discovered that Eustace and Rohanne had settled their differences and decided to marry. Duncan felt rejected, but was confronted by Rohanne shortly before he left. He took one kiss from Rohanne and cut off a length of her signature braid as a keepsake, after which he and Aegon took their leave.{{Ref|TSS}}
+
+===Wedding Tourney at Whitewalls===
+[[File:The mystery knight by grr martin by marcsimonetti.jpg|thumb|Duncan as a [[mystery knight]], with his squire, [[Aegon V Targaryen|Aegon]], by Marc Simonetti ©]]
+Duncan and Aegon traveled to the [[riverlands]], where they visited [[Stoney Sept]]. Though they had been on their way to take up service with Lord [[Beron Stark]] against the [[ironborn]] on the [[north]]ern coast, they changed their destination after a chance meeting on the road. They encountered a group led by [[Gormon Peake]], [[Lord of Starpike]], Lord [[Alyn Cockshaw]], and a hedge knight named Ser [[Daemon II Blackfyre|John the Fiddler]]. The latter invited Duncan to attend the wedding of [[Ambrose Butterwell]], [[Lord of Whitewalls]] to [[Lady Frey (wife of Ambrose Butterwell)|the daughter]] of [[Lord Frey]], [[Lord of the Crossing]], stating that the victor's prize at the celebratory [[wedding tourney at Whitewalls]] was to be a [[dragon egg]]. Though the company traveled on without him, Duncan decided to go as well, and he befriended the fellow hedge knights Ser [[Kyle the Cat]], Ser [[Maynard Plumm]], and Ser [[Glendon Ball]] on his way to [[Whitewalls]].{{Ref|TMK}}
+
+At Whitewalls, Aegon became suspicious about the intentions of the wedding, and he informed Duncan that the majority of the nobles present had fought for [[House Blackfyre]] during the [[First Blackfyre Rebellion|Blackfyre Rebellion]]. Duncan later had an encounter with John the Fiddler, who told him that Duncan had appeared to him in a dream in which Duncan had worn the all white armor of the [[Kingsguard]]. The Fiddler said his dreams always came true, stating that he had dreamed his brothers dead once, and though they had not believed him, they had died. The Fiddler also informed Duncan that he had dreamed about a [[dragon]] hatching from an egg at Whitewalls.{{Ref|TMK}}
+
+Duncan entered the joust as the Gallows Knight, a [[mystery knight]] named for the hanged man sigil on his shield, which he had bought to replace the one destroyed by the Longinch but had not had time to have painted with his own arms. Duncan was defeated in his first tilt by Ser [[Uthor Underleaf]], who confessed that someone had attempted to bribe him to kill Duncan in the final tilt. Whilst searching for Aegon, Duncan ran into Glendon, who had been far more successful than Duncan during the tourney, and invited him to come north after the tourney, which Glendon declined. Glendon told Duncan that Lord Peake had offered him a place at [[Starpike]], on the condition that Glendon would let the Fiddler win. Glendon had refused, angering Gormon. Duncan next ran into the Fiddler, and began to realize John's true identity, as well as that the tourney had been rigged as to make the Fiddler victorious.{{Ref|TMK}}
+
+Lord Peake accused Glendon Ball of stealing the dragon egg, and the youth was imprisoned. When Duncan attempted to intervene, Alyn Cockshaw pulled him back, telling Duncan to follow him, if he wanted to find Aegon. Alyn attempted to kill Duncan out of jealousy for the attention the Fiddler had shown Duncan. Though injured, Duncan threw Alyn down a well to drown, an action witnessed by Maynard Plumm. Maynard helped Duncan see to his injuries and informed him of Aegon's location.{{Ref|TMK}}
+
+Aegon falsely told Lord Butterwell that he and Duncan were spies sent to investigate the tournament and that his father, Prince [[Maekar I Targaryen|Maekar Targaryen]], was on his way with an army. Frightened, Ambrose pled for his innocence. Ser [[Tommard Heddle]] attempted to seize Aegon in the sept, but was slain by Duncan in the combat that ensued. Duncan ordered Aegon to ride for [[Maidenpool]], and he confronted the Fiddler, calling him by his true name, [[Daemon II Blackfyre|Daemon]]. Duncan accused Lord Peake of bribing the contestants in Daemon's favor, and of falsely charging Glendon with the theft of the dragon egg. Furious about the accusations, Daemon challenged Glendon with a joust as a means of [[trial by combat]].{{Ref|TMK}}
+
+Glendon defeated Daemon Blackfyre easily early the next morning, and moments later a loyalist army led by Lord [[Brynden Rivers]], the [[Hand of the King]], arrived at Whitewalls. Daemon was arrested, and those who had supported him executed or punished, causing the [[Second Blackfyre Rebellion]] to be suppressed before it had even begun. Lord Brynden allowed Duncan and Aegon to continue their travels, and hinted as to how the dragon's egg had been stolen, leading Duncan to realize the involvement of the [[dwarf]]s who had performed at the wedding.{{Ref|TSS}}
+
+===Later life===
+[[File:ChaseStone duncantall trial by battle.jpg|thumb|350px|Ser Duncan the Tall fighting Lord [[Lyonel Baratheon]] in a [[trial by combat]], as depicted by Chase Stone in ''[[The World of Ice & Fire]]'']]
+An unknown amount of time after Whitewalls, Duncan and Aegon visited [[Winterfell]].<ref>[[Not a Blog]]: ''[https://georgerrmartin.com/notablog/2014/04/15/dunk-and-egg/ Dunk and Egg]'' (April 15, 2014)</ref>
+
+Presumably in honor of Ser Duncan, Prince [[Aegon V Targaryen|Aegon Targaryen]] named his firstborn son and heir [[Duncan Targaryen|Duncan]] (however, when asked about it, [[George R. R. Martin]] refused to answer).{{Ref|SSM|1105}} Prince Duncan was called "Duncan the Small".{{Ref|ASOS|67}}
+
+Both he and Aegon had some involvement during the [[Peake Uprising]], where Aegon's father was killed.<ref>[[So Spake Martin]]: [http://www.westeros.org/Citadel/SSM/Entry/Chicon_7_Reading Chicon 7 Reading (September 2, 2012)]</ref>
+
+In late {{Date|233}}, after Aegon had ascended the throne as [[Aegon V Targaryen]], Duncan escorted the king's brother, Maester [[Aemon Targaryen (son of Maekar I)|Aemon]], to [[Eastwatch-by-the-Sea]], where Aemon was going to join the [[Night's Watch]].{{Ref|AFFC|15}}
+
+Duncan eventually joined the [[Kingsguard]]. While it is unknown when exactly he took his vows, the first known mention of him as a Kingsguard knight is in {{Date|236}}.{{Ref|TWOIAF|4|15}}
+
+In {{Date|236}}, Ser Duncan fought in the [[Fourth Blackfyre Rebellion]] and personally slew [[Daemon III Blackfyre]], the [[House Blackfyre|Blackfyre Pretender]].{{Ref|TWOIAF|4|15}}
+
+In {{Date|239}}, when Prince [[Duncan Targaryen]] broke his betrothal to Lord [[Lyonel Baratheon]]'s daughter and married a commonborn girl known as [[Jenny of Oldstones]] instead, the enraged Lyonel renounced his fealty to the [[Iron Throne]]. Duncan served as King Aegon V's champion in the [[trial by combat]], in which he bested Lyonel, thereby ending his short rebellion.{{Ref|TWOIAF|4|15}}{{Ref|TWOIAF|7|8|4}}
+
+In {{Date|252}} or {{Date|253}} Duncan, by then [[Lord Commander of the Kingsguard]], participated in a [[winter tourney at King's Landing]], where he was defeated by a sixteen-year-old [[Barristan Selmy]].{{Ref|ASOS|67}}
+
+In {{Date|259}}, Duncan apparently perished in the [[tragedy of Summerhall]],  along with King Aegon V and Prince Duncan, among others.{{Ref|AWOIAF|Duncan}}{{Ref|TWOIAF|4|15}} Little is known about the events of the tragedy, but it seems that the Lord Commander's valor saved some of the survivors from dying in the great fire that consumed [[Summerhall]].{{Ref|TWOIAF|4|15}}
+
+==Recent Events==
+===''A Storm of Swords''===
+While in the Round Room of [[White Sword Tower]], Ser [[Jaime Lannister]] admires previous men who served as [[Lord Commander of the Kingsguard]], including Duncan. He also reads Ser [[Barristan Selmy]]'s entry in the [[White Book]], which states Barristan defeated Duncan during the [[winter tourney at King's Landing]] in which Barristan had participated as a [[mystery knight]].{{Ref|ASOS|67}}
+
+===''A Feast for Crows''===
+For unknown reasons, a shield with Dunk's original arms came to reside in the armory of Lord [[Selwyn Tarth]] at [[Evenfall Hall]]. While at [[Duskendale]], Selwyn's daughter, [[Brienne Tarth|Brienne]], remembering the arms, has them painted on her shield so she can travel the [[crownlands]] and [[riverlands]] incognito.{{Ref|AFFC|9}}
+
+Maester [[Aemon Targaryen (son of Maekar I)|Aemon]] relates that when he joined the [[Night's Watch]], his brother [[Aegon V Targaryen|Egg]] insisted that Ser Duncan accompany him to [[Eastwatch]].{{Ref|AFFC|15}} Aemon also dreams of his youth in [[Oldtown]], a time when he was drinking at the [[Quill and Tankard]] with Egg and "that big knight he served".{{Ref|AFFC|26}}
+
+===''A Dance with Dragons''===
+While in the [[cave of the three-eyed crow]], [[Bran Stark]] has visions of the past looking through the [[heart tree]] in the [[godswood of Winterfell]]. Among the visions is a slender brown-haired girl kissing a knight as tall as [[Hodor]],{{Ref|ADWD|34}} possibly Duncan.
+
+==Steeds==
+At the time of the [[tourney at Ashford Meadow]] in ''[[The Hedge Knight]]'', Dunk owned three horses which he had inherited from Ser [[Arlan of Pennytree]]:
+*[[Thunder (horse)|Thunder]], a destrier
+*[[Chestnut]], a stot which died between ''[[The Hedge Knight]]'' and ''[[The Sworn Sword]]''{{Ref|TSS}}
+*[[Sweetfoot]], a female palfrey which he sold so he could buy armor and a greathelm.{{Ref|THK}}
+
+As his adventures progressed, Duncan acquired:
+*[[Maester (mule)|Maester]], a mule he received as a gift from one of Egg's brothers,{{Ref|TSS}} presumably Aemon<ref group="N" name=Maester/>
+*[[Rain (horse)|Rain]],{{Ref|TMK}} a palfrey he received as a gift from [[Rohanne Webber]].{{Ref|TSS}}
+
+==Behind the Scenes==
+[[George R. R. Martin]] has stated that readers have met a descendant of Dunk in ''[[A Song of Ice and Fire]]''.{{Ref|ssm|1257}} He later stated that he gave a strong hint to Dunk's descendant in ''[[A Feast for Crows]]''.{{Ref|ssm|1363}} Given that in ''A Feast for Crows'', [[Brienne of Tarth|Brienne]] recalls finding a shield with Dunk's sigil in the armories of [[Tarth]],{{Ref|AFFC|9}} it was widely speculated but not confirmed that she is descended from Duncan the Tall. However, in 2016 at Balticon, Martin confirmed Brienne's descent, stating that the exact relationship between Duncan and Brienne would be "revealed in time".<ref>The Wertzone: [http://thewertzone.blogspot.nl/2016/05/george-rr-martin-confirms-game-of.html George R.R. Martin confirms GAME OF THRONES/SONG OF ICE AND FIRE fan theory] (May 29, 2016)</ref>
+
+According to Dexter Sol Ansell, the actor who portrays [[Aegon V Targaryen|Egg]] in ''[[A Knight of the Seven Kingdoms (TV series)|A Knight of the Seven Kingdoms]]'', he was told by [[George R. R. Martin]] that Ser Duncan the Tall survived the [[tragedy at Summerhall]].<ref name=decider/><ref name=dexsolansell/> However, whether Martin actually intends to introduce this notion in the books and its possible effect on the story remain a mystery.
+
+==Quotes by Duncan==
+[[File:Dunk first still from AKOTSK.png|thumb|400px|Peter Claffey as Duncan the Tall in HBO's ''[[A Knight of the Seven Kingdoms (TV series)|A Knight of the Seven Kingdoms]]'']]
+{{Quote|'''Egg''': If you took me, I could squire for you.<br>
+'''Dunk''': I have no need of a squire.<br>
+'''Egg''': Every [[knight]] needs a squire. You look as though you need one more than most.<br>
+'''Dunk''' And you look as though you need a clout in the ear, it seems to me.{{Ref|THK}}|[[Aegon V Targaryen|Egg]] and Dunk}}
+
+{{Quote|'''Egg''': I have never heard of any Ser Duncan the Tall.<br>
+'''Dunk''': Do you know every [[knight]] in the [[Seven Kingdoms]], then?<br>
+'''Egg''': The good ones.<br>
+'''Dunk''': I'm as good as any. After [[tourney at Ashford Meadow|the tourney]], they'll all know that.{{Ref|THK}}|[[Aegon V Targaryen|Egg]] and Dunk}}
+
+{{Quote|'''Duncan''': The old man, Ser [[Arlan of Pennytree|Arlan]], he used to say I was thick as a castle wall and slow as an [[aurochs]].<br>
+'''Baelor''': And strong as an aurochs, by the look of you.{{Ref|THK}}|Duncan and [[Baelor Targaryen (son of Daeron II)|Baelor Targaryen]]}}
+
+{{Quote|'''Duncan''': What color paint do you have?<br>
+'''Tanselle''': I can mix paints to make any color you want.<br>
+'''Duncan''': The field should be the color of sunset. [[Arlan of Pennytree|The old man]] liked sunsets. And the device...<br>
+'''Egg''': An [[elm]] tree. A big elm tree, like the one by the pool, with a brown trunk and green branches.<br>
+'''Duncan''': Yes. That would serve. An elm tree... but with a [[astronomy|shooting star]] above.{{Ref|THK}}|Duncan, [[Tanselle]], and [[Aegon V Targaryen|Egg]]}}
+
+{{Quote|'''Duncan''': What am I to [[smallfolk|them]]?<br>
+'''Pate''': A [[knight]] who remembered his vows.{{ref|THK}}|Duncan and [[Steely Pate]]}}
+
+{{Quote|[[Oak]] and [[iron]], guard me well, or else I'm dead and doomed to hell.{{Ref|THK}}|thoughts of Duncan}}
+
+{{Quote|'''Rohanne''': Did you come to [[knighthood]] on some battlefield, Ser Duncan? Your speech suggests that you were not born of noble blood, if you will forgive my saying so.<br>
+'''Duncan''': A [[hedge knight]] named Ser [[Arlan of Pennytree]] took me on to squire for him when I was just a boy. He taught me chivalry and the arts of war.<br>
+'''Rohanne''': And this same Ser Arlan knighted you?<br>
+'''Duncan''': No one else was like to do it.{{Ref|TSS}}|[[Rohanne Webber]] and Duncan}}
+
+{{Quote|'''Rohanne''': If you were better born, I'd marry you.<br>
+'''Duncan''': Aye, m'lady. And if pigs had wings and scales and breathed flame, they'd be as good as [[dragon]]s.{{Ref|TSS}}|[[Rohanne Webber]] and Duncan}}
+
+==Quotes about Duncan==
+{{Quote|'''Maekar''': Brother, have you taken leave of your senses? This man attacked [[Aerion Targaryen|my son]].<br>
+'''Baelor''': This man protected [[Tanselle|the weak]], as every [[true knight]] must. Let [[Faith of the Seven|the gods]] determine if he was right or wrong.{{Ref|TSS}}|[[Maekar I Targaryen|Maekar Targaryen]] and [[Baelor Targaryen (son of Daeron II)|Baelor Targaryen]]}}
+
+{{Quote|Dunk the lunk, [[Arlan of Pennytree|Pennytree]] used to call you. I recall. Lunks shouldn't try and think, their heads is too bloody thick for such.{{Ref|TSS}}|[[Bennis of the Brown Shield]] to Duncan}}
+
+{{Quote|I [[dreams|dreamed]] that you were all in white from head to heel, with a long pale cloak flowing from those broad shoulders. You were a White Sword, ser, a Sworn Brother of the [[Kingsguard]], the greatest knight in all the [[Seven Kingdoms]], and you lived for no other purpose but to guard and serve and please your king.{{Ref|TMK}}|[[Daemon II Blackfyre|John the Fiddler]] to Duncan}}
+
+{{Quote|Think on my offer, ser. The snail may leave a trail of slime behind him, but a little slime will do a man no harm… whilst if you dance with [[House Targaryen|dragons]], you must expect to burn.{{Ref|TMK}}|[[Uthor Underleaf]] to Duncan}}
+
+==Notes==
+{{Notes}}
+
+==References==
+{{References}}
+
+{{S-start}}
+{{S-vac|unknown|parameter=before|unknlast=[[Aemon Targaryen (son of Viserys II)|Aemon Targaryen]]}}
+{{S-ttl|title=[[Lord Commander of the Kingsguard]]|years=?–{{Date|259}}|under=[[Aegon V Targaryen]]}}
+{{S-aft|after=[[Gerold Hightower]]}}
+{{S-end}}
+
+{{Kingsguard of Aegon V}}
+{{Lords Commander of the Kingsguard}}
+{{Aegon V small council}}
+
+[[Category:193 AC births]]
+[[Category:259 AC deaths]]
+[[Category:Casualties of the Tragedy at Summerhall]]
+[[Category:Characters from the Crownlands]]
+[[Category:Characters with brown hair]]
+[[Category:Hedge knights]]
+[[Category:House Osgrey retainers]]
+[[Category:House Targaryen retainers]]
+[[Category:Knights]]
+[[Category:Lords Commander of the Kingsguard]]
+[[Category:Lowborn nobles]]
+[[Category:Members of Aegon V Targaryen's court]]
+[[Category:Members of the Kingsguard]]
+[[Category:Mystery knights]]
+[[Category:POV characters]]
+[[Category:Six-footers]]
+[[Category:Squires]]
+[[Category:Sworn shields]]
+[[Category:Sworn swords]]
+[[Category:Veterans of the Fourth Blackfyre Rebellion]]
+
+[[es:Duncan]]
+[[fr:Dunk]]
+[[it:Duncan]]
+[[pt:Duncan]]
+[[ru:Дункан Высокий]]
+[[tr:Uzun Duncan]]
+[[zh:“高个”邓肯]]
