@@ -1,9 +1,11 @@
 package wikitext
 
 import (
+	"bytes"
 	"errors"
 	"html"
 	"regexp"
+	"slices"
 	"strings"
 )
 
@@ -17,27 +19,27 @@ func ParseDefinition(raw string, depth int) (string, error) {
 	if len(tokenizer.characters) == 0 {
 		return "", errors.New("No page content.")
 	}
-	definition := ""
+	byteDef := []byte{}
 
 	// While loop, while def length is less than sentence depth, keep batching
 	batchSize := 300
-	for !isDefinitionParsed(&definition, &tokenizer, depth) {
+	for !isDefinitionParsed(&byteDef, &tokenizer, depth) {
 		tokenizer.Tokenize(TokenizerOptions{batchSize})
-		definition = ""
+		byteDef = []byte{}
 
 		// FIXME: we're doing a little extra work by resetting the definition above
 		// and processing tokens over again. Perhaps an unapply last token func?
 		for _, t := range tokenizer.tokens {
 			switch t.Type {
 			case "text":
-				definition += t.Value
-
+				byteDef = append(byteDef, t.Value...)
 			case "link":
-				definition += resolveLink(t.Value)
+				byteDef = append(byteDef, resolveLink(t.Value)...)
 			}
 		}
 	}
 
+	definition := string(byteDef)
 	// resolve depth of definition
 	sentences := strings.SplitAfter(definition, ". ")
 	if depth <= len(sentences) {
@@ -45,7 +47,9 @@ func ParseDefinition(raw string, depth int) (string, error) {
 	}
 	definition = strings.Join(sentences, "")
 
-	// TODO: consider using a strings.Replacer for these replace ops
+	// TODO: consider using a strings.Replacer for these replace ops. The post
+	// and pre tokenization cleaning steps should each only iterate once through
+	// the definition.
 
 	// remove doubled spaces
 	definition = strings.ReplaceAll(definition, "  ", " ")
@@ -59,14 +63,14 @@ func ParseDefinition(raw string, depth int) (string, error) {
 	return definition, nil
 }
 
-func isDefinitionParsed(def *string, t *Tokenizer, depth int) bool {
+func isDefinitionParsed(def *[]byte, t *Tokenizer, depth int) bool {
 	// If we have no tokens, we just started.
 	if len(t.tokens) == 0 {
 		return false
 	}
 
+	sentences := bytes.SplitAfter(*def, []byte{'.', ' '})
 	// resolve depth of definition
-	sentences := strings.SplitAfter(*def, ". ")
 	if depth < len(sentences) || t.tokens[len(t.tokens)-1].Type == "EOF" {
 		return true
 	}
@@ -79,45 +83,48 @@ func isDefinitionParsed(def *string, t *Tokenizer, depth int) bool {
 // If link is in our list of unsupported, ignore it
 // If link type is specified and does not contain display, ignore it
 // If link type is specified but does contain display, keep it
-func resolveLink(link string) string {
+func resolveLink(link []byte) []byte {
 	// Since we're only parsing text from wikis, we don't want to handle link
 	// types that don't include useful display text (ie. files, media)
-	unsupported := []string{"file:", "media:"}
+	unsupported := [][]byte{[]byte("file:"), []byte("media:")}
 
 	for _, u := range unsupported {
-		if strings.Contains(strings.ToLower(link), u) {
-			return ""
+		if bytes.Contains(bytes.ToLower(link), u) {
+			return []byte{}
 		}
 	}
 
-	// link with display text [[name of page|display text]]
-	if strings.Contains(link, "|") {
-		parts := strings.Split(link, "|")
-		hasDisplay := len(parts) == 2
-
-		if hasDisplay {
-			return strings.Join(parts[1:], "")
+	// link with display text (pipe link) -- [[name of page|display text]]
+	if slices.Contains(link, '|') {
+		idx := slices.Index(link, '|')
+		hasDisplayText := len(link) - 1 > idx
+		if hasDisplayText {	
+			return link[idx + 1:]
 		}
-		return ""
+
+		return []byte{}
 	}
 
-	if strings.Contains(link, ":") {
-		return ""
+	if slices.Contains(link, ':') {
+		return []byte{}
 	}
 
 	return link
 }
 
+var newlineReg = regexp.MustCompile(`(\n){3,}`)
+
 // Collapses excessive newlines into double-spaced break.
 func collapseNewlines(s string) string {
-	reg := regexp.MustCompile(`(\n){3,}`)
-	return reg.ReplaceAllString(s, "\n\n")
+	return newlineReg.ReplaceAllString(s, "\n\n")
 }
 
+var indentReg = regexp.MustCompile(`(^|\n)(:){1,6}`)
+
+// TODO indents should be handled by the tokenizer
 func handleIndents(s string) string {
 	// Matches up to 6 levels of indent on first line or any new line
-	reg := regexp.MustCompile(`(^|\n)(:){1,6}`)
-	return reg.ReplaceAllStringFunc(s, func(match string) string {
+	return indentReg.ReplaceAllStringFunc(s, func(match string) string {
 		return strings.ReplaceAll(match, ":", "  ")
 	})
 }

@@ -9,15 +9,25 @@ import (
 
 type Token struct {
 	Type  State
-	Value string
+	Value []byte
 }
 
 // Since we only care about text content, tokenized results are
 // represented as a flat collection.
 type TokenCollection []Token
 
+// Used for testing purposes
 func (t *TokenCollection) Stringify() (string, error) {
-	json, err := json.Marshal(t)
+	// byte arrays get serialized to base64 so we convert them to strings first
+	serializableTokens := []map[string]string{}
+	for _, token := range *t {
+		serializableTokens = append(serializableTokens, map[string]string{
+			"Value": string(token.Value),
+			"Type": string(token.Type),
+		})
+	}
+
+	json, err := json.Marshal(serializableTokens)
 	if err != nil {
 		return "", err
 	}
@@ -49,7 +59,7 @@ func (s StateStack) len() int {
 type Tokenizer struct {
 	tokens     TokenCollection
 	state      StateStack
-	characters []string
+	characters []byte
 	i          int
 }
 
@@ -60,17 +70,17 @@ type TokenizerOptions struct {
 
 func NewTokenizer(raw string) Tokenizer {
 	cleaned := cleanDocument(raw)
-	characters := strings.Split(cleaned, "")
+	characters := []byte(cleaned)
 
 	return Tokenizer{characters: characters, state: StateStack{unset}}
 }
 
-func (t *Tokenizer) batcher(batch int, size int) []string {
+func (t *Tokenizer) batcher(batch int, size int) []byte {
 	start := (batch - 1) * size
 	end := batch * size
 
 	if start > len(t.characters) {
-		return []string{}
+		return []byte{}
 	}
 
 	if end > len(t.characters) {
@@ -82,7 +92,7 @@ func (t *Tokenizer) batcher(batch int, size int) []string {
 
 // FIXME: this can be cleaned up, let's make it leaner and easier to extend --
 // already started the improvements with the tokentype func, let's keep going
-func (t *Tokenizer) Tokenize(options TokenizerOptions) Tokenizer {
+func (t *Tokenizer) Tokenize(options TokenizerOptions) *Tokenizer {
 	batch := len(t.characters)
 	if options.batchSize != 0 {
 		maybeBatch := t.i + options.batchSize
@@ -93,20 +103,22 @@ func (t *Tokenizer) Tokenize(options TokenizerOptions) Tokenizer {
 
 	for t.i < batch {
 		char := t.characters[t.i]
+
 		tt := t.GetTokenType()
 
 		switch t.state.getState() {
 		case unset:
 			if tt.Token == text_token {
 				t.state = t.state.set(text)
-				t.newToken(char)
+				t.newToken()
+				t.appendToToken(char)
 				break
 			}
 			fallthrough
 		case text:
 			if tt.Token != text_token {
 				t.state = t.state.set(tt.State)
-				t.newToken("")
+				t.newToken()
 				break
 			}
 			if tt.Token == text_token {
@@ -175,13 +187,13 @@ func (t *Tokenizer) Tokenize(options TokenizerOptions) Tokenizer {
 		// End of file
 		if t.i == len(t.characters)-1 {
 			t.state.set(EOF)
-			t.newToken("")
+			t.newToken()
 		}
 
 		t.i++
 	}
 
-	return *t
+	return t
 }
 
 func (t *Tokenizer) GetTokenType() TokenGrammar {
@@ -200,27 +212,28 @@ func (t *Tokenizer) GetTokenType() TokenGrammar {
 	return TEXT_TOKEN
 }
 
-func (t *Tokenizer) newToken(char string) {
-	newTkn := Token{Type: t.state.getState(), Value: char}
+// Initializes a new empty token based on the current state
+func (t *Tokenizer) newToken() {
+	newTkn := Token{Type: t.state.getState(), Value: []byte{}}
 	t.tokens = append(t.tokens, newTkn)
 }
 
-func (t *Tokenizer) appendToToken(char string) {
+func (t *Tokenizer) appendToToken(char byte) {
 	if len(t.tokens) > 0 {
 		currTkn := &t.tokens[len(t.tokens)-1]
-		// potential improvement would be to store this as an array until we finish
-		// the token and then we can close it off by joining.
-		currTkn.Value += char
+		currTkn.Value = append(currTkn.Value, char)
 	}
 }
+
+var urlReg = regexp.MustCompile(`(f|ht)(tp)(s?)(://)(\S*)[.|/]([^\s\]\}]*)`)
 
 // Prepares document for tokenization.
 func cleanDocument(t string) string {
 	s := cleanHtml(t)
-	// strip urls from text (likely came from <ref> tags that got cleaned above
-	urlReg := regexp.MustCompile(`(f|ht)(tp)(s?)(://)(\S*)[.|/]([^\s\]\}]*)`)
+	// strip urls from text (likely from <ref> tags that got cleaned)
 	s = urlReg.ReplaceAllString(s, "")
 
+	// TODO handle bold + italics in tokenizer
 	// wikitext bold
 	s = strings.ReplaceAll(s, "'''", "")
 	// wikitext italics
@@ -229,35 +242,40 @@ func cleanDocument(t string) string {
 	return s
 }
 
+// TODO Look into wrapping this into the main tokenizer or at least wrapping
+// all the cleaning steps into a single iterator. Currently we iterate over
+// the string multiple times when doing replace ops + cleanHtml
 func cleanHtml(s string) string {
-	// Tags whose inner content we don't want to preserve
-	removeHtmlContent := []string{"ref"}
-	chars := strings.Split(s, "")
-	cleanedText := []string{}
+	chars := []byte(s)
+	cleanedText := []byte{}
 
 	tagType := ""
+
+	// Tags whose inner content we don't want to preserve
+	removeHtmlContent := []string{"ref"}
+
 	// when true, write to cleanedText
 	write := true
 	tag := ""
 	tags := []string{} // to track nesting of clean html content tags
 	for i, c := range chars {
-		if c == "<" {
+		if c == '<' {
 			tagType = "open"
 
 			lookAhead := canLookAhead(i, &chars)
-			if lookAhead && chars[i+1] == "/" {
+			if lookAhead && chars[i+1] == '/' {
 				tagType = "close"
 			}
 			write = false
 			continue
 		}
 
-		if c == ">" {
+		if c == '>' {
 			// ignore attributes that may have been captured along with the tag
 			parsedTag := strings.Split(tag, " ")[0]
 
 			// handle self-closingtags
-			if canLookBehind(i, &chars) && chars[i-1] == "/" {
+			if canLookBehind(i) && chars[i-1] == '/' {
 				tagType = "close"
 			}
 
@@ -295,11 +313,11 @@ func cleanHtml(s string) string {
 			cleanedText = append(cleanedText, c)
 		}
 		if tagType != "" {
-			tag += c
+			tag += string(c)
 		}
 	}
 
-	return strings.Join(cleanedText, "")
+	return string(cleanedText)
 }
 
 func pop(s []string) []string {

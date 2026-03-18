@@ -1,12 +1,23 @@
 package testUtils
 
 import (
+	"bytes"
 	"strings"
 	"testing"
 )
 
 func IsEqual(t *testing.T, val1 any, val2 any, message string) {
 	if val1 != val2 {
+		if message != "" {
+			t.Fatal(message)
+		} else {
+			t.Fatalf("%v not equal to %v", val1, val2)
+		}
+	}
+}
+
+func BytesEqual(t *testing.T, val1 byte, val2 byte, message string) {
+	if !bytes.Equal([]byte{val1}, []byte{val2}) {
 		if message != "" {
 			t.Fatal(message)
 		} else {

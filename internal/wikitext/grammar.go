@@ -48,16 +48,16 @@ var grammar = map[string]TokenGrammar{
 	"=":      {Token: heading_token, State: heading},
 }
 
-var matcherFunctions = map[string]func(*int, *[]string) (TokenGrammar, bool){
-	"[": matchNext,
-	"]": matchNext,
-	"{": matchThisOrNext,
-	"}": matchThisOrNext,
-	"=": matchMany,
+var matcherFunctions = map[byte]func(*int, *[]byte) (TokenGrammar, bool){
+	byte('['): matchNext,
+	byte(']'): matchNext,
+	byte('{'): matchThisOrNext,
+	byte('}'): matchThisOrNext,
+	byte('='): matchMany,
 }
 
 // Matches double characters in sequence (ie. `[[`)
-func matchNext(i *int, chars *[]string) (TokenGrammar, bool) {
+func matchNext(i *int, chars *[]byte) (TokenGrammar, bool) {
 	curr := (*chars)[*i]
 	if !canLookAhead(*i, chars) {
 		return TokenGrammar{}, false
@@ -68,34 +68,34 @@ func matchNext(i *int, chars *[]string) (TokenGrammar, bool) {
 		return TokenGrammar{}, false
 	}
 
-	return getTokenMatch(curr+next, i)
+	return getTokenMatch([]byte{curr, next}, i)
 }
 
-func matchThisOrNext(i *int, chars *[]string) (TokenGrammar, bool) {
+func matchThisOrNext(i *int, chars *[]byte) (TokenGrammar, bool) {
 	curr := (*chars)[*i]
 	if !canLookAhead(*i, chars) {
-		return getTokenMatch(curr, i)
+		return getTokenMatch([]byte{curr}, i)
 	}
 	next := (*chars)[*i+1]
 	if curr != next {
-		return getTokenMatch(curr, i)
+		return getTokenMatch([]byte{curr}, i)
 	}
 
 	return matchNext(i, chars)
 }
 
-func matchMany(i *int, chars *[]string) (TokenGrammar, bool) {
+func matchMany(i *int, chars *[]byte) (TokenGrammar, bool) {
 	curr := (*chars)[*i]
 	if !canLookAhead(*i, chars) {
-		return getTokenMatch(curr, i)
+		return getTokenMatch([]byte{curr}, i)
 	}
 
-	matches := curr
+	matches := []byte{curr}
 	match := true
 	j := 1
 	for match {
 		if !canLookAhead(*i+j, chars) {
-			matches += curr
+			matches = append(matches, curr)
 			match = false
 			break
 		}
@@ -104,23 +104,23 @@ func matchMany(i *int, chars *[]string) (TokenGrammar, bool) {
 			match = false
 			break
 		}
-		matches += curr
+		matches = append(matches, curr)
 		j++
 	}
 
 	return getTokenMatch(matches, i)
 }
 
-func canLookAhead(i int, chars *[]string) bool {
+func canLookAhead(i int, chars *[]byte) bool {
 	return len(*chars) > i+1
 }
 
-func canLookBehind(i int, chars *[]string) bool {
+func canLookBehind(i int) bool {
 	return i-1 >= 0
 }
 
-func getTokenMatch(key string, i *int) (TokenGrammar, bool) {
-	rule, ok := grammar[key]
+func getTokenMatch(key []byte, i *int) (TokenGrammar, bool) {
+	rule, ok := grammar[string(key)]
 	if !ok {
 		return TokenGrammar{}, false
 	}
