@@ -97,7 +97,8 @@ func TestParseWord(t *testing.T) {
 
 func BenchmarkParsing(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		ParseDefinition(sample_wikitext_lg, 1)
-		ParseDefinition(sample_wikitext_sm, 1)
+		for _, page := range benchmark_sample_text {
+			ParseDefinition(page, 3)
+		}
 	}
 }

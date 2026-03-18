@@ -137,10 +137,9 @@ func TestTokenBatcher(t *testing.T) {
 func BenchmarkTokenizer(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
-		tokenizer := NewTokenizer(sample_wikitext_lg)
-		tokenizer.Tokenize(TokenizerOptions{})
-
-		tokenizer = NewTokenizer(sample_wikitext_sm)
-		tokenizer.Tokenize(TokenizerOptions{})
+		for _, page := range benchmark_sample_text {
+			tokenizer := NewTokenizer(page)
+			tokenizer.Tokenize(TokenizerOptions{})
+		}
 	}
 }
