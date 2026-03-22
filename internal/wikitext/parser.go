@@ -39,13 +39,12 @@ func ParseDefinition(raw string, depth int) (string, error) {
 		}
 	}
 
-	definition := string(byteDef)
 	// resolve depth of definition
-	sentences := strings.SplitAfter(definition, ". ")
+	sentences := splitSentence(byteDef)
 	if depth <= len(sentences) {
 		sentences = sentences[0:depth]
 	}
-	definition = strings.Join(sentences, "")
+	definition := string(bytes.Join(sentences, []byte{}))
 
 	// TODO: consider using a strings.Replacer for these replace ops. The post
 	// and pre tokenization cleaning steps should each only iterate once through
@@ -69,7 +68,7 @@ func isDefinitionParsed(def *[]byte, t *Tokenizer, depth int) bool {
 		return false
 	}
 
-	sentences := bytes.SplitAfter(*def, []byte{'.', ' '})
+	sentences := splitSentence(*def)
 	// resolve depth of definition
 	if depth < len(sentences) || t.tokens[len(t.tokens)-1].Type == "EOF" {
 		return true
@@ -127,4 +126,33 @@ func handleIndents(s string) string {
 	return indentReg.ReplaceAllStringFunc(s, func(match string) string {
 		return strings.ReplaceAll(match, ":", "  ")
 	})
+}
+
+// Note: this is very overfit for the english language
+func splitSentence(raw []byte) [][]byte {
+	split := [][]byte{}
+	splitIdx := 0
+
+	for i, char := range raw {
+		// EOF
+		if !canLookAhead(i, &raw) {
+			split = append(split, raw[splitIdx:])
+			continue	
+		}
+
+		if char != '.' && char != '!' && char != '?' {
+			continue	
+		}
+
+		peek := raw[i + 1]
+		if peek != ' ' && peek != '\n' {
+			continue
+		}
+ 
+		delimiterOffset := 2
+		split = append(split, raw[splitIdx:i+delimiterOffset])
+		splitIdx = i + delimiterOffset
+	}
+
+	return split
 }

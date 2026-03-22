@@ -4,6 +4,8 @@ import (
 	_ "embed"
 	"strconv"
 	"testing"
+
+	test "github.com/runik-3/builder/internal/testUtils"
 )
 
 func TestParser(t *testing.T) {
@@ -71,6 +73,8 @@ func TestParserDepth(t *testing.T) {
 		{"'''Kossil''' is a Priestess at the Place of the Tombs of Atuan. She serves as the High Priestess of the Godking. She, along with [[Thar]] and [[Tenar]], are the high authorities there.", "Kossil is a Priestess at the Place of the Tombs of Atuan.", "1"},
 		{"'''Kossil''' is a Priestess at the Place of the Tombs of Atuan. She serves as the High Priestess of the Godking. She, along with [[Thar]] and [[Tenar]], are the high authorities there.", "Kossil is a Priestess at the Place of the Tombs of Atuan. She serves as the High Priestess of the Godking.", "2"},
 		{"'''Kossil''' is a Priestess at the Place of the Tombs of Atuan. She serves as the High Priestess of the Godking. She, along with [[Thar]] and [[Tenar]], are the high authorities there.", "Kossil is a Priestess at the Place of the Tombs of Atuan. She serves as the High Priestess of the Godking. She, along with Thar and Tenar, are the high authorities there.", "3"},
+		{"Test? Another sentence.\n\n\nNew paragraph", "Test? Another sentence.", "2"},
+		{"Test? Another sentence.\n\n\nNew paragraph", "Test? Another sentence.\n\nNew paragraph", "3"},
 	}
 
 	for _, c := range cases {
@@ -93,6 +97,45 @@ func TestParseWord(t *testing.T) {
 			t.Fatalf("\nWant:\n%s\n\nRecieved:\n%s", c[1], r)
 		}
 	}
+}
+
+func TestSplitSentence(t *testing.T) {
+	t.Run("No punctuation full string", func(t *testing.T) {
+		r := splitSentence([]byte("This is a test"))
+		test.BytesEqual(t, r[0], []byte("This is a test"), "")
+	})
+
+	t.Run("Splits on new sentence", func(t *testing.T) {
+		r := splitSentence([]byte("First. Second."))
+		test.BytesEqual(t, r[0], []byte("First. "), "")
+		test.BytesEqual(t, r[1], []byte("Second."), "")
+	})
+
+	t.Run("Splits on exclamation marks", func(t *testing.T) {
+		r := splitSentence([]byte("First! Second."))
+		test.BytesEqual(t, r[0], []byte("First! "), "")
+		test.BytesEqual(t, r[1], []byte("Second."), "")
+	})
+
+	t.Run("Splits on question marks", func(t *testing.T) {
+		r := splitSentence([]byte("First! Second."))
+		test.BytesEqual(t, r[0], []byte("First! "), "")
+		test.BytesEqual(t, r[1], []byte("Second."), "")
+	})
+
+	t.Run("Splits on new paragraph", func(t *testing.T) {
+		r := splitSentence([]byte("First.\nSecond."))
+		test.BytesEqual(t, r[0], []byte("First.\n"), "")
+		test.BytesEqual(t, r[1], []byte("Second."), "")
+
+		r = splitSentence([]byte("First!\nSecond."))
+		test.BytesEqual(t, r[0], []byte("First!\n"), "")
+		test.BytesEqual(t, r[1], []byte("Second."), "")
+
+		r = splitSentence([]byte("First?\nSecond."))
+		test.BytesEqual(t, r[0], []byte("First?\n"), "")
+		test.BytesEqual(t, r[1], []byte("Second."), "")
+	})
 }
 
 func BenchmarkParsing(b *testing.B) {
