@@ -1,5 +1,7 @@
 package wikitext
 
+import "bytes"
+
 type TokenType string
 
 const (
@@ -32,29 +34,6 @@ type TokenGrammar struct {
 }
 
 var TEXT_TOKEN TokenGrammar = TokenGrammar{Token: text_token, State: text}
-
-var grammar = map[string]TokenGrammar{
-	"[[":     {Token: link_start, State: link},
-	"]]":     {Token: link_end, State: link},
-	"{{":     {Token: template_start, State: template},
-	"}}":     {Token: template_end, State: template},
-	"{":      {Token: table_start, State: table},
-	"}":      {Token: table_end, State: table},
-	"======": {Token: heading_token, State: heading},
-	"=====":  {Token: heading_token, State: heading},
-	"====":   {Token: heading_token, State: heading},
-	"===":    {Token: heading_token, State: heading},
-	"==":     {Token: heading_token, State: heading},
-	"=":      {Token: heading_token, State: heading},
-}
-
-var matcherFunctions = map[byte]func(*int, *[]byte) (TokenGrammar, bool){
-	byte('['): matchNext,
-	byte(']'): matchNext,
-	byte('{'): matchThisOrNext,
-	byte('}'): matchThisOrNext,
-	byte('='): matchMany,
-}
 
 // Matches double characters in sequence (ie. `[[`)
 func matchNext(i *int, chars *[]byte) (TokenGrammar, bool) {
@@ -120,11 +99,49 @@ func canLookBehind(i int) bool {
 }
 
 func getTokenMatch(key []byte, i *int) (TokenGrammar, bool) {
-	rule, ok := grammar[string(key)]
-	if !ok {
+	var rule *TokenGrammar = nil
+
+	if bytes.Equal(key, []byte("[[")) {
+		rule = &TokenGrammar{Token: link_start, State: link}
+	}
+	if bytes.Equal(key, []byte("]]")) {
+		rule = &TokenGrammar{Token: link_end, State: link}
+	}
+	if bytes.Equal(key, []byte("{{")) {
+		rule = &TokenGrammar{Token: template_start, State: template}
+	}
+	if bytes.Equal(key, []byte("}}")) {
+		rule = &TokenGrammar{Token: template_end, State: template}
+	}
+	if bytes.Equal(key, []byte("{")) {
+		rule = &TokenGrammar{Token: table_start, State: table}
+	}
+	if bytes.Equal(key, []byte("}")) {
+		rule = &TokenGrammar{Token: table_end, State: table}
+	}
+	if bytes.Equal(key, []byte("======")) {
+		rule = &TokenGrammar{Token: heading_token, State: heading}
+	}
+	if bytes.Equal(key, []byte("=====")) {
+		rule = &TokenGrammar{Token: heading_token, State: heading}
+	}
+	if bytes.Equal(key, []byte("====")) {
+		rule = &TokenGrammar{Token: heading_token, State: heading}
+	}
+	if bytes.Equal(key, []byte("===")) {
+		rule = &TokenGrammar{Token: heading_token, State: heading}
+	}
+	if bytes.Equal(key, []byte("==")) {
+		rule = &TokenGrammar{Token: heading_token, State: heading}
+	}
+	if bytes.Equal(key, []byte("=")) {
+		rule = &TokenGrammar{Token: heading_token, State: heading}
+	}
+
+	if rule == nil {
 		return TokenGrammar{}, false
 	}
 
 	*i += len(key) - 1
-	return rule, true
+	return *rule, true
 }

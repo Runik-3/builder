@@ -199,14 +199,35 @@ func (t *Tokenizer) Tokenize(options TokenizerOptions) *Tokenizer {
 func (t *Tokenizer) GetTokenType() TokenGrammar {
 	currChar := t.characters[t.i]
 
-	matcherFunc, ok := matcherFunctions[currChar]
-	if !ok {
-		return TEXT_TOKEN
+	if currChar == '[' {
+		t, isMatch := matchNext(&t.i, &t.characters)
+		if isMatch {
+			return t
+		}
 	}
-
-	r, isMatch := matcherFunc(&t.i, &t.characters)
-	if isMatch {
-		return r
+	if currChar == ']' {
+		t, isMatch := matchNext(&t.i, &t.characters)
+		if isMatch {
+			return t
+		}
+	}
+	if currChar == '{' {
+		t, isMatch := matchThisOrNext(&t.i, &t.characters)
+		if isMatch {
+			return t
+		}
+	}
+	if currChar == '}' {
+		t, isMatch := matchThisOrNext(&t.i, &t.characters)
+		if isMatch {
+			return t
+		}
+	}
+	if currChar == '=' {
+		t, isMatch := matchMany(&t.i, &t.characters)
+		if isMatch {
+			return t
+		}
 	}
 
 	return TEXT_TOKEN
