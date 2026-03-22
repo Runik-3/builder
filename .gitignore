@@ -10,3 +10,5 @@
 # Test binary, built with `go test -c`
 *.test
 
+# pprof profiling files
+*.prof

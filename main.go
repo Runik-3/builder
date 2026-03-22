@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
+	pprof "runtime/pprof"
 
 	"github.com/runik-3/builder/dict"
 	wikibot "github.com/runik-3/builder/wikiBot"
@@ -15,8 +17,19 @@ func main() {
 	name := flag.String("n", "", "The file name of the generated dictionary (extension added automatically).")
 	output := flag.String("o", "", "The output directory where generated dictionary will be written. If not passed in, no file will be generated (preferred behaviour when calling builder as module).")
 	format := flag.String("f", "json", "Format of the output file.")
+	cpuprofile := flag.String("cpuprofile", "", "write cpu profile to file")
 
 	flag.Parse()
+
+	if *cpuprofile != "" {
+		f, err := os.Create(*cpuprofile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
+
 	options := dict.GeneratorOptions{
 		Name:         *name,
 		Output:       *output,

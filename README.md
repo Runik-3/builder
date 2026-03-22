@@ -87,6 +87,22 @@ Ingrid is the star that fell 400 years before Yvaine did, more precisely at some
 
 A snippet of the resulting dictfile.
 
+### Run with cpu profiling
+
+Use the `cpuprofile` flag to generate an output file containing pprof profiling data.
+
+```
+builder -o ./ -f df -cpuprofile cpu.prof generate https://stardust.fandom.com/api.php
+```
+
+View in pprof.
+
+```sh
+go tool pprof cpu.prof
+# Or web view
+go tool pprof -http=:8080 cpu.prof
+```
+
 ## Module use
 
 Builder can be imported as a module to use in your own projects. Run the following command in the root of your project to add builder.
