@@ -86,13 +86,13 @@ func TestParserDepth(t *testing.T) {
 	}
 }
 
-func TestParseWord(t *testing.T) {
+func TestCleanWord(t *testing.T) {
 	cases := [][]string{
 		{"Selia \"Barren\"", "Selia 'Barren'"},
 	}
 
 	for _, c := range cases {
-		r := ParseWord(c[0])
+		r := CleanWord(c[0])
 		if r != c[1] {
 			t.Fatalf("\nWant:\n%s\n\nRecieved:\n%s", c[1], r)
 		}

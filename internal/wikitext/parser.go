@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func ParseWord(raw string) string {
+func CleanWord(raw string) string {
 	// Replace `"` char with `'` in headword
 	return strings.ReplaceAll(raw, "\"", "'")
 }

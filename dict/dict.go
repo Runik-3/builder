@@ -157,7 +157,7 @@ func (dict Dict) Write(path string, format string) (string, error) {
 }
 
 func parseContentAsEntry(page wikibot.Page, options GeneratorOptions, redirects map[string]bool) (Entry, bool) {
-	word := wikitext.ParseWord(page.Title)
+	word := wikitext.CleanWord(page.Title)
 	def, err := wikitext.ParseDefinition(page.GetPageContent(), options.Depth)
 	if err != nil || def == "" {
 		return Entry{}, false
@@ -166,7 +166,7 @@ func parseContentAsEntry(page wikibot.Page, options GeneratorOptions, redirects 
 	synonyms := []string{}
 	if len(page.Redirects) > 0 {
 		for _, r := range page.Redirects {
-			synonyms = append(synonyms, r.Title)
+			synonyms = append(synonyms, wikitext.CleanWord(r.Title))
 			redirects[r.Title] = true
 		}
 	}
