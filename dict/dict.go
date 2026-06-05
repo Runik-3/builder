@@ -187,7 +187,7 @@ func handleParseAdditionalRedirects(p wikibot.Page, d *Dict, redirects map[strin
 	}
 
 	for _, r := range p.Redirects {
-		existingEntry.Synonyms = append(existingEntry.Synonyms, r.Title)
+		existingEntry.Synonyms = append(existingEntry.Synonyms, wikitext.CleanWord(r.Title))
 		redirects[r.Title] = true
 	}
 }
