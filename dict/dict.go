@@ -75,10 +75,12 @@ func (dict *Dict) GenerateDefinitionsFromWiki(getBatch BatchFunction, wiki wikib
 			return errors.New("Could not get page content.")
 		}
 
+		// TODO: the order of operations could be cleaned up a bit here -- we're
+		// calling `wikitext.CleanWord` on the same data a couple times.
 		for _, page := range res.Query.Pages {
 			// Ignore pages in redirect list
-			_, ok := redirects[page.Title]
-			if ok {
+			_, existsAsRedirect := redirects[wikitext.CleanWord(page.Title)]
+			if existsAsRedirect {
 				continue
 			}
 
@@ -166,8 +168,11 @@ func parseContentAsEntry(page wikibot.Page, options GeneratorOptions, redirects 
 	synonyms := []string{}
 	if len(page.Redirects) > 0 {
 		for _, r := range page.Redirects {
-			synonyms = append(synonyms, wikitext.CleanWord(r.Title))
-			redirects[r.Title] = true
+			redirectWord := wikitext.CleanWord(r.Title)
+			synonyms = append(synonyms, redirectWord)
+			// use the parsed version of the headword since that's what we compare
+			// against when cleaning existing redirects from the word list
+			redirects[redirectWord] = true
 		}
 	}
 
@@ -181,13 +186,15 @@ func handleParseAdditionalRedirects(p wikibot.Page, d *Dict, redirects map[strin
 		return
 	}
 
-	existingEntry, found := d.Lexicon.Find(p.Title)
+	pageTitle := wikitext.CleanWord(p.Title)
+
+	existingEntry, found := d.Lexicon.Find(pageTitle)
 	if !found {
 		return
 	}
-
 	for _, r := range p.Redirects {
-		existingEntry.Synonyms = append(existingEntry.Synonyms, wikitext.CleanWord(r.Title))
-		redirects[r.Title] = true
+		redirectWord := wikitext.CleanWord(r.Title)
+		existingEntry.Synonyms = append(existingEntry.Synonyms, redirectWord)
+		redirects[redirectWord] = true
 	}
 }
