@@ -28,6 +28,9 @@ func TestTokenizer(t *testing.T) {
 		{"= Description =", `[{"Type":"heading","Value":" Description "},{"Type":"EOF","Value":""}]`},
 		{"==Description==", `[{"Type":"heading","Value":"Description"},{"Type":"EOF","Value":""}]`},
 		{"======= Description =======", `[{"Type":"text","Value":"="},{"Type":"heading","Value":" Description ="},{"Type":"EOF","Value":""}]`}, // not great but this is better than destroying text
+		{`[[File:test.jpg|thumb|250px|Test [[nested]] links [[Necron dynasty]].]]Outside the file [[link]].`,
+			`[{"Type":"link","Value":"File:test.jpg|thumb|250px|Test nested links Necron dynasty."},{"Type":"text","Value":"Outside the file "},{"Type":"link","Value":"link"},{"Type":"text","Value":"."},{"Type":"EOF","Value":""}]`,
+		},
 	}
 
 	for _, c := range cases {

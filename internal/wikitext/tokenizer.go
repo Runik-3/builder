@@ -126,13 +126,20 @@ func (t *Tokenizer) Tokenize(options TokenizerOptions) *Tokenizer {
 			}
 
 		case link:
+			if tt.Token == link_start {
+				t.state = append(t.state, link)
+				break
+			}
 			if tt.Token == link_end {
-				t.state = t.state.set(unset)
+				if t.state.len() == 1 {
+					t.state = t.state.set(unset)
+				} else {
+					t.state = t.state.pop()
+				}
 				break
 			}
 			if tt.Token == text_token {
 				t.appendToToken(char)
-				break
 			}
 
 		case heading:
@@ -142,7 +149,6 @@ func (t *Tokenizer) Tokenize(options TokenizerOptions) *Tokenizer {
 			}
 			if tt.Token == text_token {
 				t.appendToToken(char)
-				break
 			}
 
 		case template:
@@ -161,7 +167,6 @@ func (t *Tokenizer) Tokenize(options TokenizerOptions) *Tokenizer {
 			}
 			if tt.Token == text_token {
 				t.appendToToken(char)
-				break
 			}
 
 		case table:
@@ -180,7 +185,6 @@ func (t *Tokenizer) Tokenize(options TokenizerOptions) *Tokenizer {
 			}
 			if tt.Token == text_token {
 				t.appendToToken(char)
-				break
 			}
 		}
 

@@ -58,6 +58,12 @@ func TestParser(t *testing.T) {
 		{"Collapse\n\n\n\n\n\n\nnewlines", "Collapse\n\nnewlines"},
 		{"Don't\ncollapse", "Don't\ncollapse"},
 		{"Don't\n\ncollapse", "Don't\n\ncollapse"},
+		{`[[File:AnkhoftheTriarch9thEdition.jpg|thumb|250px|The Ankh of the [[Triarch]], ancient royal symbol of the unified Necron Empire still used and respected by every current [[Necron dynasty]].]]A '''Deep Spirit''', also called a '''Master Program''' or a '''Tomb Mind''', is a form of artificially intelligent command and control [[cogitator]] program employed by the [[Necrons]].`,
+			"A Deep Spirit, also called a Master Program or a Tomb Mind, is a form of artificially intelligent command and control cogitator program employed by the Necrons.",
+		},
+		{"[[link_address|Display text with [[nested]] link]]",
+			"Display text with nested link",
+		},
 	}
 
 	for _, c := range cases {
