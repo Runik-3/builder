@@ -123,6 +123,7 @@ func wikiLanguages(wikiUrl string, mainPage string, options utils.GetRequestOpti
 	params.Add("prop", "langlinks")
 	params.Add("llprop", "url|langname|autonym")
 	params.Add("titles", mainPage)
+	params.Add("origin", "*")
 
 	langRes, err := utils.GetRequest[WikiDetailsResponse](wikiUrl, params, options)
 	if err != nil {

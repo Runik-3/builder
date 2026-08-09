@@ -82,6 +82,9 @@ func GetWikiPageBatch(baseUrl string, startFrom string, limit int, redirectsCont
 	params.Add("generator", "allpages")
 	params.Add("gaplimit", strconv.Itoa(pagesToFetch(limit)))
 	params.Add("gapfrom", startFrom)
+	// Tell the server we're connecting anonymous -- allows for CORS requests
+	// to enable wasm
+	params.Add("origin", "*")
 	params.Add("prop", "redirects|revisions")
 	params.Add("rvprop", "content")
 	params.Add("rvslots", "main")
