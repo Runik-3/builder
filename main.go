@@ -3,15 +3,25 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/runik-3/builder/dict"
+	"github.com/runik-3/builder/wasm"
+	wikibot "github.com/runik-3/builder/wikiBot"
 	"log"
 	"os"
+	"runtime"
 	pprof "runtime/pprof"
-
-	"github.com/runik-3/builder/dict"
-	wikibot "github.com/runik-3/builder/wikiBot"
 )
 
 func main() {
+	// if running from wasm context, block main to keep program long lived
+	if runtime.GOOS == "js" && runtime.GOARCH == "wasm" {
+		wasm.RegisterWasmFuncs()
+		// no reader for channel, blocks execution so JS can call to Go funcs
+		keepAlive := make(chan int)
+		<-keepAlive
+		return
+	}
+
 	entryLimit := flag.Int("l", 10000, "The maximum number of entries in the dictionary.")
 	depth := flag.Int("d", 1, "How many sentences make up each definition.")
 	name := flag.String("n", "", "The file name of the generated dictionary (extension added automatically).")
